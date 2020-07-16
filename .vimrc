@@ -29,7 +29,7 @@ set hlsearch
 syntax on
 
 " カラースキーマの指定
-colorscheme desert
+colorscheme monokai
 
 " 行番号の色
 highlight LineNr ctermfg=darkyellow
