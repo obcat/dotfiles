@@ -11,7 +11,10 @@
 ## ４．dotfiles をクローン
 `$ git clone https://github.com/igg-g/dotfiles.git`
 
-## ５．シンボリックリンク作成用のシェルスクリプトを実行
-`$ ./dotfiles/install.sh`
+## ５．dotfiles ディレクトリへ移動
+`$ cd dotfiles`
 
-## ６．ログインし直すなどして dotfiles を読み込ませる
+## ６．シンボリックリンク作成用のシェルスクリプトを実行
+`$ ./install.sh`
+
+## ７．ログインし直すなどして dotfiles を読み込ませておしまい
