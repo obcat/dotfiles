@@ -28,6 +28,12 @@ set hlsearch
 " シンタックスハイライトを有効にする
 syntax on
 
+" カラースキーマの指定
+colorscheme desert
+
+" 行番号の色
+highlight LineNr ctermfg=darkyellow
+
 " ノーマルモードで入力したコマンドを画面右下に表示する
 set showcmd
 
