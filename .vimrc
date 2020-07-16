@@ -37,9 +37,6 @@ highlight LineNr ctermfg=darkyellow
 " ノーマルモードで入力したコマンドを画面右下に表示する
 set showcmd
 
-" 暗い背景によく合う色を使う
-set background=dark
-
 " ステータスバーを常に表示
 set laststatus=2
 
