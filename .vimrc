@@ -64,6 +64,9 @@ set incsearch
 " Tab キーでスペースを入力する
 set expandtab
 
+" Tab キーによるインデントの大きさ
+set tabstop=4
+
 " 新しい行を開始したときに、新しい行のインデントを現在の行と同じにする
 set autoindent
 
