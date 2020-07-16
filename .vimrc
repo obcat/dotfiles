@@ -29,10 +29,7 @@ set hlsearch
 syntax on
 
 " カラースキーマの指定
-colorscheme monokai
-
-" 行番号の色
-highlight LineNr ctermfg=darkyellow
+colorscheme molokai
 
 " ノーマルモードで入力したコマンドを画面右下に表示する
 set showcmd
@@ -69,4 +66,3 @@ set autoindent
 
 " よくわからん
 filetype plugin indent on
-
