@@ -1,68 +1,34 @@
 " --------------------------------------------
 " 文字コード関連
 " --------------------------------------------
-
-" バッファの文字をメモリ上に保存するときに使う文字コードの設定
-set encoding=utf-8
-
-" 既存のファイルを開いたときに行われる文字コードの自動判別の設定
-" 詳細は https://over80.hatenadiary.jp/entry/20080907/1220794834 を参照のこと
-set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
-
-" ファイル保存時の改行コードの設定（よくわからぬ）
-set fileformat=unix
-
-" 既存のファイルを開いたときに行われる改行コードの自動判別の設定（よくわからぬ）
-set fileformats=unix,dos,mac
+set encoding=utf-8                               " バッファの文字をメモリ上に保存するときに使う文字コードの設定
+set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8  " 既存のファイルを開いたときに行われる文字コードの自動判別の設定
+                                                 " https://over80.hatenadiary.jp/entry/20080907/1220794834
+set fileformat=unix                              " ファイル保存時の改行コードの設定（よくわからん）
+set fileformats=unix,dos,mac                     " 既存のファイルを開いたときに行われる改行コードの自動判別の設定（よくわからん）
 
 " --------------------------------------------
-" 見た目
+" ヴィジュアル
 " --------------------------------------------
-
-" 行番号を表示
-set number
-
-" マッチするテキストをすべてハイライトする
-set hlsearch
-
-" シンタックスハイライトを有効にする
-syntax on
-
-" カラースキーマの指定
-colorscheme molokai
-
-" ノーマルモードで入力したコマンドを画面右下に表示する
-set showcmd
-
-" ステータスバーを常に表示
-set laststatus=2
+set number           " 行番号を表示
+set hlsearch         " マッチするテキストをすべてハイライトする
+syntax on            " シンタックスハイライトを有効にする
+colorscheme molokai  " カラースキーマの指定
+set showcmd          " ノーマルモードで入力したコマンドを画面右下に表示する
+set laststatus=2     " ステータスバーを常に表示
 
 " --------------------------------------------
 " 編集操作
 " --------------------------------------------
-
-" jk でインサートモードを抜ける
-inoremap <silent> jk <ESC>
-
-" 検索パターンに大文字が含まれているときは大文字と小文字を区別し、小文字のみのときは大文字を小文字を区別しないようにする 
-set ignorecase
-set smartcase
-
-" インクリメンタルサーチを有効にする
-set incsearch
+inoremap <silent> jk <ESC>  " jk でインサートモードを抜ける
+set ignorecase              " 検索パターンに大文字が含まれているときは大文字と小文字を区別し、
+set smartcase               " 小文字のみのときは大文字を小文字を区別しないようにする
+set incsearch               " インクリメンタルサーチを有効にする
 
 " --------------------------------------------
 " インデント関連
 " --------------------------------------------
-
-" Tab キーでスペースを入力する
-set expandtab
-
-" Tab キーによるインデントの大きさ
-set tabstop=4
-
-" 新しい行を開始したときに、新しい行のインデントを現在の行と同じにする
-set autoindent
-
-" よくわからん
-filetype plugin indent on
+set expandtab              " Tab キーでスペースを入力する
+set tabstop=4              " Tab キーによるインデントの大きさ
+set autoindent             " 新しい行を開始したときに、新しい行のインデントを現在の行と同じにする
+filetype plugin indent on  " よくわからん
