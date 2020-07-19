@@ -2,23 +2,33 @@
 
 ## インストール方法
 
-### １．ホームディレクトリに移動
-`$ cd`
+1. ホームディレクトリに移動
+    ```
+    $ cd
+    ```
+    
+1. Git がインストールされているか確認
+    ```
+    $ git --version
+    ```
+    
+1. されてなければ `yum` とか `apt` で Git をインストール
 
-### ２．Git がインストールされているか確認
-`$ git --version`
+1. 本リポジトリをクローン
+    ```
+    $ git clone https://github.com/igg-g/dotfiles.git
+    ````
 
-### ３．されてなければ `yum` とか `apt` で Git をインストール
+1. dotfiles ディレクトリへ移動
+    ```
+    $ cd dotfiles
+    ```
 
-### ４．本リポジトリをクローン
-`$ git clone https://github.com/igg-g/dotfiles.git`
+1. シンボリックリンク作成用のシェルスクリプトを実行
+    ```
+    $ ./install.sh
+    ```
 
-### ５．dotfiles ディレクトリへ移動
-`$ cd dotfiles`
+1. ログインし直すなどして dotfiles を読み込ませる
 
-### ６．シンボリックリンク作成用のシェルスクリプトを実行
-`$ ./install.sh`
-
-### ７．ログインし直すなどして dotfiles を読み込ませる
-
-### ８．おしまい
+1. おしまい
