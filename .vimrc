@@ -8,3 +8,5 @@ set backspace=2                  " 多くのターミナルでバックスペー
 colorscheme murphy               " カラースキームを変更
 set swapfile                     " swapファイルの作成を許可
 set directory=$HOME/.vim/swaps// " swapファイルの保存先
+set undofile                     " undoファイルの作成を許可
+set undodir=$HOME/.vim/undoes    " undoファイルの保存先
