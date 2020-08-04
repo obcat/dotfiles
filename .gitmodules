@@ -1,0 +1,12 @@
+[submodule ".vim/pack/plugins/start/vim-easymotion"]
+	path = .vim/pack/plugins/start/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
+[submodule ".vim/pack/plugins/opt/ack.vim"]
+	path = .vim/pack/plugins/opt/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule ".vim/pack/plugins/start/vim-unimpaired"]
+	path = .vim/pack/plugins/start/vim-unimpaired
+	url = https://github.com/tpope/vim-unimpaired.git
+[submodule ".vim/pack/plugins/opt/vim-vinegar"]
+	path = .vim/pack/plugins/opt/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar.git
