@@ -21,9 +21,9 @@ set clipboard=unnamed,unnamedplus " システムのクリップボードに対�
 colorscheme molokai               " カラースキームの指定
 
 set swapfile                      " swapファイルの作成を許可
-set directory=$HOME/.vim/swaps//  " swapファイルの保存先
+set directory=$HOME/.vim/swap     " swapファイルの保存先
 " set undofile                      " undoファイルの作成を許可
-set undodir=$HOME/.vim/undoes     " undoファイルの保存先
+set undodir=$HOME/.vim/undo       " undoファイルの保存先
 
 packloadall                       " すべてのプラグインをロードする
 silent! helptags ALL              " すべてのプラグイン用にヘルプファイルをロードする
