@@ -318,8 +318,10 @@ else
   hi Type ctermfg=110 gui=NONE guifg=#84a0c6
   hi Underlined cterm=underline ctermfg=110 gui=underline guifg=#84a0c6 term=underline
   hi VertSplit cterm=NONE ctermbg=233 ctermfg=233 gui=NONE guibg=#0f1117 guifg=#0f1117
-  hi Visual ctermbg=236 ctermfg=NONE guibg=#272c42 guifg=NONE
-  hi VisualNOS ctermbg=236 ctermfg=NONE guibg=#272c42 guifg=NONE
+  " hi Visual ctermbg=236 ctermfg=NONE guibg=#272c42 guifg=NONE
+  hi Visual ctermbg=241 ctermfg=NONE guibg=#272c42 guifg=NONE
+  " hi VisualNOS ctermbg=236 ctermfg=NONE guibg=#272c42 guifg=NONE
+  hi VisualNOS ctermbg=241 ctermfg=NONE guibg=#272c42 guifg=NONE
   hi WildMenu ctermbg=255 ctermfg=234 guibg=#d4d5db guifg=#17171b
   hi diffAdded ctermfg=150 guifg=#b4be82
   hi diffRemoved ctermfg=203 guifg=#e27878
