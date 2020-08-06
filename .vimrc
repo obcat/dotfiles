@@ -31,4 +31,9 @@ set directory=$HOME/.vim/swap     " swapファイルの保存先
 " set undofile                      " undoファイルの永続的な作成を許可
 set undodir=$HOME/.vim/undo       " undoファイルの保存先
 
+map <left>  <nop>                 " 左矢印キーを無効化
+map <up>    <nop>                 " 上矢印キーを無効化
+map <right> <nop>                 " 右矢印キーを無効化
+map <down>  <nop>                 " 下矢印キーを無効化
+
 let g:previm_open_cmd = 'open -a Google\ Chrome' " プラグインprevimのコマンド:PrevimOpenで開くブラウザ
