@@ -1,5 +1,18 @@
-packloadall                       " startディレクトリ配下のプラグインをすべてロードする
-silent! helptags ALL              " すべてのプラグインのヘルプページを出力やエラーを隠しながらロードする
+if empty(glob('~/.vim/autoload/plug.vim'))                                " vim-plugがなければインストール
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()                 " vim-plugでのプラグイン管理を開始
+Plug 'junegunn/vim-plug'          " vim-plugのヘルプページを取得するために必要？
+Plug 'vim-jp/vimdoc-ja'           " 日本語版のヘルプページ
+Plug 'tpope/vim-fugitive'         " Vim上でGitを使う
+Plug 'airblade/vim-gitgutter'     " git diffを行番号の横に表示
+call plug#end()                   " vim-plugでのプラグイン管理を終了
+
+" packloadall                       " startディレクトリ配下のプラグインをすべてロードする
+" silent! helptags ALL              " すべてのプラグインのヘルプページを出力やエラーを隠しながらロードする
 
 syntax on                         " シンタックスハイライトを有効化
 filetype plugin indent on         " ファイルタイプに基づいたインデントを有効化
