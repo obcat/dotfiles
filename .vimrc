@@ -27,16 +27,15 @@ set showcmd                       " 入力中のコマンドをスクリーン�
 set laststatus=2                  " ステータスラインを常に表示
 set nowrap                        " 行の折り返しを禁止
 set foldmethod=indent             " インデントベースでコードを折りたたむ
-set wildmenu                      " 自動補完のときに利用できるワイルドメニューを有効化
+" set wildmenu                      " ワイルドメニューを有効化
 set wildmode=list:longest,full    " 1回目のタブ: 共通する最長部分まで補完してから候補をリスト表示
-""""""""""""""""""""""""""""""    " 2回目以降のタブ: タブを押すごとに次のマッチを補完. ワイルドメニューも表示する
+                                  " 2回目以降のタブ: タブを押すごとに次のマッチを補完. またワイルドメニューが有効なら表示する
 set hlsearch                      " 検索するときにマッチした文字をすべてハイライトする
 set incsearch                     " インクリメンタルサーチを有効化
 set clipboard=unnamed,unnamedplus " システムのクリップボードに対応するレジスタ（""または"+）をデフォルトのレジスタにする
 set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
 
 set background=dark               " 暗い背景によく合う色を使うようVimにお願いする
-" let g:solarized_termcolors=256    " カラースキームsolarized用の設定
 colorscheme iceberg               " カラースキームの指定
 
 set swapfile                      " swapファイルの一時的な作成を許可
@@ -48,5 +47,3 @@ map <left>  <nop>                 " 左矢印キーを無効化
 map <up>    <nop>                 " 上矢印キーを無効化
 map <right> <nop>                 " 右矢印キーを無効化
 map <down>  <nop>                 " 下矢印キーを無効化
-
-let g:previm_open_cmd = 'open -a Google\ Chrome' " プラグインprevimのコマンド:PrevimOpenで開くブラウザ
