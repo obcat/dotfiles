@@ -11,8 +11,7 @@ Plug 'tpope/vim-fugitive'         " Vim上でGitを使う
 Plug 'airblade/vim-gitgutter'     " git diffを行番号の横に表示
 call plug#end()                   " vim-plugでのプラグイン管理を終了
 
-" packloadall                       " startディレクトリ配下のプラグインをすべてロードする
-" silent! helptags ALL              " すべてのプラグインのヘルプページを出力やエラーを隠しながらロードする
+set updatetime=100                " swapファイルの更新周期（vim-gitgutterの推奨設定）
 
 syntax on                         " シンタックスハイライトを有効化
 filetype plugin indent on         " ファイルタイプに基づいたインデントを有効化
