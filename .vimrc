@@ -9,6 +9,7 @@ Plug 'junegunn/vim-plug'          " vim-plugのヘルプページを取得する
 Plug 'vim-jp/vimdoc-ja'           " 日本語版のヘルプページ
 Plug 'tpope/vim-fugitive'         " Vim上でGitを使う
 Plug 'airblade/vim-gitgutter'     " git diffを行番号の横に表示
+Plug 'cocopon/iceberg.vim'        " カラースキーム
 Plug 'itchyny/lightline.vim'      " ステータスラインをリッチに
 call plug#end()                   " vim-plugでのプラグイン管理を終了
 
@@ -39,8 +40,23 @@ set helplang=ja                   " ヘルプページで優先して使用す�
 set hidden                        " バッファを放棄（abandon）するとき隠れ（hidden）状態にする（メモリを開放しないということ）. これにより変更が未保存でも怒られなくなる
 set noshowmode                    " 最終行に--挿入--といったメッセージを表示しない（lightline.vimにより不要になったため）
 
-set background=dark               " 暗い背景によく合う色を使うようVimにお願いする
-colorscheme iceberg               " カラースキームの指定
+" 暗い背景によく合う色を使うようVimにお願いする
+set background=dark
+" icebergのオーバーライド用関数
+function OverrideIceberg() abort
+    if &background == 'dark'
+        hi MatchParen ctermbg=242 ctermfg=255  guibg=#3e445e guifg=#ffffff
+        hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
+    endif
+endfunction
+" iceberg読み込み後にオーバーライドを実行
+autocmd ColorScheme iceberg call OverrideIceberg()
+" カラースキームの指定
+colorscheme iceberg
+" lightline.vimにカラースキームを教えてあげる
+let g:lightline = {
+      \ 'colorscheme': 'iceberg',
+      \ }
 
 set swapfile                      " swapファイルの一時的な作成を許可
 set directory=$HOME/.vim/swap     " swapファイルの保存先
