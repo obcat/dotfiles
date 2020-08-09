@@ -51,12 +51,12 @@ function OverrideIceberg() abort
 endfunction
 " iceberg読み込み後にオーバーライドを実行
 autocmd ColorScheme iceberg call OverrideIceberg()
-" カラースキームの指定
-colorscheme iceberg
 " lightline.vimにカラースキームを教えてあげる
 let g:lightline = {
       \ 'colorscheme': 'iceberg',
       \ }
+" カラースキームの指定
+colorscheme iceberg
 
 set swapfile                      " swapファイルの一時的な作成を許可
 set directory=$HOME/.vim/swap     " swapファイルの保存先
