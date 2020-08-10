@@ -39,18 +39,20 @@ set clipboard=unnamed,unnamedplus " システムのクリップボードに対�
 set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
 set hidden                        " バッファを放棄（abandon）するとき隠れ（hidden）状態にする（メモリを開放しないということ）. これにより変更が未保存でも怒られなくなる
 set noshowmode                    " 最終行に--挿入--といったメッセージを表示しない（lightline.vimにより不要になったため）
+set list                          "
+set listchars=eol:¬,tab:▸\        "
 
 " 暗い背景によく合う色を使うようVimにお願いする
 set background=dark
-" icebergのオーバーライド用関数
-function OverrideIceberg() abort
-    if &background == 'dark'
+" カラースキームのオーバーライド用関数
+function! OverrideColorscheme() abort
+    if execute('colorscheme') == 'iceberg' && &background == 'dark'
         hi MatchParen ctermbg=242 ctermfg=255  guibg=#3e445e guifg=#ffffff
         hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
     endif
 endfunction
-" iceberg読み込み後にオーバーライドを実行
-autocmd ColorScheme iceberg call OverrideIceberg()
+" カラースキーム読み込み後にオーバーライドを実行
+autocmd ColorScheme * call OverrideColorscheme()
 " lightline.vimにカラースキームを教えてあげる
 let g:lightline = {
       \ 'colorscheme': 'iceberg',
@@ -63,8 +65,27 @@ set directory=$HOME/.vim/swap     " swapファイルの保存先
 " set undofile                      " undoファイルの永続的な作成を許可
 set undodir=$HOME/.vim/undo       " undoファイルの保存先
 
-" Vimスパルタモード
-map <left> <nop>
-map <up> <nop>
-map <right> <nop>
-map <down> <nop>
+" USキーボード用
+noremap ; :
+" ウィンドウ間の移動
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" Emacs風キーバインド
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-h> <Backspace>
+cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
+inoremap <C-a> <Home>
+inoremap <C-b> <Left>
+inoremap <C-d> <Del>
+inoremap <C-e> <End>
+inoremap <C-f> <Right>
+inoremap <C-h> <Backspace>
+inoremap <C-k> <C-o>D
+inoremap <C-n> <Down>
+inoremap <C-p> <Up>
