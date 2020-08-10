@@ -40,7 +40,7 @@ set helplang=ja                   " ヘルプページで優先して使用す�
 set hidden                        " バッファを放棄（abandon）するとき隠れ（hidden）状態にする（メモリを開放しないということ）. これにより変更が未保存でも怒られなくなる
 set noshowmode                    " 最終行に--挿入--といったメッセージを表示しない（lightline.vimにより不要になったため）
 set list                          "
-set listchars=eol:¬,tab:▸\        "
+set listchars=eol:¬,space:·       "
 
 " 暗い背景によく合う色を使うようVimにお願いする
 set background=dark
@@ -89,3 +89,5 @@ inoremap <C-h> <Backspace>
 inoremap <C-k> <C-o>D
 inoremap <C-n> <Down>
 inoremap <C-p> <Up>
+" DやCと一貫性をもたせる
+nnoremap Y y$
