@@ -1,49 +1,82 @@
-if empty(glob('~/.vim/autoload/plug.vim')) " vim-plugがなければインストール
+"   __  __ _ _____ _________
+"   \ \ | |_|     V  __/  __|
+"    \ \| | | | | | |  | [__
+" [_] \___|_|_|_|_|_|  \____|
+
+" Encoding {{{
+set encoding=utf-8   " Vimが内部で使用する文字コード
+scriptencoding utf-8 " スクリプトで使用されている文字コードの宣言
+" }}}
+
+" プラグインのセットアップ {{{
+" vim-plugがなければインストール
+if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" プラグインのリスト
 call plug#begin()
-Plug 'junegunn/vim-plug'          " vim-plugのヘルプページを取得するために必要？
-Plug 'vim-jp/vimdoc-ja'           " 日本語版のヘルプページ
-Plug 'tpope/vim-fugitive'         " Vim上でGitを使う
-Plug 'airblade/vim-gitgutter'     " git diffを行番号の横に表示
-Plug 'cocopon/iceberg.vim'        " カラースキーム
-Plug 'itchyny/lightline.vim'      " ステータスラインをリッチに
-Plug 'cohama/lexima.vim'          " 閉じ括弧の自動補完
+Plug 'junegunn/vim-plug'      " vim-plugのヘルプページを取得するために必要？
+Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプページ
+Plug 'cocopon/iceberg.vim'    " カラースキーム
+Plug 'itchyny/lightline.vim'  " ステータスラインをリッチに
+Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
+Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
+Plug 'cohama/lexima.vim'      " 閉じ括弧の自動補完
 call plug#end()
 
-syntax on                         " シンタックスハイライトを有効化
-filetype plugin indent on         " ファイルタイプに基づいたインデントを有効化
-set autoindent                    " 直前の行から新しい行のインデントを得る
-set smartindent                   " C言語等で有効な高度な自動インデント
-set expandtab                     " <Tab>でスペースを入力
-set tabstop=4                     " <Tab>の表示幅
-set shiftwidth=4                  " 自動インデントに使われるスペースの数
-set backspace=2                   " 多くのターミナルでバックスペースの挙動を修正
-set number                        " 行番号を表示
-set cursorline                    " カーソル行をハイライト
-set showcmd                       " 入力中のコマンドをスクリーン右下に表示
-set laststatus=2                  " ステータスラインを常に表示
-set nowrap                        " 行の折り返しを禁止
-set foldmethod=indent             " インデントベースでコードを折りたたむ
-set nofoldenable                  " すべての折りたたみを開いた状態でファイルを開く
-set wildmode=list:longest,full    " <Tab>による補完の動作設定
-set hlsearch                      " 最後に検索したパターンをハイライト
-set incsearch                     " 検索パターン入力中にその文字をハイライト
-set clipboard=unnamed,unnamedplus " システムのクリップボードに対応するレジスタ（""または"+）をデフォルトのレジスタにする
-set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
-set hidden                        " バッファを放棄（abandon）するとき隠れ（hidden）状態にする（メモリを開放しないということ）. これで変更が未保存でも怒られなくなる
-set noshowmode                    " 最終行に--挿入--といったメッセージを表示しない
-set list                          " <Tab>や<EOL>を表示する
-set listchars=eol:¬,tab:▸\        " 'list'が有効なときに使う文字
-set updatetime=100                " この時間だけ入力がなければswapファイルを更新
-set directory=$HOME/.vim/swap     " swapファイルの保存先
-set undodir=$HOME/.vim/undo       " undoファイルの保存先
+" ファイル形式別プラグインのロードを有効化
+filetype plugin on
+" }}}
 
-" Vimに背景色を教えてあげる
-set background=dark
+" 基本設定 {{{
+" 見た目
+syntax on                   " シンタックスハイライトを有効化
+set number                  " 行番号を表示
+set laststatus=2            " ステータスラインを常に表示
+set showcmd                 " 入力中のコマンドをスクリーン右下に表示
+set wildmenu                " コマンドライン補完時にリッチなメニューを表示
+set noshowmode              " 最終行に--挿入--といったメッセージを表示しない
+set background=dark         " Vimに背景色を伝える
+set list                    " タブや改行を表示する
+set listchars=tab:▸\ ,eol:¬ " listが有効なときに使う文字
+set cursorline              " カーソル行をハイライト
+set ambiwidth=double        " 一部の特殊な文字の表示幅
+set display=lastline        " ウィンドウの最後の行が収まらないときの表示形式
+
+" インデント
+filetype indent on " ファイル形式別インデントのロードを有効化
+set autoindent     " 直前の行から新しい行のインデントを得る
+set smartindent    " C言語等で有効な高度な自動インデント
+set expandtab      " タブで空白を入力
+set tabstop=4      " タブの表示幅
+set shiftwidth=4   " 自動インデントに使われる空白の数
+set smarttab       " shiftwidthの数だけタブで空白を挿入しBSで空白を削除する
+set backspace=2    " インサートモードにおけるBSやDelの挙動
+
+" 検索
+set hlsearch  " 最後に検索したパターンをハイライト
+set incsearch " 検索パターン入力中にその文字をハイライト
+
+" バックアップ
+set directory=$HOME/.vim/swap " swapファイルの保存先
+set undodir=$HOME/.vim/undo   " undoファイルの保存先
+
+" ファイルの取り扱い
+set updatetime=100 " この時間だけ入力がなければswapファイルを更新
+set autoread       " Vimの外部での変更を自動的に読み込む
+set hidden         " バッファをabandonするときhidden状態にする
+
+" その他
+set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
+set belloff=all                   " ベルを鳴らさないようにするイベントの指定
+set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
+autocmd FileType vim setlocal foldmethod=marker
+" }}}
+
+" カラースキーム {{{
 " カラースキームのオーバーライド用関数
 function! s:OverrideColorscheme() abort
     if g:colors_name == 'iceberg' && &background == 'dark'
@@ -51,31 +84,25 @@ function! s:OverrideColorscheme() abort
         hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
     endif
 endfunction
-" カラースキーム読み込み後にオーバーライドを実行
+
+" カラースキームを読み込むたびにオーバーライドを実行
 autocmd ColorScheme * call s:OverrideColorscheme()
+
 " カラースキームの指定
 colorscheme iceberg
+" }}}
 
-" lightline
-let g:lightline = {
-      \ 'colorscheme': 'iceberg',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
-
+" キーマッピング {{{
 " USキーボード用
 noremap ; :
 vnoremap ; :
+
 " ウィンドウ間の移動
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 " Emacs風キーバインド
 cnoremap <C-a> <Home>
 cnoremap <C-b> <Left>
@@ -93,5 +120,21 @@ inoremap <C-h> <Backspace>
 inoremap <C-k> <C-o>D
 inoremap <C-n> <Down>
 inoremap <C-p> <Up>
-" DやCと一貫性をもたせる
+
+" その他
 nnoremap Y y$
+" }}}
+
+" プラグインの設定 {{{
+" lightline
+let g:lightline = {
+      \ 'colorscheme': 'iceberg',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+" }}}
