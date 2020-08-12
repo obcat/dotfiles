@@ -53,9 +53,10 @@ set smartindent    " C言語等で有効な高度な自動インデント
 set breakindent    " 折り返された行を同じインデントで表示する
 set expandtab      " タブで空白を入力
 set tabstop=4      " 画面上でタブ文字が占める幅
-set shiftwidth=4   " 自動インデントやコマンド"<<"などに使われる空白の数
+set shiftwidth=4   " 自動インデントやコマンド<<などに使われる空白の数
 set smarttab       " shiftwidthの数だけタブで空白を挿入しBSで空白を削除する
 set shiftround     " インデントをshiftwidthの値の倍数に丸める
+set showmatch      " 括弧入力時に対応する括弧を知らせる
 
 " 編集
 set virtualedit=block " フリーカーソルモードを有効にする場面
@@ -88,15 +89,15 @@ autocmd FileType vim setlocal foldmethod=marker
 
 " カラースキーム {{{
 " カラースキームのオーバーライド用関数
-function! s:OverrideColorscheme() abort
-    if g:colors_name == 'iceberg' && &background == 'dark'
-        hi MatchParen ctermbg=242 ctermfg=255  guibg=#3e445e guifg=#ffffff
-        hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
-    endif
-endfunction
+" function! s:OverrideColorscheme() abort
+    " if g:colors_name == 'iceberg' && &background == 'dark'
+        " hi MatchParen ctermbg=242 ctermfg=255  guibg=#3e445e guifg=#ffffff
+        " hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
+    " endif
+" endfunction
 
 " カラースキームを読み込むたびにオーバーライドを実行
-autocmd ColorScheme * call s:OverrideColorscheme()
+" autocmd ColorScheme * call s:OverrideColorscheme()
 
 " カラースキームの指定
 colorscheme iceberg
