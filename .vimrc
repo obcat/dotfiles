@@ -18,8 +18,8 @@ endif
 
 " プラグインのリスト
 call plug#begin()
-Plug 'junegunn/vim-plug'      " vim-plugのヘルプページを取得するために必要？
-Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプページ
+Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
+Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
 Plug 'cocopon/iceberg.vim'    " カラースキーム
 Plug 'itchyny/lightline.vim'  " ステータスラインをリッチに
 Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
@@ -80,8 +80,8 @@ set autoread       " Vimの外部での変更を自動的に読み込む
 set hidden         " バッファを放棄するときメモリを開放しない
 
 " その他
-set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
-set belloff=all                   " ベルを鳴らさないようにするイベントの指定
+set helplang=ja                   " ヘルプで優先して使用する言語のリスト
+" set belloff=all                   " ベルを鳴らさないイベント
 set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
 autocmd FileType vim setlocal foldmethod=marker
 " }}}
@@ -106,37 +106,6 @@ colorscheme iceberg
 " 折り返された行で直観的なカーソル移動を行う
 noremap j gj
 noremap k gk
-
-" USキーボード用
-" noremap ; :
-" vnoremap ; :
-
-" ウィンドウ間の移動
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
-
-" Emacs風キーバインド
-" cnoremap <C-a> <Home>
-" cnoremap <C-b> <Left>
-" cnoremap <C-d> <Del>
-" cnoremap <C-e> <End>
-" cnoremap <C-f> <Right>
-" cnoremap <C-h> <Backspace>
-" cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
-" inoremap <C-a> <Home>
-" inoremap <C-b> <Left>
-" inoremap <C-d> <Del>
-" inoremap <C-e> <End>
-" inoremap <C-f> <Right>
-" inoremap <C-h> <Backspace>
-" inoremap <C-k> <C-o>D
-" inoremap <C-n> <Down>
-" inoremap <C-p> <Up>
-
-" その他
-" nnoremap Y y$
 " }}}
 
 " プラグインの設定 {{{
