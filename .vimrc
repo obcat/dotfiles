@@ -60,6 +60,11 @@ set backspace=2    " インサートモードにおけるBSやDelの挙動
 set hlsearch  " 最後に検索したパターンをハイライト
 set incsearch " 検索パターン入力中にその文字をハイライト
 
+" スクロール
+set scrolloff=8      " カーソルの上下に確保する表示行
+set sidescroll=1     " 水平スクロールの刻み幅
+set sidescrolloff=16 " カーソルの左右に確保する表示幅
+
 " バックアップ
 set directory=$HOME/.vim/swap " swapファイルの保存先
 set undodir=$HOME/.vim/undo   " undoファイルの保存先
@@ -67,7 +72,7 @@ set undodir=$HOME/.vim/undo   " undoファイルの保存先
 " ファイルの取り扱い
 set updatetime=100 " この時間だけ入力がなければswapファイルを更新
 set autoread       " Vimの外部での変更を自動的に読み込む
-set hidden         " バッファをabandonするときhidden状態にする
+set hidden         " バッファを放棄するときメモリを開放しない
 
 " その他
 set helplang=ja                   " ヘルプページで優先して使用する言語のリスト
