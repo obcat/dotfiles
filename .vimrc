@@ -11,9 +11,9 @@ scriptencoding utf-8 " スクリプトで使用されている文字コードの
 " プラグインのセットアップ {{{
 " vim-plugがなければインストール
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " プラグインのリスト
@@ -50,11 +50,16 @@ set display=lastline        " ウィンドウの最後の行が収まらない�
 filetype indent on " ファイル形式別インデントのロードを有効化
 set autoindent     " 直前の行から新しい行のインデントを得る
 set smartindent    " C言語等で有効な高度な自動インデント
+set breakindent    " 折り返された行を同じインデントで表示する
 set expandtab      " タブで空白を入力
 set tabstop=4      " タブの表示幅
 set shiftwidth=4   " 自動インデントに使われる空白の数
 set smarttab       " shiftwidthの数だけタブで空白を挿入しBSで空白を削除する
-set backspace=2    " インサートモードにおけるBSやDelの挙動
+set shiftround     " インデントをshiftwidthの値の倍数に丸める
+
+" 編集
+set virtualedit=block " フリーカーソルモードを有効にする場面
+set backspace=2       " インサートモードにおけるBSやDelの挙動
 
 " 検索
 set hlsearch  " 最後に検索したパターンをハイライト
@@ -98,6 +103,10 @@ colorscheme iceberg
 " }}}
 
 " キーマッピング {{{
+" 折り返された行で直観的なカーソル移動を行う
+noremap j gj
+noremap k gk
+
 " USキーボード用
 " noremap ; :
 " vnoremap ; :
@@ -133,13 +142,13 @@ colorscheme iceberg
 " プラグインの設定 {{{
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'iceberg',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
+    \ 'colorscheme': 'iceberg',
+    \ 'active': {
+    \     'left': [ [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \     'gitbranch': 'FugitiveHead'
+    \ },
+    \ }
 " }}}
