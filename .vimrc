@@ -94,35 +94,35 @@ colorscheme iceberg
 
 " キーマッピング {{{
 " USキーボード用
-noremap ; :
-vnoremap ; :
+" noremap ; :
+" vnoremap ; :
 
 " ウィンドウ間の移動
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-l> <C-w>l
 
 " Emacs風キーバインド
-cnoremap <C-a> <Home>
-cnoremap <C-b> <Left>
-cnoremap <C-d> <Del>
-cnoremap <C-e> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-h> <Backspace>
-cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
-inoremap <C-a> <Home>
-inoremap <C-b> <Left>
-inoremap <C-d> <Del>
-inoremap <C-e> <End>
-inoremap <C-f> <Right>
-inoremap <C-h> <Backspace>
-inoremap <C-k> <C-o>D
-inoremap <C-n> <Down>
-inoremap <C-p> <Up>
+" cnoremap <C-a> <Home>
+" cnoremap <C-b> <Left>
+" cnoremap <C-d> <Del>
+" cnoremap <C-e> <End>
+" cnoremap <C-f> <Right>
+" cnoremap <C-h> <Backspace>
+" cnoremap <C-k> <C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos() - 2]<CR>
+" inoremap <C-a> <Home>
+" inoremap <C-b> <Left>
+" inoremap <C-d> <Del>
+" inoremap <C-e> <End>
+" inoremap <C-f> <Right>
+" inoremap <C-h> <Backspace>
+" inoremap <C-k> <C-o>D
+" inoremap <C-n> <Down>
+" inoremap <C-p> <Up>
 
 " その他
-nnoremap Y y$
+" nnoremap Y y$
 " }}}
 
 " プラグインの設定 {{{
