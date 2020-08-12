@@ -52,8 +52,8 @@ set autoindent     " 直前の行から新しい行のインデントを得る
 set smartindent    " C言語等で有効な高度な自動インデント
 set breakindent    " 折り返された行を同じインデントで表示する
 set expandtab      " タブで空白を入力
-set tabstop=4      " タブの表示幅
-set shiftwidth=4   " 自動インデントに使われる空白の数
+set tabstop=4      " 画面上でタブ文字が占める幅
+set shiftwidth=4   " 自動インデントやコマンド"<<"などに使われる空白の数
 set smarttab       " shiftwidthの数だけタブで空白を挿入しBSで空白を削除する
 set shiftround     " インデントをshiftwidthの値の倍数に丸める
 
