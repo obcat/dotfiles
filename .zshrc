@@ -16,4 +16,6 @@ setopt PROMPT_SUBST
 PROMPT=$'%F{cyan}%1d %#%f '
 RPROMPT='${vcs_info_msg_0_}'
 
-# export PROMPT="%F{magenta}%n%f@%F{cyan}%m%f%F{green} [%~]%f %# "
+# Completion
+autoload -U compinit
+compinit

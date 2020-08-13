@@ -95,7 +95,7 @@ function! s:OverrideColorscheme() abort
     endif
 endfunction
 
-" カラースキームを読み込むたびにオーバーライドを実行
+" カラースキームを読み込むたびにオーバーライド
 autocmd ColorScheme * call s:OverrideColorscheme()
 
 " カラースキームの指定
