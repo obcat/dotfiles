@@ -19,3 +19,7 @@ RPROMPT='${vcs_info_msg_0_}'
 # Completion
 autoload -U compinit
 compinit
+
+# Aliases
+alias ll="ls -la"
+alias la="ls -a"
