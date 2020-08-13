@@ -21,5 +21,6 @@ autoload -U compinit
 compinit
 
 # Aliases
-alias ll="ls -la"
-alias la="ls -a"
+alias ls="ls -G"
+alias la="ls -Ga"
+alias ll="ls -Gal"
