@@ -16,7 +16,7 @@
 
 1. 本リポジトリをクローン
     ```
-    $ git clone https://github.com/igg-g/dotfiles.git
+    $ git clone https://github.com/obcat/dotfiles.git
     ````
 
 1. dotfiles ディレクトリへ移動
