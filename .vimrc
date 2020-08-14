@@ -8,24 +8,20 @@ set encoding=utf-8   " Vimが内部で使用する文字コード
 scriptencoding utf-8 " スクリプトで使用されている文字コードの宣言
 " }}}
 
-" プラグインのセットアップ {{{
-" vim-plugがなければインストール
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+" プラグイン {{{
+let s:plugin_manager_exists = !empty(glob('~/.vim/autoload/plug.vim'))
 
-" プラグインのリスト
-call plug#begin()
-Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
-Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
-Plug 'cocopon/iceberg.vim'    " カラースキーム
-Plug 'itchyny/lightline.vim'  " ステータスラインをリッチに
-Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
-Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
-Plug 'cohama/lexima.vim'      " 閉じ括弧の自動補完
-call plug#end()
+if s:plugin_manager_exists
+    call plug#begin()
+    Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
+    Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
+    Plug 'cocopon/iceberg.vim'    " カラースキーム
+    Plug 'itchyny/lightline.vim'  " ステータスラインをリッチに
+    Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
+    Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
+    Plug 'cohama/lexima.vim'      " 閉じ括弧の自動補完
+    call plug#end()
+endif
 
 " ファイル形式別プラグインのロードを有効化
 filetype plugin on
@@ -38,13 +34,15 @@ set number                  " 行番号を表示
 set laststatus=2            " ステータスラインを常に表示
 set showcmd                 " 入力中のコマンドをスクリーン右下に表示
 set wildmenu                " コマンドライン補完時にリッチなメニューを表示
-set noshowmode              " 最終行に--挿入--といったメッセージを表示しない
 set background=dark         " Vimに背景色を伝える
 set list                    " タブや改行を表示する
 set listchars=tab:▸\ ,eol:¬ " listが有効なときに使う文字
 set cursorline              " カーソル行をハイライト
 set ambiwidth=double        " 一部の特殊な文字の表示幅
 set display=lastline        " ウィンドウの最後の行が収まらないときの表示形式
+if s:plugin_manager_exists
+    set noshowmode          " 最終行に--挿入--といったメッセージを表示しない
+endif
 
 " インデント
 filetype indent on " ファイル形式別インデントのロードを有効化
@@ -66,9 +64,7 @@ set hlsearch  " 最後に検索したパターンをハイライト
 set incsearch " 検索パターン入力中にその文字をハイライト
 
 " スクロール
-set sidescroll=1     " 水平スクロールの刻み幅
-" set scrolloff=4      " カーソルの上下に確保する表示行
-" set sidescrolloff=8 " カーソルの左右に確保する表示幅
+set sidescroll=1 " 水平スクロールの刻み幅
 
 " バックアップ
 set directory=$HOME/.vim/swap " swapファイルの保存先
@@ -99,7 +95,9 @@ endfunction
 autocmd ColorScheme * call s:OverrideColorscheme()
 
 " カラースキームの指定
-colorscheme iceberg
+if s:plugin_manager_exists
+    colorscheme iceberg
+endif
 " }}}
 
 " キーマッピング {{{
@@ -109,15 +107,17 @@ noremap k gk
 " }}}
 
 " プラグインの設定 {{{
-" lightline
-let g:lightline = {
-    \ 'colorscheme': 'iceberg',
-    \ 'active': {
-    \     'left': [ [ 'mode', 'paste' ],
-    \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-    \ },
-    \ 'component_function': {
-    \     'gitbranch': 'FugitiveHead'
-    \ },
-    \ }
+if s:plugin_manager_exists
+    " lightline
+    let g:lightline = {
+        \ 'colorscheme': 'iceberg',
+        \ 'active': {
+        \     'left': [ [ 'mode', 'paste' ],
+        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+        \ },
+        \ 'component_function': {
+        \     'gitbranch': 'FugitiveHead'
+        \ },
+        \ }
+endif
 " }}}
