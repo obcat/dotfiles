@@ -63,9 +63,6 @@ set backspace=2       " インサートモードにおけるBSやDelの挙動
 set hlsearch  " 最後に検索したパターンをハイライト
 set incsearch " 検索パターン入力中にその文字をハイライト
 
-" スクロール
-set sidescroll=1 " 水平スクロールの刻み幅
-
 " バックアップ
 set directory=$HOME/.vim/swap " swapファイルの保存先
 set undodir=$HOME/.vim/undo   " undoファイルの保存先
@@ -77,8 +74,8 @@ set hidden         " バッファを放棄するときメモリを開放しな�
 
 " その他
 set helplang=ja                   " ヘルプで優先して使用する言語のリスト
+set sidescroll=1                  " 水平スクロールの刻み幅
 set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
-" set belloff=all                   " ベルを鳴らさないイベント
 autocmd FileType vim setlocal foldmethod=marker
 " }}}
 
