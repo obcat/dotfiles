@@ -21,6 +21,9 @@ autoload -U compinit
 compinit
 
 # Aliases
-alias ls="ls -G"
-alias la="ls -Ga"
-alias ll="ls -Gal"
+alias ls='ls -G'
+alias la='ls -Ga'
+alias ll='ls -Gal'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkdir='mkdir -v'
