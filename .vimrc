@@ -39,9 +39,6 @@ set listchars=tab:▸\ ,eol:¬ " listが有効なときに使う文字
 set cursorline              " カーソル行をハイライト
 set ambiwidth=double        " 一部の特殊な文字の表示幅
 set display=lastline        " ウィンドウの最後の行が収まらないときの表示形式
-" if s:plugin_manager_exists
-"     set noshowmode          " 最終行に--挿入--といったメッセージを表示しない
-" endif
 
 " インデント
 filetype indent on " ファイル形式別インデントのロードを有効化
