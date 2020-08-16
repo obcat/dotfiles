@@ -16,7 +16,7 @@ if s:plugin_manager_exists
     Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
     Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
     Plug 'cocopon/iceberg.vim'    " カラースキーム
-    Plug 'itchyny/lightline.vim'  " ステータスラインをリッチに
+    Plug 'cocopon/shadeline.vim'  " シンプルなステータスライン
     Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
     Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
     Plug 'cohama/lexima.vim'      " 閉じ括弧の自動補完
@@ -40,9 +40,9 @@ set listchars=tab:▸\ ,eol:¬ " listが有効なときに使う文字
 set cursorline              " カーソル行をハイライト
 set ambiwidth=double        " 一部の特殊な文字の表示幅
 set display=lastline        " ウィンドウの最後の行が収まらないときの表示形式
-if s:plugin_manager_exists
-    set noshowmode          " 最終行に--挿入--といったメッセージを表示しない
-endif
+" if s:plugin_manager_exists
+"     set noshowmode          " 最終行に--挿入--といったメッセージを表示しない
+" endif
 
 " インデント
 filetype indent on " ファイル形式別インデントのロードを有効化
@@ -106,16 +106,25 @@ noremap k gk
 
 " プラグインの設定 {{{
 if s:plugin_manager_exists
-    " lightline
-    let g:lightline = {
-        \ 'colorscheme': 'iceberg',
-        \ 'active': {
-        \     'left': [ [ 'mode', 'paste' ],
-        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-        \ },
-        \ 'component_function': {
-        \     'gitbranch': 'FugitiveHead'
-        \ },
-        \ }
+    " shadeline {{{
+    let g:shadeline = {}
+    let g:shadeline.active = {
+    \   'left': [
+    \       'fname',
+    \       'flags',
+    \   ],
+    \   'right': [
+    \       '<',
+    \       ['ff', 'fenc', 'ft'],
+    \       'ruler',
+    \   ],
+    \ }
+    let g:shadeline.inactive = {
+    \   'left': [
+    \       'fname',
+    \       'flags',
+    \   ],
+    \ }
+    " }}}
 endif
 " }}}
