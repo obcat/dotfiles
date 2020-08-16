@@ -80,17 +80,6 @@ autocmd FileType vim setlocal foldmethod=marker
 " }}}
 
 " カラースキーム {{{
-" カラースキームのオーバーライド用関数
-function! s:OverrideColorscheme() abort
-    if g:colors_name == 'iceberg' && &background == 'dark'
-        " hi MatchParen ctermbg=242 ctermfg=255  guibg=#3e445e guifg=#ffffff
-        " hi Visual     ctermbg=239 ctermfg=NONE guibg=#272c42 guifg=NONE
-    endif
-endfunction
-
-" カラースキームを読み込むたびにオーバーライド
-autocmd ColorScheme * call s:OverrideColorscheme()
-
 " カラースキームの指定
 if s:plugin_manager_exists
     colorscheme iceberg
