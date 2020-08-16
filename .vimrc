@@ -77,9 +77,12 @@ autocmd FileType vim setlocal foldmethod=marker
 " }}}
 
 " カラースキーム {{{
-" カラースキームの指定
 if s:plugin_manager_exists
     colorscheme iceberg
+endif
+
+if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
+    set termguicolors
 endif
 " }}}
 
