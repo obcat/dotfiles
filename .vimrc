@@ -17,9 +17,8 @@ if s:plugin_manager_exists
     Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
     Plug 'cocopon/iceberg.vim'    " カラースキーム
     Plug 'cocopon/shadeline.vim'  " シンプルなステータスライン
-    Plug 'tpope/vim-fugitive'     " Vim上でGitを使う
+    Plug 'lambdalisue/gina.vim'   " Vim上でGit
     Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
-    Plug 'cohama/lexima.vim'      " 閉じ括弧の自動補完
     call plug#end()
 endif
 
@@ -112,6 +111,7 @@ if s:plugin_manager_exists
     \   'left': [
     \       'fname',
     \       'flags',
+    \       'ShadelineItemGitBranch'
     \   ],
     \   'right': [
     \       '<',
@@ -125,6 +125,16 @@ if s:plugin_manager_exists
     \       'flags',
     \   ],
     \ }
+
+    function! ShadelineItemGitBranch() abort
+        try
+            let name = gina#component#repo#branch()
+            return empty(name) ? '' : printf('(%s)', name)
+        catch /:E117:/
+            " E117: Unknown function
+            return ''
+        endtry
+    endfunction
     " }}}
 endif
 " }}}
