@@ -21,9 +21,12 @@ autoload -U compinit
 compinit
 
 # Aliases
+## Colorized output
 alias ls='ls -G'
 alias la='ls -Ga'
 alias ll='ls -Gal'
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias mkdir='mkdir -v'
+
+## Confirm before overwrite
+alias cp='cp -i'
+alias ln='ln -i'
+alias mv='mv -i'
