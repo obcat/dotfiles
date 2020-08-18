@@ -3,15 +3,14 @@
 "    \ \| | | | | | |  | [__
 " [_] \___|_|_|_|_|_|  \____|
 
-" Encoding {{{
+"Encoding {{{
 set encoding=utf-8   " Vimが内部で使用する文字コード
 scriptencoding utf-8 " スクリプトで使用されている文字コードの宣言
 " }}}
 
 " プラグイン {{{
-let s:plugin_manager_exists = !empty(glob('~/.vim/autoload/plug.vim'))
-
-if s:plugin_manager_exists
+" プラグインのリスト
+if !empty(glob('~/.vim/autoload/plug.vim'))
     call plug#begin()
     Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
     Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
@@ -24,6 +23,11 @@ endif
 
 " ファイル形式別プラグインのロードを有効化
 filetype plugin on
+
+" プラグインがインストールされているかどうかを調べる関数
+function! s:IsInstalled(plugin) abort
+    return !empty(glob('~/.vim/plugged/' . a:plugin))
+endfunction
 " }}}
 
 " 基本設定 {{{
@@ -33,8 +37,8 @@ set number                  " 行番号を表示
 set laststatus=2            " ステータスラインを常に表示
 set showcmd                 " 入力中のコマンドをスクリーン右下に表示
 set wildmenu                " コマンドライン補完時にリッチなメニューを表示
-set background=dark         " Vimに背景色を伝える
-set list                    " タブや改行を表示する
+set background=dark         " Vimに伝える背景色
+set list                    " タブや改行を表示
 set listchars=tab:▸\ ,eol:¬ " listが有効なときに使う文字
 set cursorline              " カーソル行をハイライト
 set ambiwidth=double        " 一部の特殊な文字の表示幅
@@ -80,7 +84,7 @@ augroup END
 " }}}
 
 " カラースキーム {{{
-if s:plugin_manager_exists
+if s:IsInstalled('iceberg.vim')
     colorscheme iceberg
 endif
 
@@ -96,8 +100,8 @@ noremap k gk
 " }}}
 
 " プラグインの設定 {{{
-if s:plugin_manager_exists
-    " shadeline {{{
+" shadeline {{{
+if s:IsInstalled('shadeline.vim')
     let g:shadeline = {}
     let g:shadeline.active = {
     \   'left': [
@@ -127,6 +131,6 @@ if s:plugin_manager_exists
             return ''
         endtry
     endfunction
-    " }}}
 endif
+" }}}
 " }}}
