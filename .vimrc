@@ -73,7 +73,10 @@ set hidden         " バッファを放棄するときメモリを開放しな�
 set helplang=ja                   " ヘルプで優先して使用する言語のリスト
 set sidescroll=1                  " 水平スクロールの刻み幅
 set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
-autocmd FileType vim setlocal foldmethod=marker
+augroup vimrc
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
 " }}}
 
 " カラースキーム {{{
