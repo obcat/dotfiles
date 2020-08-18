@@ -1,0 +1,13 @@
+[user]
+	name = obcat
+	email = obcat@icloud.com
+[core]
+	excludesFile = ~/.gitignore_global
+	autocrlf = input
+	editor = vim
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+	keepBackup = false
