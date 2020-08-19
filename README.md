@@ -2,6 +2,8 @@
 
 ## インストール方法
 
+### dotfiles
+
 1. ホームディレクトリに移動
     ```
     $ cd
@@ -27,4 +29,23 @@
 1. シンボリックリンク作成用のシェルスクリプトを実行
     ```
     $ ./install.sh
+    ```
+
+### Vim Plugins
+
+1. Plugin manager をインストール
+
+    ```
+    $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    ```
+1. Vim を起動し次のコマンドでプラグインをインストール
+
+    ```
+    :PlugInstall
+    ```
+
+1. `.vimrc` を source
+
+    ```
+    :so $MYVIMRC
     ```

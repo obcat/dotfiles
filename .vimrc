@@ -19,6 +19,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
     Plug 'lambdalisue/gina.vim'   " Vim上でGit
     Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
     call plug#end()
+else
+    echo 'Plugins are not installed yet. See README.md.'
 endif
 
 " ファイル形式別プラグインのロードを有効化
