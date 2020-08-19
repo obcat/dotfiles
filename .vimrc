@@ -3,7 +3,7 @@
 "    \ \| | | | | | |  | [__
 " [_] \___|_|_|_|_|_|  \____|
 
-"Encoding {{{
+" Encoding {{{
 set encoding=utf-8   " Vimが内部で使用する文字コード
 scriptencoding utf-8 " スクリプトで使用されている文字コードの宣言
 " }}}
@@ -67,8 +67,11 @@ set hlsearch  " 最後に検索したパターンをハイライト
 set incsearch " 検索パターン入力中にその文字をハイライト
 
 " バックアップ
-set directory=$HOME/.vim/swap " swapファイルの保存先
-set undodir=$HOME/.vim/undo   " undoファイルの保存先
+let s:swapdir = $HOME . '/.vim/swap'
+if !isdirectory(s:swapdir)
+    call mkdir(s:swapdir, 'p')
+endif
+let &directory = s:swapdir " swapファイルの保存先
 
 " ファイルの取り扱い
 set updatetime=100 " この時間だけ入力がなければswapファイルを更新
