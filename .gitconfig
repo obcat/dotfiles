@@ -11,3 +11,5 @@
 [mergetool]
 	prompt = false
 	keepBackup = false
+[alias]
+	adog = log --all --decorate --oneline --graph
