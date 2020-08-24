@@ -74,7 +74,6 @@ endif
 let &directory = s:swapdir " swapファイルの保存先
 
 " ファイルの取り扱い
-set updatetime=100 " この時間だけ入力がなければswapファイルを更新
 set autoread       " Vimの外部での変更を自動的に読み込む
 set hidden         " バッファを放棄するときメモリを開放しない
 
@@ -105,6 +104,12 @@ noremap k gk
 " }}}
 
 " プラグインの設定 {{{
+" gitgutter {{{
+if s:IsInstalled('vim-gitgutter')
+    set updatetime=100 " この時間だけ入力がなければswapファイルを更新
+endif
+" }}}
+
 " shadeline {{{
 if s:IsInstalled('shadeline.vim')
     let g:shadeline = {}
