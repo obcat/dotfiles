@@ -80,6 +80,7 @@ set hidden         " バッファを放棄するときメモリを開放しな�
 " その他
 set helplang=ja                   " ヘルプで優先して使用する言語のリスト
 set belloff=all                   " ベルを鳴らさないようにするイベント
+set ttimeoutlen=100               " キーコード入力をタイムアウトにする時間
 set sidescroll=1                  " 水平スクロールの刻み幅
 set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
 augroup vimrc
