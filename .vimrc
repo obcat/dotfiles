@@ -92,6 +92,8 @@ augroup END
 " カラースキーム {{{
 if s:IsInstalled('iceberg.vim')
     colorscheme iceberg
+else
+    colorscheme slate
 endif
 
 if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
