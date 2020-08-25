@@ -82,6 +82,7 @@ set helplang=ja                   " ヘルプで優先して使用する言語�
 set belloff=all                   " ベルを鳴らさないようにするイベント
 set ttimeoutlen=100               " キーコード入力をタイムアウトにする時間
 set sidescroll=1                  " 水平スクロールの刻み幅
+set history=200                   " コマンドライン履歴の記録数
 set clipboard=unnamed,unnamedplus " デフォルトのレジスタ
 augroup vimrc
     autocmd!
@@ -105,6 +106,10 @@ endif
 " 折り返された行を見た目のままに移動する
 noremap j gj
 noremap k gk
+
+" コマンドライン履歴を先頭一致で遡る
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 " }}}
 
 " プラグインの設定 {{{
