@@ -58,9 +58,9 @@ set smarttab       " shiftwidthの数だけタブで空白を挿入しBSで空�
 set shiftround     " インデントをshiftwidthの値の倍数に丸める
 
 " 編集
-set virtualedit=block " フリーカーソルモードを有効にする場面
-set backspace=2       " インサートモードにおけるBSやDelの挙動
-set showmatch         " 閉じ括弧入力時に対応する開き括弧を知らせる
+set virtualedit=block          " フリーカーソルモードを有効にする場面
+set backspace=indent,eol,start " 挿入モードにおけるBSやDelの挙動
+set showmatch                  " 閉じ括弧入力時に対応する開き括弧を知らせる
 
 " 検索
 set hlsearch  " 最後に検索したパターンをハイライト
