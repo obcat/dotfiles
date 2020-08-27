@@ -115,6 +115,8 @@ cnoremap <C-n> <Down>
 " バッファ間をサクサク移動する
 nnoremap [b :bprevious<CR>
 nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
 " }}}
 
 " プラグインの設定 {{{
