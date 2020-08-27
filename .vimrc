@@ -111,6 +111,10 @@ noremap k gk
 " コマンドライン履歴を先頭一致で遡る
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+" バッファ間をサクサク移動する
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
 " }}}
 
 " プラグインの設定 {{{
