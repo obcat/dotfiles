@@ -103,10 +103,6 @@ endif
 " }}}
 
 " キーマッピング {{{
-" 折り返された行を見た目のままに移動する
-noremap j gj
-noremap k gk
-
 " コマンドライン履歴を先頭一致で遡る
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
