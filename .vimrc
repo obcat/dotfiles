@@ -9,7 +9,6 @@ scriptencoding utf-8 " スクリプトで使用されている文字コードの
 " }}}
 
 " プラグイン {{{
-" プラグインのリスト
 if !empty(glob('~/.vim/autoload/plug.vim'))
     call plug#begin()
     Plug 'junegunn/vim-plug'        " プラグインを管理するプラグイン
@@ -23,6 +22,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
 else
     echo 'Plugins are not installed yet. See README.md.'
 endif
+
+packadd! matchit " %コマンドの拡張
 
 " ファイル形式別プラグインのロードを有効化
 filetype plugin on
