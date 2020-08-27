@@ -12,12 +12,13 @@ scriptencoding utf-8 " スクリプトで使用されている文字コードの
 " プラグインのリスト
 if !empty(glob('~/.vim/autoload/plug.vim'))
     call plug#begin()
-    Plug 'junegunn/vim-plug'      " プラグインを管理するプラグイン
-    Plug 'vim-jp/vimdoc-ja'       " 日本語版のヘルプ
-    Plug 'cocopon/iceberg.vim'    " カラースキーム
-    Plug 'cocopon/shadeline.vim'  " シンプルなステータスライン
-    Plug 'lambdalisue/gina.vim'   " Vim上でGit
-    Plug 'airblade/vim-gitgutter' " Gitのステータスを行番号の横に表示
+    Plug 'junegunn/vim-plug'        " プラグインを管理するプラグイン
+    Plug 'vim-jp/vimdoc-ja'         " 日本語版のヘルプ
+    Plug 'arcticicestudio/nord-vim' " カラースキーム
+    Plug 'cocopon/iceberg.vim'      " カラースキーム
+    Plug 'cocopon/shadeline.vim'    " シンプルなステータスライン
+    Plug 'lambdalisue/gina.vim'     " Vim上でGit
+    Plug 'airblade/vim-gitgutter'   " Gitのステータスを行番号の横に表示
     call plug#end()
 else
     echo 'Plugins are not installed yet. See README.md.'
