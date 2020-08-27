@@ -75,7 +75,6 @@ endif
 let &directory = s:swapdir " swapファイルの保存先
 
 " ファイルの取り扱い
-set autoread       " Vimの外部での変更を自動的に読み込む
 set hidden         " バッファを放棄するときメモリを開放しない
 
 " その他
