@@ -109,10 +109,10 @@ cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
 " バッファ間の移動
-nnoremap [b :bprevious<CR>
-nnoremap ]b :bnext<CR>
-nnoremap [B :bfirst<CR>
-nnoremap ]B :blast<CR>
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
 
 " ハイライトの無効化
 nnoremap <silent> <C-l> :nohlsearch<CR>
