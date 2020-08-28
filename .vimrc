@@ -66,6 +66,7 @@ set showmatch                  " 閉じ括弧入力時に対応する開き括�
 
 " 検索
 set hlsearch  " 最後に検索したパターンをハイライト
+nohlsearch    " vimrc再読み込み後のハイライトを阻止
 set incsearch " 検索パターン入力中にその文字をハイライト
 
 " バックアップ
