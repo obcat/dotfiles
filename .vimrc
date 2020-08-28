@@ -104,17 +104,17 @@ endif
 " }}}
 
 " キーマッピング {{{
-" コマンドライン履歴を先頭一致で遡る
+" コマンドライン履歴を先頭一致で遡及
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" バッファ間をサクサク移動する
+" バッファ間の移動
 nnoremap [b :bprevious<CR>
 nnoremap ]b :bnext<CR>
 nnoremap [B :bfirst<CR>
 nnoremap ]B :blast<CR>
 
-" ハイライトを一瞬で消す
+" ハイライトの無効化
 nnoremap <silent> <C-l> :nohlsearch<CR>
 " }}}
 
