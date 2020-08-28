@@ -113,6 +113,9 @@ nnoremap [b :bprevious<CR>
 nnoremap ]b :bnext<CR>
 nnoremap [B :bfirst<CR>
 nnoremap ]B :blast<CR>
+
+" ハイライトを一瞬で消す
+nnoremap <silent> <C-l> :nohlsearch<CR>
 " }}}
 
 " プラグインの設定 {{{
