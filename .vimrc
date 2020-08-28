@@ -70,7 +70,7 @@ nohlsearch    " vimrc再読み込み後のハイライトを阻止
 set incsearch " 検索パターン入力中にその文字をハイライト
 
 " バックアップ
-let s:swapdir = $HOME . '/.vim/swap'
+let s:swapdir = glob('~/.vim/swap')
 if !isdirectory(s:swapdir)
     call mkdir(s:swapdir, 'p')
 endif
