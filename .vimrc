@@ -65,9 +65,11 @@ set backspace=indent,eol,start " 挿入モードにおけるBSやDelの挙動
 set showmatch                  " 閉じ括弧入力時に対応する開き括弧を知らせる
 
 " 検索
-set hlsearch  " 最後に検索したパターンをハイライト
-nohlsearch    " hlsearchによるハイライトを一時的に無効化
-set incsearch " 検索パターン入力中にその文字をハイライト
+if v:hlsearch == 0
+    set hlsearch " 最後に検索したパターンをハイライト
+    nohlsearch   " hlsearchによるハイライトを一時的に無効化
+endif
+set incsearch    " 検索パターン入力中にその文字をハイライト
 
 " バックアップ
 let s:swapdir = glob('~/.vim/swap')
