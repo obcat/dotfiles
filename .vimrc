@@ -3,9 +3,10 @@
 "    \ \| | | | | | |  | [__
 " [_] \___|_|_|_|_|_|  \____|
 
-" Encoding {{{
-set encoding=utf-8   " Vimが内部で使用する文字コード
-scriptencoding utf-8 " スクリプトで使用されている文字コードの宣言
+" Presettings {{{
+set encoding=utf-8
+scriptencoding utf-8
+augroup vimrc | autocmd! | augroup END
 " }}}
 
 " プラグイン {{{
@@ -87,10 +88,7 @@ set belloff=all                   " ベルを鳴らさないようにするイ�
 set ttimeoutlen=100               " キーコード入力をタイムアウトにする時間
 set sidescroll=1                  " 水平スクロールの刻み幅
 set history=200                   " コマンドライン履歴の記録数
-augroup vimrc_filetype
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-augroup END
+autocmd vimrc FileType vim setlocal foldmethod=marker
 " }}}
 
 " カラースキーム {{{
@@ -105,7 +103,7 @@ function! s:OverrideColorscheme() abort
 endfunction
 
 " カラースキームを読み込むたびにオーバーライド
-autocmd ColorScheme * call s:OverrideColorscheme()
+autocmd vimrc ColorScheme * call s:OverrideColorscheme()
 
 if s:IsInstalled('iceberg.vim')
     colorscheme iceberg
