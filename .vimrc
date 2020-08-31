@@ -88,10 +88,10 @@ set ttimeoutlen=100
 " Color scheme {{{
 function! s:OverrideColorscheme() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
-    hi Search guibg=#ddab88
-    hi Normal ctermfg=250 guifg=#aaadbb
-    hi Delimiter ctermfg=250 guifg=#aaadbb
     hi CursorLineNr ctermfg=251 guifg=#aab1d4
+    hi Delimiter ctermfg=250 guifg=#aaadbb
+    hi Normal ctermfg=250 guifg=#aaadbb
+    hi Search guibg=#ddab88
   endif
 endfunction
 
@@ -108,7 +108,7 @@ endif
 " }}}
 
 " Key mappings {{{
-" Traverse the command-line history with match of begging
+" Traverse the command-line history with match of begining
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
