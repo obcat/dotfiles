@@ -101,6 +101,10 @@ function! s:OverrideColorscheme() abort
         hi Normal ctermfg=250 guifg=#aaadbb
         hi Delimiter ctermfg=250 guifg=#aaadbb
         hi CursorLineNr ctermfg=251 guifg=#aab1d4 
+    elseif g:colors_name == 'slate' && &background == 'dark'
+        hi Preproc term=NONE guibg=NONE
+        hi CursorLineNr cterm=NONE ctermfg=255 guifg=grey93
+        hi CursorLine term=NONE cterm=NONE guibg=Grey20
     endif
 endfunction
 
