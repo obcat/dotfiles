@@ -97,10 +97,10 @@ augroup END
 " カラースキームのオーバーライド用関数
 function! s:OverrideColorscheme() abort
     if g:colors_name == 'iceberg' && &background == 'dark'
-        hi Search term=reverse ctermfg=234 ctermbg=216 guifg=#392313 guibg=#ddab88
-        hi Normal ctermbg=234 ctermfg=250 guibg=#161821 guifg=#aaadbb
+        hi Search guibg=#ddab88
+        hi Normal ctermfg=250 guifg=#aaadbb
         hi Delimiter ctermfg=250 guifg=#aaadbb
-        hi CursorLineNr term=bold ctermfg=251 ctermbg=237 gui=bold guifg=#aab1d4 guibg=#2a3158
+        hi CursorLineNr ctermfg=251 guifg=#aab1d4 
     endif
 endfunction
 
