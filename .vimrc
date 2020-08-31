@@ -87,7 +87,7 @@ set belloff=all                   " ベルを鳴らさないようにするイ�
 set ttimeoutlen=100               " キーコード入力をタイムアウトにする時間
 set sidescroll=1                  " 水平スクロールの刻み幅
 set history=200                   " コマンドライン履歴の記録数
-augroup vimrc
+augroup vimrc_filetype
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
