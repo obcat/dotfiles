@@ -108,7 +108,7 @@ endif
 " }}}
 
 " Key mappings {{{
-" Traverse the command-line history with match of begining
+" Traverse the command-line history with match of beginning
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
