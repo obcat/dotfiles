@@ -79,15 +79,13 @@ if !isdirectory(s:swapdir)
 endif
 let &directory = s:swapdir " swapファイルの保存先
 
-" ファイルの取り扱い
-set hidden         " バッファを放棄するときメモリを開放しない
-
 " その他
-set helplang=ja                   " ヘルプで優先して使用する言語のリスト
-set belloff=all                   " ベルを鳴らさないようにするイベント
-set ttimeoutlen=100               " キーコード入力をタイムアウトにする時間
-set sidescroll=1                  " 水平スクロールの刻み幅
-set history=200                   " コマンドライン履歴の記録数
+set helplang=ja     " ヘルプで優先して使用する言語のリスト
+set belloff=all     " ベルを鳴らさないようにするイベント
+set ttimeoutlen=100 " キーコード入力をタイムアウトにする時間
+set sidescroll=1    " 水平スクロールの刻み幅
+set hidden          " バッファを放棄するときメモリを開放しない
+set history=200     " コマンドライン履歴の記録数
 autocmd vimrc FileType vim setlocal foldmethod=marker
 " }}}
 
