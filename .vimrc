@@ -86,7 +86,7 @@ set ttimeoutlen=100
 " }}}
 
 " Color scheme {{{
-function! s:OverrideColorscheme() abort
+function! s:OverrideColorScheme() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
     hi CursorLineNr ctermfg=251 guifg=#aab1d4
     hi Delimiter ctermfg=250 guifg=#aaadbb
@@ -96,7 +96,7 @@ function! s:OverrideColorscheme() abort
 endfunction
 
 " Override after a color scheme is loaded
-autocmd vimrc ColorScheme * call s:OverrideColorscheme()
+autocmd vimrc ColorScheme * call s:OverrideColorScheme()
 
 if s:IsInstalled('iceberg.vim')
   colorscheme iceberg
