@@ -51,9 +51,8 @@ filetype indent on
 set autoindent
 set breakindent
 set expandtab
-set shiftround
-set shiftwidth=4
-set smarttab
+set shiftwidth=0
+set softtabstop=-1
 set tabstop=4
 
 " Edit
