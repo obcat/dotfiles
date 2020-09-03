@@ -25,6 +25,7 @@ compinit
 alias ls='ls -G'
 alias la='ls -Ga'
 alias ll='ls -Gal'
+alias tree='tree -C'
 
 ## Confirm before overwrite
 alias cp='cp -i'
