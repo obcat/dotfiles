@@ -118,6 +118,12 @@ nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]B :blast<CR>
 nnoremap <silent> ]b :bnext<CR>
 
+" Move between the quickfix list
+nnoremap <silent> [Q :cfirst<CR>
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]Q :clast<CR>
+nnoremap <silent> ]q :cnext<CR>
+
 " Stop the highlighting
 nnoremap <silent> <C-l> :nohlsearch<CR>
 
