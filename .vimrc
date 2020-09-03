@@ -112,11 +112,9 @@ endif
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-" Move between the buffer list
+" Traverse Vim's list
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
-
-" Move between the quickfix list
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
