@@ -89,7 +89,6 @@ function! s:OverrideColorScheme() abort
     hi CursorLineNr ctermfg=251 guifg=#aab1d4
     hi Delimiter ctermfg=250 guifg=#aaadbb
     hi Normal ctermfg=250 guifg=#aaadbb
-    hi Search guibg=#ddab88
   endif
 endfunction
 
