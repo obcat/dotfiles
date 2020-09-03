@@ -136,12 +136,12 @@ endif
 if s:IsInstalled('shadeline.vim')
   let g:shadeline = {}
   let g:shadeline.active = {
-  \ 'left': ['fname', 'flags', 'ShadelineItemGitBranch'],
-  \ 'right': ['<', ['ff', 'fenc', 'ft'], 'ruler'],
-  \ }
+    \ 'left': ['fname', 'flags', 'ShadelineItemGitBranch'],
+    \ 'right': ['<', ['ff', 'fenc', 'ft'], 'ruler']
+    \ }
   let g:shadeline.inactive = {
-  \ 'left': ['fname', 'flags'],
-  \ }
+    \ 'left': ['fname', 'flags']
+    \ }
 
   function! ShadelineItemGitBranch() abort
     try
