@@ -76,7 +76,6 @@ let &directory = s:swapdir
 set history=200
 
 " Misc
-autocmd vimrc FileType vim setlocal foldmethod=marker
 set belloff=all
 set helplang=ja
 set hidden
