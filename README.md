@@ -33,19 +33,20 @@
 
 ### Vim Plugins
 
-1. Plugin manager をインストール
+1. Vim を起動し次のコマンドで Plugin manager をインストール
 
     ```
-    $ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    ```
-1. Vim を起動し次のコマンドでプラグインをインストール
-
-    ```
-    :PlugInstall
+    :call PluginManagerInstall()
     ```
 
-1. `.vimrc` を source
+1. `vimrc` をリロード
 
     ```
     :so $MYVIMRC
+    ```
+
+1. 次のコマンドでプラグインをインストール
+
+    ```
+    :PlugInstall
     ```
