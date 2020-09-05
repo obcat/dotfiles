@@ -20,6 +20,10 @@ RPROMPT='${vcs_info_msg_0_}'
 autoload -U compinit
 compinit
 
+# Options
+setopt AUTO_CD
+setopt CORRECT_ALL
+
 # Aliases
 ## Colorized output
 alias ls='ls -G'
