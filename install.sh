@@ -5,5 +5,6 @@ do
     [[ ${f} == '.git' ]]       && continue
     [[ ${f} == '.DS_Store'  ]] && continue
 
-    ln -sfnv ~/dotfiles/${f} ${HOME}/${f}
+    rm -r ${HOME}/${f}
+    ln -snv ~/dotfiles/${f} ${HOME}/${f}
 done
