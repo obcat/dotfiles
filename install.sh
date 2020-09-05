@@ -1,10 +1,12 @@
 #!/bin/bash
 
-for f in .??*
+for fpath in dotfiles/.??*
 do
-    [[ ${f} == '.git' ]]       && continue
-    [[ ${f} == '.DS_Store'  ]] && continue
+  fname=$(basename $fpath)
 
-    rm -r ${HOME}/${f}
-    ln -snv ~/dotfiles/${f} ${HOME}/${f}
+  [[ $fname == '.git' ]]      && continue
+  [[ $fname == '.DS_Store' ]] && continue
+
+  rm -r $fname 2> /dev/null
+  ln -sv $fpath
 done
