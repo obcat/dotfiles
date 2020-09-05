@@ -1,3 +1,5 @@
+export LANG='en_US.UTF-8'
+
 autoload colors
 autoload -Uz vcs_info
 
