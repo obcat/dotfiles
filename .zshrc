@@ -34,9 +34,6 @@ SAVEHIST=1000
 # Prompt
 #-------------------------------------------------------------------------------
 autoload -Uz vcs_info
-precmd() {
-  vcs_info
-}
 
 untrackedstr='%F{blue}*%f'
 unstagedstr='%F{yellow}*%f'
@@ -60,6 +57,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   fi
 }
 
+precmd() { vcs_info }
 setopt prompt_subst
 PROMPT='%F{cyan}%1d %#%f '
 RPROMPT='${vcs_info_msg_0_}'
