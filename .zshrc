@@ -9,10 +9,10 @@
 # Colorized output
 case $OSTYPE in
   darwin*)
-    alias ls='ls -G'
+    alias ls='ls -FG'
     ;;
   linux*)
-    alias ls='ls --color'
+    alias ls='ls -F --color'
     ;;
 esac
 
