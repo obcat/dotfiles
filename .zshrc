@@ -28,9 +28,12 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   fi
 }
 
-setopt PROMPT_SUBST
+setopt prompt_subst
 PROMPT='%F{cyan}%1d %#%f '
 RPROMPT='${vcs_info_msg_0_}'
+
+#Options
+setopt no_beep
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
