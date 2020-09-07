@@ -7,9 +7,17 @@
 # Aliases
 #-------------------------------------------------------------------------------
 # Colorized output
-alias ls='ls -G'
-alias la='ls -Ga'
-alias ll='ls -Gal'
+case $OSTYPE in
+  darwin*)
+    alias ls='ls -G'
+    ;;
+  linux*)
+    alias ls='ls --color'
+    ;;
+esac
+
+alias la='ls -a'
+alias ll='ls -al'
 alias tree='tree -C'
 
 # Confirm before overwrite
