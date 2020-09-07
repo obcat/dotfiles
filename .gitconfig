@@ -12,4 +12,11 @@
 	prompt = false
 	keepBackup = false
 [alias]
+	bra = branch
+	cmit = commit
+	cout = checkout
+	rtor = restore
+	stus = status
 	adog = log --all --decorate --oneline --graph
+	ss = status --short
+	unst = restore --staged
