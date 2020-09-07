@@ -2,7 +2,7 @@ autoload colors
 autoload -Uz vcs_info
 
 precmd() {
-    vcs_info
+  vcs_info
 }
 
 # Prompt
