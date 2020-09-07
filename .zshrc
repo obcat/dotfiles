@@ -75,7 +75,13 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 precmd() { vcs_info }
 setopt prompt_subst
-PROMPT='%F{cyan}%1d %#%f '
+
+if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ]; then
+  PROMPT='%F{yellow}%1d %#%f '
+else
+  PROMPT='%F{cyan}%1d %#%f '
+fi
+
 RPROMPT='${vcs_info_msg_0_}'
 
 #-------------------------------------------------------------------------------
