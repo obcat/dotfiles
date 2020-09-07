@@ -5,6 +5,9 @@ precmd() {
     vcs_info
 }
 
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
 # Prompt
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' formats '[%b%m%u%c]'
