@@ -3,7 +3,36 @@
 # /_ /(_-</ _ \/ __/ __/
 # /__/___/_//_/_/  \__/
 
+#-------------------------------------------------------------------------------
+# Aliases
+#-------------------------------------------------------------------------------
+# Colorized output
+alias ls='ls -G'
+alias la='ls -Ga'
+alias ll='ls -Gal'
+alias tree='tree -C'
+
+# Confirm before overwrite
+alias cp='cp -i'
+alias ln='ln -i'
+alias mv='mv -i'
+
+#-------------------------------------------------------------------------------
+# Completion
+#-------------------------------------------------------------------------------
+autoload -Uz compinit
+compinit
+
+#-------------------------------------------------------------------------------
+# History
+#-------------------------------------------------------------------------------
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+
+#-------------------------------------------------------------------------------
 # Prompt
+#-------------------------------------------------------------------------------
 autoload -Uz vcs_info
 precmd() {
   vcs_info
@@ -35,29 +64,8 @@ setopt prompt_subst
 PROMPT='%F{cyan}%1d %#%f '
 RPROMPT='${vcs_info_msg_0_}'
 
-# Options
-setopt no_beep
-
-# Key bind
+#-------------------------------------------------------------------------------
+# Misc
+#-------------------------------------------------------------------------------
 bindkey -e
-
-# History
-HISTSIZE=1000
-SAVEHIST=1000
-HISTFILE=~/.zsh_history
-
-# Completion
-autoload -Uz compinit
-compinit
-
-# Aliases
-## Colorized output
-alias ls='ls -G'
-alias la='ls -Ga'
-alias ll='ls -Gal'
-alias tree='tree -C'
-
-## Confirm before overwrite
-alias cp='cp -i'
-alias ln='ln -i'
-alias mv='mv -i'
+setopt no_beep
