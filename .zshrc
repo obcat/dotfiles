@@ -30,6 +30,12 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^n" history-beginning-search-forward-end
+bindkey "^p" history-beginning-search-backward-end
+
 #-------------------------------------------------------------------------------
 # Prompt
 #-------------------------------------------------------------------------------
