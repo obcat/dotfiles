@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Create symbolic links.
 
 for fpath in dotfiles/.??*
 do
