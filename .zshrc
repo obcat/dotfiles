@@ -44,6 +44,8 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^n" history-beginning-search-forward-end
 bindkey "^p" history-beginning-search-backward-end
 
+setopt share_history
+
 #-------------------------------------------------------------------------------
 # Prompt
 #-------------------------------------------------------------------------------
