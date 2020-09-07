@@ -5,9 +5,6 @@ precmd() {
     vcs_info
 }
 
-# Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
-
 # Prompt
 untrackedstr='%F{blue}*%f'
 unstagedstr='%F{yellow}*%f'
@@ -35,8 +32,11 @@ setopt PROMPT_SUBST
 PROMPT='%F{cyan}%1d %#%f '
 RPROMPT='${vcs_info_msg_0_}'
 
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
 # Completion
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 # Aliases
