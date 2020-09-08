@@ -71,6 +71,8 @@ if v:hlsearch == 0
   nohlsearch
 endif
 set incsearch
+set ignorecase
+set smartcase
 
 " Backup
 let s:swapdir = glob('~/.vim/swap')
