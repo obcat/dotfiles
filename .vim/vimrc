@@ -70,8 +70,8 @@ if v:hlsearch == 0
   set hlsearch
   nohlsearch
 endif
-set incsearch
 set ignorecase
+set incsearch
 set smartcase
 
 " Backup
