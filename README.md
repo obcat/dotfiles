@@ -1,39 +1,39 @@
 # dotfiles
 
-## インストール方法
+## Installation
 
 ### dotfiles
 
-1. ホームディレクトリに移動
+1. Navigate to your home directory:
     ```
-    $ cd
+    $ cd ~
     ```
     
-1. 本リポジトリをクローン
+1. Clone this repository:
     ```
     $ git clone https://github.com/obcat/dotfiles.git
     ````
 
-1. シンボリックリンク作成用のシェルスクリプトを実行
+1. Run a shell script to create symbolic links:
     ```
     $ ./dotfiles/install.sh
     ```
 
-### Vim Plugins
+### Vim plugins
 
-1. Vim を起動し次のコマンドで Plugin manager をインストール
+1. Launch Vim and run the following command to install a plugin manager:
 
     ```
     :call PluginManagerInstall()
     ```
 
-1. `vimrc` をリロード
+1. Reload `vimrc` file:
 
     ```
     :so $MYVIMRC
     ```
 
-1. 次のコマンドでプラグインをインストール
+1. Run the following command to install plugins:
 
     ```
     :PlugInstall
