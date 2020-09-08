@@ -16,3 +16,5 @@
 	ss = status --short
 	today = graph --since='24 hour ago'
 	unstage = restore --staged
+[commit]
+	verbose = true
