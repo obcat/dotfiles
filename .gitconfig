@@ -12,11 +12,7 @@
 	prompt = false
 	keepBackup = false
 [alias]
-	bra = branch
-	cmit = commit
-	cout = checkout
-	rtor = restore
-	stus = status
-	adog = log --all --decorate --oneline --graph
+	graph = log --all --decorate --oneline --graph
 	ss = status --short
-	unst = restore --staged
+	today = graph --since='24 hour ago'
+	unstage = restore --staged
