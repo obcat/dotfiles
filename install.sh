@@ -8,9 +8,9 @@ for fpath in dotfiles/home/.??*
 do
   fname=$(basename "$fpath")
 
-  if { [ -f "$fname" ] || [ -d "$fname" ]; } && [ ! -h "$fname" ]; then
+  if [ -e "$fname" ] && [ ! -h "$fname" ]; then
     echo -n 'backup) '
-    mv -v "$fname" "${fname}.bak"
+    mv -vf "$fname" "${fname}.bak"
   fi
 
   echo -n 'link) '
