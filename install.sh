@@ -2,13 +2,17 @@
 #
 # Create symbolic links.
 
-for fpath in dotfiles/.??*
+cd ~
+
+for fpath in dotfiles/home/.??*
 do
-  fname=$(basename $fpath)
+  fname=$(basename "$fpath")
 
-  [[ $fname == '.git' ]]      && continue
-  [[ $fname == '.DS_Store' ]] && continue
+  if { [ -f "$fname" ] || [ -d "$fname" ]; } && [ ! -h "$fname" ]; then
+    echo -n 'backup) '
+    mv -v "$fname" "${fname}.bak"
+  fi
 
-  rm -r $fname 2> /dev/null
-  ln -sv $fpath
+  echo -n 'link) '
+  ln -svnfF "$fpath" "$fname"
 done
