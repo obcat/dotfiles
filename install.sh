@@ -14,5 +14,5 @@ do
   fi
 
   echo -n 'link) '
-  ln -svnfF "$fpath" "$fname"
+  ln -svnf "$fpath" "$fname"
 done
