@@ -78,7 +78,7 @@ set incsearch
 set smartcase
 
 " Backup
-let s:swapdir = glob('~/.vim/swap')
+let s:swapdir = expand('~/.vim/swap')
 if !isdirectory(s:swapdir)
   call mkdir(s:swapdir, 'p')
 endif
