@@ -98,8 +98,8 @@ set ttimeoutlen=100
 function! s:OverrideColorScheme() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
     hi CursorLineNr ctermfg=251 guifg=#aab1d4
-    hi Delimiter ctermfg=250 guifg=#979aaa
-    hi Normal ctermfg=250 guifg=#979aaa
+    hi Delimiter ctermfg=250 guifg=#aaadbb
+    hi Normal ctermfg=250 guifg=#aaadbb
   endif
 endfunction
 
