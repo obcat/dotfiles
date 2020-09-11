@@ -24,7 +24,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'vim-jp/vimdoc-ja'         " Japanese help
   call plug#end()
 else
-  echomsg 'Plugins are not installed yet. See README.md.'
+  autocmd vimrc VimEnter *
+    \ echomsg 'Plugins are not installed yet. See README.md.'
 
   function! g:PluginManagerInstall() abort
     !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
