@@ -16,7 +16,7 @@
 
 1. Run a shell script to create symbolic links:
     ```
-    $ ./dotfiles/install.sh
+    $ dotfiles/install.sh
     ```
 
 ### Vim plugins
