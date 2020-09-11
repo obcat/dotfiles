@@ -90,6 +90,7 @@ set belloff=all
 set helplang=ja
 set hidden
 set sidescroll=1
+set scrolloff=8
 set ttimeoutlen=100
 " }}}
 
