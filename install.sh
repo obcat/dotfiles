@@ -16,6 +16,10 @@ do
   fi
 
   if [ -e "${dotfile_name}" ] && [ ! -h "${dotfile_name}" ]; then
+    if [ -d "${dotfile_name}.bak" ]; then
+      rm -r "${dotfile_name}.bak"
+    fi
+
     echo -n 'backup) '
     mv -vf "${dotfile_name}" "${dotfile_name}.bak"
   fi
