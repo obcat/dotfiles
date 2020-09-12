@@ -4,20 +4,22 @@
 
 cd ~
 
-for fpath in dotfiles/home/.??*
-do
-  fname=$(basename "$fpath")
+virtual_home='dotfiles/home'
 
-  if [ "$fname" = '.??*' ]; then
-    echo 'error: no dotfiles in ~/dotfiles/home/' 1>&2
+for dotfile_path in "${virtual_home}"/.??*
+do
+  dotfile_name=$(basename "${dotfile_path}")
+
+  if [ "${dotfile_name}" = '.??*' ]; then
+    echo "error: no dotfiles in ~/${virtual_home}/" 1>&2
     break
   fi
 
-  if [ -e "$fname" ] && [ ! -h "$fname" ]; then
+  if [ -e "${dotfile_name}" ] && [ ! -h "${dotfile_name}" ]; then
     echo -n 'backup) '
-    mv -vf "$fname" "${fname}.bak"
+    mv -vf "${dotfile_name}" "${dotfile_name}.bak"
   fi
 
   echo -n 'link) '
-  ln -svnf "$fpath" "$fname"
+  ln -svnf "${dotfile_path}" "${dotfile_name}"
 done
