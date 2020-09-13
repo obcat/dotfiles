@@ -6,6 +6,12 @@ cd ~
 
 readonly VIRTUAL_HOME='dotfiles/home'
 
+readonly LC='\033['
+readonly RC='m'
+readonly NONE="${LC}00${RC}"
+readonly BOLD="${LC}01${RC}"
+readonly RED="${LC}31${RC}"
+
 rename_or_remove_if_exist() {
   [[ ! -e "$1" ]] && return 0
 
@@ -19,14 +25,14 @@ rename_or_remove_if_exist() {
   fi
 }
 
-printf '\e[1m%s\e[0m\n' 'Creating symbolic links...'
+printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
 
 for fpath in "${VIRTUAL_HOME}"/.??*
 do
   fname=$(basename "${fpath}")
 
   if [[ "${fname}" == '.??*' ]]; then
-    { printf '\e[1;31m%s\e[0m' 'Error: '
+    { printf "${BOLD}${RED}%s${NONE}" 'Error: '
       echo "No dotfiles in ~/${VIRTUAL_HOME}."; } 1>&2
     exit 1
   fi
@@ -37,4 +43,4 @@ do
   ln -sv "${fpath}" "${fname}"
 done
 
-printf '\e[1m%s\e[0m\n' "It's done!"
+printf "${BOLD}%s${NONE}\n" "It's done!"
