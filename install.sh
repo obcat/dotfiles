@@ -7,15 +7,15 @@ cd ~
 readonly VIRTUAL_HOME='dotfiles/home'
 
 rename_or_remove_if_exist() {
-  if [[ -e "$1" ]]; then
-    if [[ -h "$1" ]]; then
-      rm "$1"
-    else
-      rename_or_remove_if_exist "${1}.bak"
+  [[ ! -e "$1" ]] && return 0
 
-      echo -n 'backup) '
-      mv -v "$1" "${1}.bak"
-    fi
+  if [[ -h "$1" ]]; then
+    rm "$1"
+  else
+    rename_or_remove_if_exist "${1}.bak"
+
+    echo -n 'backup) '
+    mv -v "$1" "${1}.bak"
   fi
 }
 
