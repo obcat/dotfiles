@@ -16,10 +16,6 @@ do
   fi
 
   if [ -e "${fname}" ] && [ ! -h "${fname}" ]; then
-    if [ -d "${fname}.bak" ]; then
-      rm -r "${fname}.bak"
-    fi
-
     echo -n 'backup) '
     mv -vf "${fname}" "${fname}.bak"
   fi
