@@ -25,7 +25,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#end()
 else
   autocmd vimrc VimEnter *
-    \ echomsg 'Plugins are not installed yet. See README.md.'
+    \ echohl Todo
+    \|echomsg 'Plugins are not installed yet. See README.md.'
+    \|echohl None
 
   function! g:PluginManagerInstall() abort
     !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
