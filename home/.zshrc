@@ -73,7 +73,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   test "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true \
   && git status --porcelain | grep -m 1 '^??' &> /dev/null
 
-  if [[ "$?" -eq 0 ]]; then
+  if [ "$?" -eq 0 ]; then
     hook_com[misc]=${untrackedstr}
   else
     hook_com[misc]=
@@ -83,7 +83,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 precmd() { vcs_info; }
 setopt prompt_subst
 
-if [[ "${SSH_CONNECTION}" ]]; then
+if [ "${SSH_CONNECTION}" ]; then
   PROMPT='%F{yellow}%1d %#%f '
 else
   PROMPT='%F{cyan}%1d %#%f '
