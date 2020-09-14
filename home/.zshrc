@@ -70,9 +70,10 @@ zstyle ':vcs_info:git:*' stagedstr "${stagedstr}"
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 +vi-git-untracked() {
-  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-    git status --porcelain | grep -m 1 '^??' &> /dev/null
-  then
+  test "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true \
+  && git status --porcelain | grep -m 1 '^??' &> /dev/null
+
+  if [[ "$?" -eq 0 ]]; then
     hook_com[misc]=${untrackedstr}
   else
     hook_com[misc]=
