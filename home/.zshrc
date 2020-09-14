@@ -28,14 +28,15 @@ alias mv='mv -i'
 #-------------------------------------------------------------------------------
 # Completion
 #-------------------------------------------------------------------------------
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 #-------------------------------------------------------------------------------
 # History
 #-------------------------------------------------------------------------------
+setopt share_history
+
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -43,10 +44,13 @@ SAVEHIST=10000
 autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
+
+#-------------------------------------------------------------------------------
+# Key bindings
+#-------------------------------------------------------------------------------
+bindkey -e
 bindkey "^n" history-beginning-search-forward-end
 bindkey "^p" history-beginning-search-backward-end
-
-setopt share_history
 
 #-------------------------------------------------------------------------------
 # Prompt
@@ -89,7 +93,6 @@ RPROMPT='${vcs_info_msg_0_}'
 #-------------------------------------------------------------------------------
 # Misc
 #-------------------------------------------------------------------------------
-bindkey -e
 setopt no_beep
 
 #-------------------------------------------------------------------------------
