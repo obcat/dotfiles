@@ -37,7 +37,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 #-------------------------------------------------------------------------------
 # History
 #-------------------------------------------------------------------------------
-setopt share_history
+setopt SHARE_HISTORY
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -51,8 +51,8 @@ zle -N history-beginning-search-forward-end history-search-end
 # Key bindings
 #-------------------------------------------------------------------------------
 bindkey -e
-bindkey "^n" history-beginning-search-forward-end
-bindkey "^p" history-beginning-search-backward-end
+bindkey '^n' history-beginning-search-forward-end
+bindkey '^p' history-beginning-search-backward-end
 
 #-------------------------------------------------------------------------------
 # Prompt
@@ -72,10 +72,11 @@ zstyle ':vcs_info:git:*' stagedstr "${stagedstr}"
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 +vi-git-untracked() {
-  test "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = true \
-  && git status --porcelain | grep -m 1 '^??' &> /dev/null
+  git rev-parse --is-inside-work-tree &> /dev/null \
+    && git status --porcelain | grep -q '^??'
+  local exit_status=$?
 
-  if [ "$?" -eq 0 ]; then
+  if [ "$exit_status" -eq 0 ]; then
     hook_com[misc]=${untrackedstr}
   else
     hook_com[misc]=
@@ -83,7 +84,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 }
 
 precmd() { vcs_info; }
-setopt prompt_subst
+setopt PROMPT_SUBST
 
 if [ "${SSH_CONNECTION}" ]; then
   PROMPT='%F{yellow}%1d %#%f '
@@ -96,9 +97,9 @@ RPROMPT='${vcs_info_msg_0_}'
 #-------------------------------------------------------------------------------
 # Misc
 #-------------------------------------------------------------------------------
-setopt no_beep
+setopt NO_BEEP
 
 #-------------------------------------------------------------------------------
 # Local settings
 #-------------------------------------------------------------------------------
-test -s ~/.zshrc_local && source "$_"
+[ -r ~/.zshrc_local ] && source ~/.zshrc_local
