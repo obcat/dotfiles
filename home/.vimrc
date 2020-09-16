@@ -167,3 +167,9 @@ if s:IsInstalled('shadeline.vim')
 endif
 " }}}
 " }}}
+
+" Local settings {{{
+if filereadable(expand('~/.vimrc_local'))
+  source ~/.vimrc_local
+endif
+" }}}
