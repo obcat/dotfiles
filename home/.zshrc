@@ -90,7 +90,13 @@ improved_vcs_info() {
   vcs_info
 }
 
+insert_break() {
+  [ "${INSERT_BREAK_ACTIVATED}" ] || { INSERT_BREAK_ACTIVATED=1; return 0; }
+  printf '\033[38;5;236m%s\033[00m\n' '~'
+}
+
 add-zsh-hook -Uz precmd improved_vcs_info
+add-zsh-hook -Uz precmd insert_break
 
 if [ "${SSH_CONNECTION}" ]; then
   PROMPT='%F{yellow}%1d %#%f '
