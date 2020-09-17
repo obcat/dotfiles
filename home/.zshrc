@@ -58,6 +58,7 @@ bindkey '^p' history-beginning-search-backward-end
 # Prompt
 #-------------------------------------------------------------------------------
 autoload -Uz vcs_info
+autoload -Uz add-zsh-hook
 
 untrackedstr='%F{blue}*%f'
 unstagedstr='%F{yellow}*%f'
@@ -83,8 +84,17 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   fi
 }
 
-precmd() { vcs_info; }
-setopt PROMPT_SUBST
+improved_vcs_info() {
+  # Avoid errors in .git directory
+  if [[ ${PWD}/ == */.git/* ]]; then
+    vcs_info_msg_0_='[?]'
+    return 1
+  fi
+
+  vcs_info
+}
+
+add-zsh-hook -Uz precmd improved_vcs_info
 
 if [ "${SSH_CONNECTION}" ]; then
   PROMPT='%F{yellow}%1d %#%f '
@@ -92,6 +102,7 @@ else
   PROMPT='%F{cyan}%1d %#%f '
 fi
 
+setopt PROMPT_SUBST
 RPROMPT='${vcs_info_msg_0_}'
 
 #-------------------------------------------------------------------------------
