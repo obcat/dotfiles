@@ -14,7 +14,7 @@
 [alias]
 	graph = log --all --decorate --oneline --graph
 	ss = status --short
-	today = graph --since='24 hour ago'
+	today = graph --since=midnight
 	unstage = restore --staged
 [commit]
 	verbose = true
