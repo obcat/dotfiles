@@ -80,7 +80,7 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 insert_break() {
   [[ -z ${INSERT_BREAK_ACTIVATED} ]] && { INSERT_BREAK_ACTIVATED=1; return 0; }
-  printf '\033[38;5;236m%s\033[00m\n' '~'
+  printf '\n'
 }
 
 vcs_info_improved() {
