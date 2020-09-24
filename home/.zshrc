@@ -6,7 +6,6 @@
 #-------------------------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------------------------
-# Colorized output
 case ${OSTYPE} in
   darwin*)
     alias ls='ls -FG'
@@ -18,9 +17,9 @@ esac
 
 alias la='ls -a'
 alias ll='ls -al'
+alias grep='grep --color=auto'
 alias tree='tree -C'
 
-# Confirm before overwrite
 alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
