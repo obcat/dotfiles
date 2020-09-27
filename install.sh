@@ -12,14 +12,21 @@ NONE=${LC}00${RC}
 BOLD=${LC}01${RC}
 RED=${LC}31${RC}
 
-rename_or_remove_if_exist() {
-  [[ -e $1 ]] || return 0
-  [[ -h $1 ]] && { rm "$1"; return 0; }
+remove_symlink_rename_otherwise() {
+  if [[ ! -e $1 ]]; then
+    echo "${FUNCNAME[0]}: ${1}: No such file or directory" 1>&2
+    return 1
+  fi
 
-  rename_or_remove_if_exist "${1}.bak"
+  if [[ -h $1 ]]; then
+    rm "$1"
+    echo "removed) $1"
+  else
+    [[ -e ${1}.bak ]] && remove_symlink_rename_otherwise "${1}.bak"
 
-  echo -n 'backup) '
-  mv -v "$1" "${1}.bak"
+    mv "$1" "${1}.bak"
+    echo "renamed) $1 -> ${1}.bak"
+  fi
 }
 
 printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
@@ -33,10 +40,10 @@ for fpath in "${VIRTUAL_HOME}"/.??*; do
     exit 1
   fi
 
-  rename_or_remove_if_exist "${fname}"
+  [[ -e ${fname} ]] && remove_symlink_rename_otherwise "${fname}"
 
-  echo -n 'link) '
-  ln -sv "${fpath}" "${fname}"
+  ln -s "${fpath}" "${fname}"
+  echo "newlink) ${fname} -> ${fpath}"
 done
 
 printf "${BOLD}%s${NONE}\n" "It's done!"
