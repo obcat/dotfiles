@@ -12,21 +12,26 @@ NONE=${LC}00${RC}
 BOLD=${LC}01${RC}
 RED=${LC}31${RC}
 
-remove_symlink_rename_otherwise() {
-  if [[ ! -e $1 ]]; then
-    echo "${FUNCNAME[0]}: ${1}: No such file or directory" 1>&2
+add_suffix() {
+  if [[ $# -ne 2 ]]; then
+    echo "${FUNCNAME[0]}: Exactly 2 arguments required" 1>&2
     return 1
   fi
 
-  if [[ -h $1 ]]; then
-    rm "$1"
-    echo "removed) $1"
-  else
-    [[ -e ${1}.bak ]] && remove_symlink_rename_otherwise "${1}.bak"
+  local file=$1
+  local suffix=$2
 
-    mv "$1" "${1}.bak"
-    echo "renamed) $1 -> ${1}.bak"
+  if [[ ! -e ${file} ]]; then
+    echo "${FUNCNAME[0]}: ${file}: No such file or directory" 1>&2
+    return 1
   fi
+
+  if [[ -e ${file}${suffix} ]]; then
+    add_suffix "${file}${suffix}" "${suffix}"
+  fi
+
+  mv "${file}" "${file}${suffix}"
+  echo "renamed: ${file} -> ${file}${suffix}"
 }
 
 printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
@@ -40,10 +45,17 @@ for fpath in "${VIRTUAL_HOME}"/.??*; do
     exit 1
   fi
 
-  [[ -e ${fname} ]] && remove_symlink_rename_otherwise "${fname}"
+  if [[ -h ${fname} ]] && [[ $(readlink "${fname}") == ${fpath} ]]; then
+    echo "symlink: already exists: ${fname} -> ${fpath}"
+    continue
+  fi
+
+  if [[ -e ${fname} ]]; then
+    add_suffix "${fname}" '.bak'
+  fi
 
   ln -s "${fpath}" "${fname}"
-  echo "newlink) ${fname} -> ${fpath}"
+  echo "symlink: created: ${fname} -> ${fpath}"
 done
 
 printf "${BOLD}%s${NONE}\n" "It's done!"
