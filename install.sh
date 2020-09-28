@@ -14,7 +14,7 @@ RED=${LC}31${RC}
 
 add_suffix() {
   if [[ $# -ne 2 ]]; then
-    echo "${FUNCNAME[0]}: Exactly 2 arguments required" 1>&2
+    echo "usage: ${FUNCNAME[0]} file suffix" 1>&2
     return 1
   fi
 
