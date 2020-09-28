@@ -30,7 +30,7 @@ add_suffix() {
     add_suffix "${file}${suffix}" "${suffix}"
   fi
 
-  mv "${file}" "${file}${suffix}"
+  mv "${file}" "${file}${suffix}" &&
   echo "renamed: ${file} -> ${file}${suffix}"
 }
 
@@ -57,7 +57,7 @@ for fpath in "${fpaths[@]}"; do
     add_suffix "${fname}" '.bak'
   fi
 
-  ln -s "${fpath}" "${fname}"
+  ln -s "${fpath}" "${fname}" &&
   echo "symlink: created: ${fname} -> ${fpath}"
 done
 
