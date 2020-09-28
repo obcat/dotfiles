@@ -36,14 +36,17 @@ add_suffix() {
 
 printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
 
-for fpath in "${VIRTUAL_HOME}"/.??*; do
-  fname=$(basename "${fpath}")
+shopt -s nullglob
+fpaths=("${VIRTUAL_HOME}"/.??*)
 
-  if [[ ${fname} == '.??*' ]]; then
-    printf 1>&2 "${BOLD}${RED}%s: ${NONE}%s\n" \
-      Error "No dotfiles in ~/${VIRTUAL_HOME}."
-    exit 1
-  fi
+if [[ ${#fpaths[@]} -eq 0 ]]; then
+  printf 1>&2 "${BOLD}${RED}%s: ${NONE}%s\n" \
+    Error "No dotfiles in ~/${VIRTUAL_HOME}."
+  exit 1
+fi
+
+for fpath in "${fpaths[@]}"; do
+  fname=$(basename "${fpath}")
 
   if [[ -h ${fname} ]] && [[ $(readlink "${fname}") == ${fpath} ]]; then
     echo "symlink: already exists: ${fname} -> ${fpath}"
