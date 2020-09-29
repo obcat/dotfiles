@@ -10,7 +10,7 @@ case $(ls --version 2>/dev/null) in
   *GNU*)
     alias ls='ls -F --color=always'
     ;;
-  *) # macOS expected
+  *) # BSD version on macOS assumed
     alias ls='ls -FG'
     ;;
 esac
