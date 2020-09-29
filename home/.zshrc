@@ -8,7 +8,7 @@
 #-------------------------------------------------------------------------------
 case $(ls --version 2>/dev/null) in
   *GNU*)
-    alias ls='ls -F --color'
+    alias ls='ls -F --color=always'
     ;;
   *) # macOS expected
     alias ls='ls -FG'
