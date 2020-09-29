@@ -92,7 +92,7 @@ add-zsh-hook -Uz precmd insert_break
 add-zsh-hook -Uz precmd vcs_info_improved
 
 if [[ -n ${SSH_CONNECTION} ]]
-then PROMPT='%F{yellow}%1d %#%f '
+then PROMPT='%F{magenta}%1d %#%f '
 else PROMPT='%F{cyan}%1d %#%f '
 fi
 
