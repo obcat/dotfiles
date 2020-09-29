@@ -21,7 +21,7 @@ add_suffix() {
   local file=$1
   local suffix=$2
 
-  if [[ ! -e ${file} ]]; then
+  if [[ ! -h ${file} ]] && [[ ! -e ${file} ]]; then
     echo "${FUNCNAME[0]}: ${file}: No such file or directory" 1>&2
     return 1
   fi
@@ -53,7 +53,7 @@ for fpath in "${fpaths[@]}"; do
     continue
   fi
 
-  if [[ -e ${fname} ]]; then
+  if [[ -h ${fname} ]] || [[ -e ${fname} ]]; then
     add_suffix "${fname}" '.bak'
   fi
 
