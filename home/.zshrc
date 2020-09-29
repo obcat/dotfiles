@@ -6,12 +6,12 @@
 #-------------------------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------------------------
-case ${OSTYPE} in
-  darwin*)
-    alias ls='ls -FG'
-    ;;
-  linux*)
+case $(ls --version 2>/dev/null) in
+  *GNU*)
     alias ls='ls -F --color'
+    ;;
+  *) # macOS expected
+    alias ls='ls -FG'
     ;;
 esac
 
