@@ -8,13 +8,14 @@
 #-------------------------------------------------------------------------------
 case $(ls --version 2>/dev/null) in
   *GNU*)
-    alias ls='ls -F --color=always'
+    LS_COLOR_OPT='--color=always'
     ;;
   *) # BSD version on macOS assumed
-    alias ls='ls -FG'
+    LS_COLOR_OPT='-G'
     ;;
 esac
 
+alias ls="ls -F ${LS_COLOR_OPT}"
 alias la='ls -a'
 alias ll='ls -al'
 alias grep='grep --color=auto'
