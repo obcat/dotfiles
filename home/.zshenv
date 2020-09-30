@@ -13,23 +13,23 @@ export LSCOLORS=ex   # directory
        LSCOLORS+=cx  # socket
        LSCOLORS+=dx  # pipe
        LSCOLORS+=bx  # executable
-       LSCOLORS+=gx  # block special
-       LSCOLORS+=dx  # character special
-       LSCOLORS+=bx  # executable with setuid bit set
-       LSCOLORS+=gx  # executable with setgid bit set
-       LSCOLORS+=cx  # directory writable to others, with sticky bit
-       LSCOLORS+=dx  # directory writable to others, without sticky bit
+       LSCOLORS+=Gx  # block special
+       LSCOLORS+=Dx  # character special
+       LSCOLORS+=Bx  # executable with setuid bit set
+       LSCOLORS+=Gx  # executable with setgid bit set
+       LSCOLORS+=Cx  # directory writable to others, with sticky bit
+       LSCOLORS+=Dx  # directory writable to others, without sticky bit
 
-export LS_COLORS='di=34':   # directory
-       LS_COLORS+='ln=35':  # symbolic link
-       LS_COLORS+='so=32':  # socket
-       LS_COLORS+='pi=33':  # pipe
-       LS_COLORS+='ex=31':  # executable
-       LS_COLORS+='bd=36':  # block special
-       LS_COLORS+='cd=33':  # character special
-       LS_COLORS+='su=31':  # executable with setuid bit set
-       LS_COLORS+='sg=36':  # executable with setgid bit set
-       LS_COLORS+='tw=32':  # directory writable to others, with sticky bit
-       LS_COLORS+='ow=33':  # directory writable to others, without sticky bit
+export LS_COLORS='di=34':      # directory
+       LS_COLORS+='ln=35':     # symbolic link
+       LS_COLORS+='so=32':     # socket
+       LS_COLORS+='pi=33':     # pipe
+       LS_COLORS+='ex=31':     # executable
+       LS_COLORS+='bd=01;36':  # block special
+       LS_COLORS+='cd=01;33':  # character special
+       LS_COLORS+='su=01;31':  # executable with setuid bit set
+       LS_COLORS+='sg=01;36':  # executable with setgid bit set
+       LS_COLORS+='tw=01;32':  # directory writable to others, with sticky bit
+       LS_COLORS+='ow=01;33':  # directory writable to others, without sticky bit
 
 export PAGER=less
