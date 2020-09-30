@@ -26,7 +26,7 @@ add_suffix() {
     return 1
   fi
 
-  if [[ -e ${file}${suffix} ]]; then
+  if [[ -h ${file}${suffix} ]] || [[ -e ${file}${suffix} ]]; then
     add_suffix "${file}${suffix}" "${suffix}"
   fi
 
