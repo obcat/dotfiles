@@ -66,9 +66,10 @@ UNSTAGED_STR='%F{yellow}*%f'
 STAGED_STR='%F{green}*%f'
 
 +vi-git-untracked() {
-  if git status --porcelain | grep -q '^??'
-  then hook_com[misc]=${UNTRACKED_STR}
-  else hook_com[misc]=
+  if git status --porcelain | grep -q '^??'; then
+    hook_com[misc]=${UNTRACKED_STR}
+  else
+    hook_com[misc]=
   fi
 }
 
@@ -81,21 +82,30 @@ zstyle ':vcs_info:git:*' stagedstr ${STAGED_STR}
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
 insert_break() {
-  [[ -z ${INSERT_BREAK_ACTIVATED} ]] && { INSERT_BREAK_ACTIVATED=1; return 0; }
+  if [[ -z ${INSERT_BREAK_ACTIVATED} ]]; then
+    INSERT_BREAK_ACTIVATED=1
+    return 0
+  fi
+
   printf '\n'
 }
 
 vcs_info_improved() {
-  [[ ${PWD}/ == */.git/* ]] && { vcs_info_msg_0_='[?]'; return 0; }
+  if [[ ${PWD}/ == */.git/* ]]; then
+    vcs_info_msg_0_='[?]'
+    return 0
+  fi
+
   vcs_info
 }
 
 add-zsh-hook -Uz precmd insert_break
 add-zsh-hook -Uz precmd vcs_info_improved
 
-if [[ -n ${SSH_CONNECTION} ]]
-then PROMPT='%F{magenta}%1d %#%f '
-else PROMPT='%F{cyan}%1d %#%f '
+if [[ -z ${SSH_CONNECTION} ]]; then
+  PROMPT='%F{cyan}%1d %#%f '
+else
+  PROMPT='%F{magenta}%1d %#%f '
 fi
 
 setopt PROMPT_SUBST
@@ -109,4 +119,6 @@ setopt NO_BEEP
 #-------------------------------------------------------------------------------
 # Local settings
 #-------------------------------------------------------------------------------
-[[ -r ~/.zshrc_local ]] && source ~/.zshrc_local
+if [[ -r ~/.zshrc_local ]]; then
+  source ~/.zshrc_local
+fi
