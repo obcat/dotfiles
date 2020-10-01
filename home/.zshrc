@@ -55,6 +55,16 @@ bindkey -e
 bindkey '^n' history-beginning-search-forward-end
 bindkey '^p' history-beginning-search-backward-end
 
+# https://www.zsh.org/mla/users/2002/msg00798.html
+no_autoremove() {
+  LBUFFER=${LBUFFER}${KEYS}
+}
+zle -N no_autoremove
+bindkey ' ' no_autoremove
+bindkey '&' no_autoremove
+bindkey ';' no_autoremove
+bindkey '|' no_autoremove
+
 #-------------------------------------------------------------------------------
 # Prompt
 #-------------------------------------------------------------------------------
