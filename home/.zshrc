@@ -70,18 +70,10 @@ bindkey '|' no_autoremove
 #-------------------------------------------------------------------------------
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
-autoload -Uz colors && colors
 
-NONE="%{${reset_color}%}"
-GREEN="%{${fg_no_bold[green]}%}"
-YELLOW="%{${fg_no_bold[yellow]}%}"
-BLUE="%{${fg_no_bold[blue]}%}"
-MAGENTA="%{${fg_no_bold[magenta]}%}"
-CYAN="%{${fg_no_bold[cyan]}%}"
-
-UNTRACKED_STR="${BLUE}*${NONE}"
-UNSTAGED_STR="${YELLOW}*${NONE}"
-STAGED_STR="${GREEN}*${NONE}"
+UNTRACKED_STR='%F{blue}*%f'
+UNSTAGED_STR='%F{yellow}*%f'
+STAGED_STR='%F{green}*%f'
 
 +vi-git-untracked() {
   if git status --porcelain | grep -q '^??'; then
@@ -121,9 +113,9 @@ add-zsh-hook -Uz precmd insert_break
 add-zsh-hook -Uz precmd vcs_info_improved
 
 if [[ -z ${SSH_CONNECTION} ]]; then
-  PROMPT="${CYAN}%1d %#${NONE} "
+  PROMPT='%F{cyan}%1d %#%f '
 else
-  PROMPT="${MAGENTA}%1d %#${NONE} "
+  PROMPT='%F{magenta}%1d %#%f '
 fi
 
 setopt PROMPT_SUBST
