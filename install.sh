@@ -21,12 +21,12 @@ add_suffix() {
   local file=$1
   local suffix=$2
 
-  if [[ ! -h ${file} ]] && [[ ! -e ${file} ]]; then
+  if [[ ! -e ${file} && ! -h ${file} ]]; then
     echo "${FUNCNAME[0]}: ${file}: No such file or directory" 1>&2
     return 1
   fi
 
-  if [[ -h ${file}${suffix} ]] || [[ -e ${file}${suffix} ]]; then
+  if [[ -e ${file}${suffix} || -h ${file}${suffix} ]]; then
     add_suffix "${file}${suffix}" "${suffix}"
   fi
 
@@ -48,12 +48,14 @@ fi
 for fpath in "${fpaths[@]}"; do
   fname=$(basename "${fpath}")
 
-  if [[ -h ${fname} ]] && [[ $(readlink "${fname}") == ${fpath} ]]; then
+  if [[ -h ${fname} && $(readlink "${fname}") == ${fpath} ]]; then
     echo "symlink: already exists: ${fname} -> ${fpath}"
     continue
   fi
 
-  if [[ -h ${fname} ]] || [[ -e ${fname} ]]; then
+  # Note that "-e file" returns false if the file is a broken symbolic link.
+  # Even such files should be backed up, so "|| -h file" is added. 
+  if [[ -e ${fname} || -h ${fname} ]]; then
     add_suffix "${fname}" '.bak'
   fi
 
