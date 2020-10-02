@@ -1,7 +1,11 @@
 export EDITOR=vim
 
-export GREP_COLOR=33
-export GREP_COLORS='mt=33:fn=34:ln=34:bn=34:se=30'
+export GREP_COLOR=33          # matching text
+export GREP_COLORS='mt=33':   # matching text
+       GREP_COLORS+='fn=34':  # file name
+       GREP_COLORS+='ln=34':  # line number
+       GREP_COLORS+='bn=34':  # byte number
+       GREP_COLORS+='se=30':  # separator
 
 export LANG=en_US.UTF-8
 
