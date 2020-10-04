@@ -132,6 +132,8 @@ nnoremap <Space>l $
 
 nnoremap <silent> <C-l> :nohlsearch<CR>
 nnoremap <silent> <Space>w :w<CR>
+nnoremap <silent> <Space>E :Explore<CR>
+nnoremap <silent> <Space>e :edit .<CR>
 " }}}
 
 " Plugin settings {{{
