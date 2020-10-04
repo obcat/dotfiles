@@ -25,6 +25,7 @@ alias cp='cp -i'
 alias ln='ln -i'
 alias mv='mv -i'
 
+alias pw=pwd
 alias so=source
 
 #-------------------------------------------------------------------------------
