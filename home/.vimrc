@@ -131,10 +131,6 @@ nnoremap <silent> ]q :cnext<CR>
 
 " Stop the highlighting
 nnoremap <silent> <C-l> :nohlsearch<CR>
-
-" Don't use the BS key
-map <BS> <Nop>
-map! <BS> <Nop>
 " }}}
 
 " Plugin settings {{{
