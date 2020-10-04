@@ -119,17 +119,14 @@ endif
 " }}}
 
 " Key mappings {{{
-" Traverse the command-line history with match of beginning
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-" Traverse Vim's list
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
-" Stop the highlighting
 nnoremap <silent> <C-l> :nohlsearch<CR>
 " }}}
 
