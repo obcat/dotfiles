@@ -128,6 +128,7 @@ nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 
 nnoremap <silent> <C-l> :nohlsearch<CR>
+nnoremap <silent> <Space>w :w<CR>
 
 nnoremap <Space>h ^
 nnoremap <Space>l $
