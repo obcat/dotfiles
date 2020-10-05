@@ -3,7 +3,6 @@
 # Create symbolic links.
 
 cd ~
-
 VIRTUAL_HOME=dotfiles/home
 
 LC='\033['
@@ -13,7 +12,7 @@ BOLD=${LC}01${RC}
 RED=${LC}31${RC}
 
 add_suffix() {
-  if [[ $# -ne 2 ]]; then
+  if (( $# != 2 )); then
     echo "usage: ${FUNCNAME[0]} file suffix" 1>&2
     return 1
   fi
@@ -37,9 +36,9 @@ add_suffix() {
 printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
 
 shopt -s nullglob
-fpaths=("${VIRTUAL_HOME}"/.??*)
+fpaths=( "${VIRTUAL_HOME}"/.??* )
 
-if [[ ${#fpaths[@]} -eq 0 ]]; then
+if (( ${#fpaths[@]} == 0 )); then
   printf 1>&2 "${BOLD}${RED}%s: ${NONE}%s\n" \
     Error "No dotfiles in ~/${VIRTUAL_HOME}."
   exit 1
@@ -53,8 +52,9 @@ for fpath in "${fpaths[@]}"; do
     continue
   fi
 
-  # Note that "-e file" returns false if the file is a broken symbolic link.
-  # Even such files should be backed up, so "|| -h file" is added. 
+  # Note that "[[ -e file ]]" returns false if the file is a broken symbolic
+  # link. Even such files should be backed up, so "[[ -e file || -h file ]]"
+  # is used here. 
   if [[ -e ${fname} || -h ${fname} ]]; then
     add_suffix "${fname}" '.bak'
   fi
