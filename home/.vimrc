@@ -124,16 +124,6 @@ cnoremap <C-p> <Up>
 
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [q :cprevious<CR>
-nnoremap <silent> ]q :cnext<CR>
-
-nnoremap <Space>h ^
-nnoremap <Space>l $
-
-nnoremap <silent> <C-l> :nohlsearch<CR>
-nnoremap <silent> <Space>w :w<CR>
-nnoremap <silent> <Space>E :Explore<CR>
-nnoremap <silent> <Space>e :edit .<CR>
 " }}}
 
 " Plugin settings {{{
