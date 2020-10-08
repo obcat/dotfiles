@@ -27,6 +27,7 @@ alias mv='mv -i'
 alias pw=pwd
 alias so=source
 
+(( ${+commands[tmux]} )) && alias tm=tmux
 (( ${+commands[tree]} )) && alias tree='tree -C'
 
 #-------------------------------------------------------------------------------
