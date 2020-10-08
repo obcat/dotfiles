@@ -19,7 +19,6 @@ alias ls="ls -F ${LS_COLOR_OPT}"
 alias la='ls -a'
 alias ll='ls -al'
 alias grep='grep --color=auto'
-alias tree='tree -C'
 
 alias cp='cp -i'
 alias ln='ln -i'
@@ -27,6 +26,8 @@ alias mv='mv -i'
 
 alias pw=pwd
 alias so=source
+
+(( ${+commands[tree]} )) && alias tree='tree -C'
 
 #-------------------------------------------------------------------------------
 # Completion
