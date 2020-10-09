@@ -137,6 +137,18 @@ nnoremap <silent> ]b :bnext<CR>
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " }}}
 
+" File types {{{
+augroup vimrc_filetype
+  autocmd!
+  autocmd FileType gitconfig setlocal noexpandtab
+  autocmd FileType help      setlocal signcolumn=no
+  autocmd FileType netrw     setlocal signcolumn=no
+  autocmd FileType sh        setlocal tabstop=2
+  autocmd FileType vim       setlocal tabstop=2 foldmethod=marker
+  autocmd FileType zsh       setlocal tabstop=2
+augroup END
+" }}}
+
 " Plugin settings {{{
 " gitgutter {{{
 if s:IsInstalled('vim-gitgutter')
