@@ -53,7 +53,9 @@ set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
 set number
+set numberwidth=1
 set showcmd
+set signcolumn=yes
 set wildmenu
 syntax on
 if has('vim_starting')
