@@ -102,8 +102,8 @@ function! s:OverrideColorScheme() abort
     hi CursorLineNr ctermfg=251 guifg=#aab1d4
     hi Delimiter ctermfg=250 guifg=#aaadbb
     hi Normal ctermfg=250 guifg=#aaadbb
-    hi StatusLine ctermbg=black guibg=#000000
-    hi StatusLineTerm ctermbg=black guibg=#000000
+    hi StatusLine ctermbg=232 guibg=#000000
+    hi StatusLineTerm ctermbg=232 guibg=#000000
     hi HighlightedyankRegion term=bold cterm=bold ctermfg=0 gui=bold guifg=#aaadbb
   endif
 endfunction
