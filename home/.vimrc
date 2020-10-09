@@ -72,7 +72,6 @@ set tabstop=4
 
 " Edit
 set backspace=indent,eol,start
-set showmatch
 set virtualedit=block
 
 " Search
