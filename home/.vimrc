@@ -47,6 +47,7 @@ endfunction
 set ambiwidth=double
 set background=dark
 set cursorline
+set cursorlineopt=number
 set display=lastline
 set laststatus=2
 set list
@@ -103,7 +104,7 @@ set ttimeoutlen=100
 " Color scheme {{{
 function! s:OverrideColorScheme() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
-    hi CursorLineNr ctermfg=251 guifg=#aab1d4
+    hi CursorLineNr ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
     hi Delimiter ctermfg=250 guifg=#aaadbb
     hi Normal ctermfg=250 guifg=#aaadbb
     hi StatusLine ctermbg=232 guibg=#000000
