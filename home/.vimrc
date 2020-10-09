@@ -18,6 +18,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/iceberg.vim'            " Color scheme
   Plug 'cocopon/inspecthi.vim'          " Inspects a link structure of hi-groups
   Plug 'cocopon/shadeline.vim'          " Minimal status line
+  Plug 'mattn/vim-sonictemplate'        " Easy and high speed coding method
   Plug 'junegunn/vim-plug'              " Plugin manager
   Plug 'lambdalisue/gina.vim'           " Git on Vim
   Plug 'vim-jp/vimdoc-ja'               " Japanese help
