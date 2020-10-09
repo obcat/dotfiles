@@ -55,6 +55,11 @@ set number
 set showcmd
 set wildmenu
 syntax on
+if has('vim_starting')
+  let &t_EI .= "\e[1 q"
+  let &t_SI .= "\e[5 q"
+  let &t_SR .= "\e[3 q"
+endif
 
 " Indent
 filetype indent on
