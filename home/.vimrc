@@ -77,6 +77,10 @@ set tabstop=4
 set backspace=indent,eol,start
 set virtualedit=block
 
+" Scroll
+set sidescroll=1
+set scrolloff=8
+
 " Search
 if v:hlsearch == 0
   set hlsearch
@@ -98,10 +102,8 @@ set history=200
 set belloff=all
 set helplang=ja
 set hidden
-set sidescroll=1
-set scrolloff=8
-set ttimeoutlen=100
 set spelllang=en,cjk
+set ttimeoutlen=100
 " }}}
 
 " Color scheme {{{
