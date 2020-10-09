@@ -101,6 +101,7 @@ set hidden
 set sidescroll=1
 set scrolloff=8
 set ttimeoutlen=100
+set spelllang=en,cjk
 " }}}
 
 " Color scheme {{{
@@ -140,6 +141,7 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " File types {{{
 augroup vimrc_filetype
   autocmd!
+  autocmd FileType gitcommit setlocal spell 
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType help      setlocal signcolumn=no
   autocmd FileType netrw     setlocal signcolumn=no
