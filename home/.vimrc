@@ -104,6 +104,7 @@ function! s:OverrideColorScheme() abort
     hi Normal ctermfg=250 guifg=#aaadbb
     hi StatusLine ctermbg=black guibg=#000000
     hi StatusLineTerm ctermbg=black guibg=#000000
+    hi HighlightedyankRegion term=bold cterm=bold ctermfg=0 gui=bold guifg=#aaadbb
   endif
 endfunction
 
@@ -131,6 +132,12 @@ nnoremap <silent> ]b :bnext<CR>
 " gitgutter {{{
 if s:IsInstalled('vim-gitgutter')
   set updatetime=100
+endif
+" }}}
+
+" highlightedyank {{{
+if s:IsInstalled('vim-highlightedyank')
+  let g:highlightedyank_highlight_duration = 500
 endif
 " }}}
 
