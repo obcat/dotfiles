@@ -109,7 +109,7 @@ function! s:OverrideColorScheme() abort
     hi Normal ctermfg=250 guifg=#aaadbb
     hi StatusLine ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
-    hi HighlightedyankRegion term=bold cterm=bold ctermfg=0 gui=bold guifg=#aaadbb
+    hi link HighlightedyankRegion Visual
   endif
 endfunction
 
