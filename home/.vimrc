@@ -13,10 +13,8 @@ augroup vimrc | autocmd! | augroup END
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin()
   Plug 'airblade/vim-gitgutter'   " Git diff on the sign column
-  Plug 'arcticicestudio/nord-vim' " Color scheme
   Plug 'cocopon/iceberg.vim'      " Color scheme
   Plug 'cocopon/shadeline.vim'    " Minimal status line
-  Plug 'cocopon/pgmnt.vim'        " Template engine for color scheme
   Plug 'cocopon/inspecthi.vim'    " Inspects a link structure of hi-groups
   Plug 'cocopon/colorswatch.vim'  " Generate beautiful color swatch
   Plug 'junegunn/vim-plug'        " Plugin manager
