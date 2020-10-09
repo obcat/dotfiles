@@ -130,6 +130,8 @@ cnoremap <C-p> <Up>
 
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
+
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " }}}
 
 " Plugin settings {{{
