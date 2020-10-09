@@ -12,14 +12,15 @@ augroup vimrc | autocmd! | augroup END
 " Plugins {{{
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin()
-  Plug 'airblade/vim-gitgutter'   " Git diff on the sign column
-  Plug 'cocopon/colorswatch.vim'  " Generate beautiful color swatch
-  Plug 'cocopon/iceberg.vim'      " Color scheme
-  Plug 'cocopon/inspecthi.vim'    " Inspects a link structure of hi-groups
-  Plug 'cocopon/shadeline.vim'    " Minimal status line
-  Plug 'junegunn/vim-plug'        " Plugin manager
-  Plug 'lambdalisue/gina.vim'     " Git on Vim
-  Plug 'vim-jp/vimdoc-ja'         " Japanese help
+  Plug 'airblade/vim-gitgutter'         " Git diff on the sign column
+  Plug 'machakann/vim-highlightedyank'  " Highlight the yanked text
+  Plug 'cocopon/colorswatch.vim'        " Generate beautiful color swatch
+  Plug 'cocopon/iceberg.vim'            " Color scheme
+  Plug 'cocopon/inspecthi.vim'          " Inspects a link structure of hi-groups
+  Plug 'cocopon/shadeline.vim'          " Minimal status line
+  Plug 'junegunn/vim-plug'              " Plugin manager
+  Plug 'lambdalisue/gina.vim'           " Git on Vim
+  Plug 'vim-jp/vimdoc-ja'               " Japanese help
   call plug#end()
 else
   autocmd vimrc VimEnter *
