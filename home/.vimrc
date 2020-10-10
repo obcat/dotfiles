@@ -93,6 +93,11 @@ set ignorecase
 set incsearch
 set smartcase
 
+" Language
+set helplang=ja
+set spelllang=en,cjk
+set spelloptions=camel
+
 " Backup
 let s:swapdir = expand('~/.vim/swap')
 if !isdirectory(s:swapdir)
@@ -103,9 +108,7 @@ set history=10000
 
 " Misc
 set belloff=all
-set helplang=ja
 set hidden
-set spelllang=en,cjk
 set ttimeoutlen=50
 " }}}
 
