@@ -12,16 +12,17 @@ augroup vimrc | autocmd! | augroup END
 " Plugins {{{
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin()
-  Plug 'airblade/vim-gitgutter'         " Git diff on the sign column
-  Plug 'cocopon/colorswatch.vim'        " Generate beautiful color swatch
-  Plug 'cocopon/iceberg.vim'            " Color scheme
-  Plug 'cocopon/inspecthi.vim'          " Inspects a link structure of hi-groups
-  Plug 'cocopon/shadeline.vim'          " Minimal status line
-  Plug 'junegunn/vim-plug'              " Plugin manager
-  Plug 'lambdalisue/gina.vim'           " Git on Vim
-  Plug 'machakann/vim-highlightedyank'  " Highlight the yanked text
-  Plug 'mattn/vim-sonictemplate'        " Easy and high speed coding method
-  Plug 'vim-jp/vimdoc-ja'               " Japanese help
+  Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
+  Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
+  Plug 'cocopon/iceberg.vim'             " Color scheme
+  Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
+  Plug 'cocopon/shadeline.vim'           " Minimal status line
+  Plug 'junegunn/vim-plug'               " Plugin manager
+  Plug 'lambdalisue/gina.vim'            " Git on Vim
+  Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
+  Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
+  Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
+  Plug 'vim-jp/vimdoc-ja'                " Japanese help
   call plug#end()
 else
   autocmd vimrc VimEnter *
@@ -120,6 +121,7 @@ function! s:OverrideColorScheme() abort
     hi Normal ctermfg=250 guifg=#aaadbb
     hi StatusLine ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
+    hi link ExtraWhitespace ZenSpace
     hi link HighlightedyankRegion Visual
   endif
 endfunction
@@ -161,6 +163,12 @@ augroup END
 " }}}
 
 " Plugin settings {{{
+" better-whitespace {{{
+if s:IsInstalled('vim-better-whitespace')
+  let g:strip_whitespace_on_save=1
+endif
+" }}}
+
 " gitgutter {{{
 if s:IsInstalled('vim-gitgutter')
   set updatetime=100
