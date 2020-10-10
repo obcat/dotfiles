@@ -59,6 +59,8 @@ set showcmd
 set signcolumn=yes
 set wildmenu
 syntax on
+
+" Cursor
 if has('vim_starting')
   let &t_EI .= "\e[1 q"
   let &t_SI .= "\e[5 q"
@@ -97,14 +99,14 @@ if !isdirectory(s:swapdir)
   call mkdir(s:swapdir, 'p')
 endif
 let &directory = s:swapdir
-set history=200
+set history=10000
 
 " Misc
 set belloff=all
 set helplang=ja
 set hidden
 set spelllang=en,cjk
-set ttimeoutlen=100
+set ttimeoutlen=50
 " }}}
 
 " Color scheme {{{
@@ -144,7 +146,7 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " File types {{{
 augroup vimrc_filetype
   autocmd!
-  autocmd FileType gitcommit setlocal spell 
+  autocmd FileType gitcommit setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType help      setlocal signcolumn=no
   autocmd FileType netrw     setlocal signcolumn=no
