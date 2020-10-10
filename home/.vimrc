@@ -58,7 +58,7 @@ set numberwidth=1
 set showcmd
 set signcolumn=yes
 set wildmenu
-syntax on
+syntax enable
 
 " Cursor
 if has('vim_starting')
@@ -82,7 +82,7 @@ set virtualedit=block
 
 " Scroll
 set sidescroll=1
-set scrolloff=8
+set scrolloff=7
 
 " Search
 if v:hlsearch == 0
