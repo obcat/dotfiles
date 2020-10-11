@@ -121,10 +121,10 @@ function! s:OverrideHighlightings() abort
     hi Normal ctermfg=250 guifg=#aaadbb
     hi StatusLine ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
-    hi link ExtraWhitespace ZenSpace
+    hi! link ExtraWhitespace ZenSpace
   endif
 
-  hi link HighlightedyankRegion Visual
+  hi! link HighlightedyankRegion Visual
 endfunction
 
 function! s:SwitchTermColors() abort
