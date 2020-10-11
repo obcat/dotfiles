@@ -54,7 +54,7 @@ for fpath in "${fpaths[@]}"; do
 
   # Note that "[[ -e file ]]" returns false if the file is a broken symbolic
   # link. Even such files should be backed up, so "[[ -e file || -h file ]]"
-  # is used here. 
+  # is used here.
   if [[ -e ${fname} || -h ${fname} ]]; then
     add_suffix "${fname}" '.bak'
   fi
