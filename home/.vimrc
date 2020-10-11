@@ -122,8 +122,9 @@ function! s:OverrideColorScheme() abort
     hi StatusLine ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
     hi link ExtraWhitespace ZenSpace
-    hi link HighlightedyankRegion Visual
   endif
+
+  hi link HighlightedyankRegion Visual
 endfunction
 
 " Override after a color scheme is loaded
