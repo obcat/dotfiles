@@ -127,15 +127,25 @@ function! s:OverrideColorScheme() abort
   hi link HighlightedyankRegion Visual
 endfunction
 
-" Override after a color scheme is loaded
+function! s:SwitchTermColors() abort
+  if g:colors_name == 'iceberg'
+    call s:Use24bitColorsIfPossible()
+  else
+    set notermguicolors
+  endif
+endfunction
+
+function! s:Use24bitColorsIfPossible() abort
+  if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
+    set termguicolors
+  endif
+endfunction
+
 autocmd vimrc ColorScheme * call s:OverrideColorScheme()
+                          \|call s:SwitchTermColors()
 
 if s:IsInstalled('iceberg.vim')
   colorscheme iceberg
-endif
-
-if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
-  set termguicolors
 endif
 " }}}
 
