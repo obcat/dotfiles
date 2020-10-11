@@ -123,8 +123,6 @@ function! s:OverrideHighlightings() abort
     hi StatusLineTerm ctermbg=232 guibg=#000000
     hi! link ExtraWhitespace ZenSpace
   endif
-
-  hi! link HighlightedyankRegion Visual
 endfunction
 
 function! s:SwitchTermColors() abort
@@ -189,6 +187,8 @@ endif
 " highlightedyank {{{
 if s:IsInstalled('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
+  autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
+  hi! link HighlightedyankRegion Visual
 endif
 " }}}
 
