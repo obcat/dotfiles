@@ -156,10 +156,10 @@ end
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :<C-u>bprevious<CR>
+nnoremap <silent> ]b :<C-u>bnext<CR>
 
-nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
 " }}}
 
 " File types {{{
