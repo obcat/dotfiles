@@ -2,7 +2,6 @@
 	name = obcat
 	email = obcat@icloud.com
 [core]
-	excludesFile = ~/.gitignore_global
 	autocrlf = input
 	editor = vim
 [merge]
