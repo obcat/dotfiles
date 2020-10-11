@@ -70,9 +70,12 @@ endif
 
 " Indent
 filetype indent on
+let &showbreak = '+ '
 set autoindent
 set breakindent
+set breakindentopt=min:20,shift:-2
 set expandtab
+set linebreak
 set shiftwidth=0
 set softtabstop=-1
 set tabstop=4
