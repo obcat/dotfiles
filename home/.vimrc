@@ -144,7 +144,9 @@ autocmd vimrc ColorScheme * call s:OverrideHighlightings()
 
 if s:IsInstalled('iceberg.vim')
   colorscheme iceberg
-endif
+else
+  colorscheme default
+end
 " }}}
 
 " Key mappings {{{
