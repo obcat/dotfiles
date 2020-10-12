@@ -172,7 +172,6 @@ augroup vimrc_filetype
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType help      setlocal signcolumn=no
-                           \|nnoremap <buffer> q <C-w>c
   autocmd FileType netrw     setlocal signcolumn=no
   autocmd FileType sh        setlocal tabstop=2
   autocmd FileType vim       setlocal tabstop=2 foldmethod=marker
