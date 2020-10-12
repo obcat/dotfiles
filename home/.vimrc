@@ -11,7 +11,7 @@ augroup vimrc | autocmd! | augroup END
 
 " Plugins {{{
 if !empty(glob('~/.vim/autoload/plug.vim'))
-  call plug#begin()
+  call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
   Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
   Plug 'cocopon/iceberg.vim'             " Color scheme
@@ -120,10 +120,10 @@ set ttimeoutlen=50
 " Color scheme {{{
 function! s:OverrideHighlightings() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
-    hi CursorLineNr ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
-    hi Delimiter ctermfg=250 guifg=#aaadbb
-    hi Normal ctermfg=250 guifg=#aaadbb
-    hi StatusLine ctermbg=232 guibg=#000000
+    hi CursorLineNr   ctermfg=251 ctermbg=235   guifg=#aab1d4 guibg=#1e2132
+    hi Delimiter      ctermfg=250 guifg=#aaadbb
+    hi Normal         ctermfg=250 guifg=#aaadbb
+    hi StatusLine     ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
     hi! link ExtraWhitespace ZenSpace
   endif
@@ -180,7 +180,7 @@ augroup END
 " Plugin settings {{{
 " better-whitespace {{{
 if s:IsPlugged('vim-better-whitespace')
-  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_on_save = 1
 endif
 " }}}
 
