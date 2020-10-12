@@ -129,6 +129,12 @@ function! s:OverrideHiColors() abort
     hi Normal         ctermfg=250 guifg=#aaadbb
     hi StatusLine     ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
+    hi netrwDir       ctermfg=110 guifg=#84a0c6
+    hi netrwExe       ctermfg=234 guifg=#e27878
+    hi netrwSymlink   ctermfg=140 guifg=#a093c7
+    hi! link netrwClassify netrwPlain
+    hi! link netrwLink     netrwPlain
+    hi! link netrwTreeBar  netrwPlain
   endif
 endfunction
 
