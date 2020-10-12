@@ -101,7 +101,9 @@ set smartcase
 " Language
 set helplang=ja
 set spelllang=en,cjk
-set spelloptions=camel
+if exists('+spelloptions')
+  set spelloptions=camel
+endif
 
 " Backup
 let s:swapdir = expand('~/.vim/swap')
