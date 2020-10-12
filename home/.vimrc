@@ -114,6 +114,8 @@ set history=10000
 " Misc
 set belloff=all
 set hidden
+set splitbelow
+set splitright
 set ttimeoutlen=50
 " }}}
 
