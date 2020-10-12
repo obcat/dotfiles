@@ -39,8 +39,9 @@ endif
 filetype plugin on
 
 " Check if a plugin exists
-function! s:IsInstalled(plugin) abort
-  return !empty(glob('~/.vim/plugged/' . a:plugin))
+function! s:IsPlugged(name) abort
+  if !has_key(g:plugs, a:name) | return 0 | endif
+  return isdirectory(g:plugs[a:name].dir)
 endfunction
 " }}}
 
@@ -145,7 +146,7 @@ endfunction
 autocmd vimrc ColorScheme * call s:OverrideHighlightings()
                           \|call s:SwitchTermColors()
 
-if s:IsInstalled('iceberg.vim')
+if s:IsPlugged('iceberg.vim')
   colorscheme iceberg
 else
   colorscheme default
@@ -178,19 +179,19 @@ augroup END
 
 " Plugin settings {{{
 " better-whitespace {{{
-if s:IsInstalled('vim-better-whitespace')
+if s:IsPlugged('vim-better-whitespace')
   let g:strip_whitespace_on_save=1
 endif
 " }}}
 
 " gitgutter {{{
-if s:IsInstalled('vim-gitgutter')
+if s:IsPlugged('vim-gitgutter')
   set updatetime=100
 endif
 " }}}
 
 " highlightedyank {{{
-if s:IsInstalled('vim-highlightedyank')
+if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
   autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
   hi! link HighlightedyankRegion Visual
@@ -198,7 +199,7 @@ endif
 " }}}
 
 " shadeline {{{
-if s:IsInstalled('shadeline.vim')
+if s:IsPlugged('shadeline.vim')
   let g:shadeline = {}
   let g:shadeline.active = {
     \ 'left': ['fname', 'flags', 'ShadelineItemGitBranch'],
