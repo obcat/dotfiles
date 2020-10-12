@@ -146,8 +146,9 @@ function! s:Use24bitColorsIfPossible() abort
   endif
 endfunction
 
-autocmd vimrc ColorScheme * call s:OverrideHiColors()
-                          \|call s:SwitchTermColors()
+autocmd vimrc ColorScheme *
+  \ call s:OverrideHiColors()
+  \|call s:SwitchTermColors()
 
 if s:IsPlugged('iceberg.vim')
   colorscheme iceberg
