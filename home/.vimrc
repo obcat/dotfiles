@@ -157,10 +157,25 @@ end
 " }}}
 
 " Key mappings {{{
-nnoremap <silent> [b :<C-u>bprevious<CR>
-nnoremap <silent> ]b :<C-u>bnext<CR>
+nnoremap : ;
+nnoremap ; :
+
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+nnoremap Y y$
 
 nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+
+nnoremap <silent> [b :<C-u>bprevious<CR>
+nnoremap <silent> ]b :<C-u>bnext<CR>
+nnoremap <silent> [q :<C-u>cprevious<CR>
+nnoremap <silent> ]q :<C-u>cnext<CR>
+
+vnoremap : ;
+vnoremap ; :
 
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
