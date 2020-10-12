@@ -187,6 +187,21 @@ cnoremap <C-p> <Up>
 " }}}
 " }}}
 
+" Commands {{{
+command! -nargs=? -complete=help H vertical help <args>
+command! -nargs=1 Helpg vertical helpgrep <args>
+
+command! Deco
+  \ setlocal list
+  \|setlocal number
+  \|setlocal signcolumn=yes
+
+command! NoDeco
+  \ setlocal nolist
+  \|setlocal nonumber
+  \|setlocal signcolumn=no
+" }}}
+
 " File types {{{
 augroup vimrc_filetype
   autocmd!
