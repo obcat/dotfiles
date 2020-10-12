@@ -125,7 +125,6 @@ function! s:OverrideHighlightings() abort
     hi Normal         ctermfg=250 guifg=#aaadbb
     hi StatusLine     ctermbg=232 guibg=#000000
     hi StatusLineTerm ctermbg=232 guibg=#000000
-    hi! link ExtraWhitespace ZenSpace
   endif
 endfunction
 
@@ -180,6 +179,8 @@ augroup END
 " Plugin settings {{{
 " better-whitespace {{{
 if s:IsPlugged('vim-better-whitespace')
+  let g:better_whitespace_ctermcolor = 'NONE'
+  let g:better_whitespace_guicolor = 'NONE'
   let g:strip_whitespace_on_save = 1
 endif
 " }}}
