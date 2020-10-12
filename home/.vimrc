@@ -157,13 +157,13 @@ end
 " }}}
 
 " Key mappings {{{
-cnoremap <C-n> <Down>
-cnoremap <C-p> <Up>
-
 nnoremap <silent> [b :<C-u>bprevious<CR>
 nnoremap <silent> ]b :<C-u>bnext<CR>
 
 nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
 " }}}
 
 " File types {{{
