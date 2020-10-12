@@ -182,6 +182,8 @@ if s:IsPlugged('vim-better-whitespace')
   let g:better_whitespace_ctermcolor = 'NONE'
   let g:better_whitespace_guicolor = 'NONE'
   let g:strip_whitespace_on_save = 1
+  nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
+  nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
 endif
 " }}}
 
