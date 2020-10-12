@@ -157,6 +157,7 @@ end
 " }}}
 
 " Key mappings {{{
+" Normal {{{
 nnoremap : ;
 nnoremap ; :
 
@@ -173,12 +174,17 @@ nnoremap <silent> [b :<C-u>bprevious<CR>
 nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
+" }}}
 
+" Visual {{{
 vnoremap : ;
 vnoremap ; :
+" }}}
 
+" Command {{{
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
+" }}}
 " }}}
 
 " File types {{{
