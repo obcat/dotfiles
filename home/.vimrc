@@ -79,7 +79,7 @@ set expandtab
 set linebreak
 set shiftwidth=0
 set softtabstop=-1
-set tabstop=4
+set tabstop=2
 
 " Edit
 set backspace=indent,eol,start
@@ -218,9 +218,7 @@ augroup vimrc_filetype
   autocmd!
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
-  autocmd FileType sh        setlocal tabstop=2
-  autocmd FileType vim       setlocal tabstop=2 foldmethod=marker
-  autocmd FileType zsh       setlocal tabstop=2
+  autocmd FileType vim       setlocal foldmethod=marker
 augroup END
 " }}}
 
