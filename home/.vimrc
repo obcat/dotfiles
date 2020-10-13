@@ -47,7 +47,6 @@ endfunction
 
 " Options {{{
 " Appearance
-set ambiwidth=double
 set background=dark
 set cursorline
 set cursorlineopt=number
