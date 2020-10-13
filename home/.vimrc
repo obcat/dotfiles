@@ -124,17 +124,21 @@ set ttimeoutlen=50
 " Color scheme {{{
 function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
-    hi CursorLineNr   ctermfg=251 ctermbg=235   guifg=#aab1d4 guibg=#1e2132
-    hi Delimiter      ctermfg=250 guifg=#aaadbb
-    hi Normal         ctermfg=250 guifg=#aaadbb
-    hi StatusLine     ctermbg=232 guibg=#000000
-    hi StatusLineTerm ctermbg=232 guibg=#000000
-    hi netrwDir       ctermfg=110 guifg=#84a0c6
-    hi netrwExe       ctermfg=234 guifg=#e27878
-    hi netrwSymlink   ctermfg=140 guifg=#a093c7
-    hi! link netrwClassify netrwPlain
-    hi! link netrwLink     netrwPlain
-    hi! link netrwTreeBar  netrwPlain
+    hi Delimiter    ctermfg=250 guifg=#aaadbb
+    hi EndOfBuffer  ctermfg=239 guifg=#444b71
+    hi Normal       ctermfg=250 guifg=#aaadbb
+    hi netrwDir     ctermfg=110 guifg=#84a0c6
+    hi netrwExe     ctermfg=234 guifg=#e27878
+    hi netrwSymlink ctermfg=140 guifg=#a093c7
+    hi CursorLineNr ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
+    hi Search       ctermfg=217 ctermbg=95  guifg=#ffc29a guibg=#64564e
+    hi IncSearch  cterm=bold ctermfg=52  ctermbg=168 gui=NONE guifg=#392313 guibg=#e4aa80
+    hi StatusLine cterm=NONE ctermfg=248 ctermbg=236 gui=NONE guifg=#9198b6 guibg=#272c42
+    hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=#161821 guibg=NONE
+    hi! link StatusLineTerm StatusLine
+    hi! link netrwClassify  netrwPlain
+    hi! link netrwLink      netrwPlain
+    hi! link netrwTreeBar   netrwPlain
   endif
 endfunction
 
