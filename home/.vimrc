@@ -57,6 +57,7 @@ set list
 set listchars=tab:▸\ ,eol:¬
 set number
 set numberwidth=1
+set shortmess& shortmess-=S
 set showcmd
 set signcolumn=yes
 set wildmenu
