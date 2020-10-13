@@ -22,6 +22,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
+  Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   call plug#end()
 else
