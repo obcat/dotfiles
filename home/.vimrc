@@ -220,6 +220,8 @@ augroup vimrc_filetype
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType vim       setlocal foldmethod=marker
+  autocmd Filetype help      nnoremap <buffer> q <C-w>c
+  autocmd Filetype qf        nnoremap <buffer> q <C-w>c
 augroup END
 " }}}
 
