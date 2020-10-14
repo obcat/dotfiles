@@ -21,6 +21,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
+  Plug 'mattn/vim-molder'                " Minimal file explorer
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
@@ -126,9 +127,9 @@ set ttimeoutlen=50
 function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
     hi Delimiter    ctermfg=250 guifg=#aaadbb
+    hi Directory    ctermfg=110 guifg=#84a0c6
     hi EndOfBuffer  ctermfg=239 guifg=#444b71
     hi Normal       ctermfg=250 guifg=#aaadbb
-    hi netrwDir     ctermfg=110 guifg=#84a0c6
     hi netrwExe     ctermfg=234 guifg=#e27878
     hi netrwSymlink ctermfg=140 guifg=#a093c7
     hi CursorLineNr ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
@@ -215,6 +216,7 @@ augroup vimrc_filetype
   autocmd FileType gitcommit setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType vim       setlocal foldmethod=marker
+  autocmd FileType molder    setlocal nonumber
   autocmd Filetype help      nnoremap <buffer> q <C-w>c
   autocmd Filetype qf        nnoremap <buffer> q <C-w>c
 augroup END
@@ -242,6 +244,17 @@ if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
   autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
   hi! link HighlightedyankRegion Visual
+endif
+" }}}
+
+" molder {{{
+if s:IsPlugged('vim-molder')
+  let g:molder_show_hidden = 1
+
+  let g:loaded_netrw = 1
+  let g:loaded_netrwFileHandlers = 1
+  let g:loaded_netrwPlugin = 1
+  let g:loaded_netrwSettings = 1
 endif
 " }}}
 
