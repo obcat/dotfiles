@@ -170,9 +170,6 @@ end
 
 " Key mappings {{{
 " Normal {{{
-nnoremap : ;
-nnoremap ; :
-
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
@@ -189,8 +186,6 @@ nnoremap <silent> ]q :<C-u>cnext<CR>
 " }}}
 
 " Visual {{{
-vnoremap : ;
-vnoremap ; :
 " }}}
 
 " Command {{{
