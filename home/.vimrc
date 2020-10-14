@@ -254,12 +254,22 @@ endif
 if s:IsPlugged('shadeline.vim')
   let g:shadeline = {}
   let g:shadeline.active = {
-    \ 'left': ['fname', 'flags', 'ShadelineItemGitBranch'],
+    \ 'left': ['ShadelineItemGitGutterSign', 'fname', 'flags', 'ShadelineItemGitBranch'],
     \ 'right': ['<', ['ff', 'fenc', 'ft'], 'ruler']
     \ }
   let g:shadeline.inactive = {
     \ 'left': ['fname', 'flags']
     \ }
+
+  function! g:ShadelineItemGitGutterSign() abort
+    try
+      let [a, m, r] = GitGutterGetHunkSummary()
+      return a + m + r == 0 ? ' ' : '*'
+    catch /:E117:/
+      " E117: Unknown function
+      return ' '
+    endtry
+  endfunction
 
   function! ShadelineItemGitBranch() abort
     try
