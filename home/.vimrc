@@ -213,12 +213,13 @@ command! NoDeco
 " File types {{{
 augroup vimrc_filetype
   autocmd!
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType gitconfig setlocal noexpandtab
-  autocmd FileType help      nnoremap <buffer> q <C-w>c
-  autocmd FileType molder    setlocal nonumber
-  autocmd FileType qf        nnoremap <buffer> q <C-w>c
-  autocmd FileType vim       setlocal foldmethod=marker
+  autocmd FileType gina-commit setlocal spell
+  autocmd FileType gitcommit   setlocal spell
+  autocmd FileType gitconfig   setlocal noexpandtab
+  autocmd FileType help        nnoremap <buffer> q <C-w>c
+  autocmd FileType molder      setlocal nonumber
+  autocmd FileType qf          nnoremap <buffer> q <C-w>c
+  autocmd FileType vim         setlocal foldmethod=marker
 augroup END
 " }}}
 
