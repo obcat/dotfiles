@@ -271,7 +271,7 @@ if s:IsPlugged('shadeline.vim')
     endtry
   endfunction
 
-  function! ShadelineItemGitBranch() abort
+  function! g:ShadelineItemGitBranch() abort
     try
       let name = gina#component#repo#branch()
       return empty(name) ? '' : printf('(%s)', name)
