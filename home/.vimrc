@@ -20,8 +20,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
-  Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'mattn/vim-molder'                " Minimal file explorer
+  Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
