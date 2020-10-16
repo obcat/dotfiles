@@ -23,6 +23,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-molder'                " Minimal file explorer
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
+  Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   Plug 'yuttie/comfortable-motion.vim'   " Physics based smooth scrolling
@@ -291,6 +292,13 @@ if s:IsPlugged('shadeline.vim')
     endtry
   endfunction
 endif
+" }}}
+
+" tlr {{{
+noremap <silent> <C-Down>  :TlrDown<CR>
+noremap <silent> <C-Up>    :TlrUp<CR>
+noremap <silent> <C-Left>  :TlrLeft<CR>
+noremap <silent> <C-Right> :TlrRight<CR>
 " }}}
 " }}}
 
