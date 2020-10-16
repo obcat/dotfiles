@@ -25,6 +25,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
+  Plug 'yuttie/comfortable-motion.vim'   " Physics based smooth scrolling
   call plug#end()
 else
   autocmd vimrc VimEnter *
