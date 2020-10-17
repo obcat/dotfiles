@@ -26,7 +26,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
-  Plug 'yuttie/comfortable-motion.vim'   " Physics based smooth scrolling
   call plug#end()
 else
   autocmd vimrc VimEnter *
