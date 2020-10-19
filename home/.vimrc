@@ -283,32 +283,32 @@ if s:IsPlugged('shadeline.vim')
   " FileInfoOrSearchCount {{{
   function! g:ShadelineItemFileInfoOrSearchCount() abort
     if v:hlsearch == 0
-      let fileinfo = []
-      call add(fileinfo, shadeline#functions#fileformat())
-      call add(fileinfo, shadeline#functions#fileencoding())
-      call add(fileinfo, shadeline#functions#filetype())
-      return join(fileinfo, ' | ')
+      let l:fileinfo = []
+      call add(l:fileinfo, shadeline#functions#fileformat())
+      call add(l:fileinfo, shadeline#functions#fileencoding())
+      call add(l:fileinfo, shadeline#functions#filetype())
+      return join(l:fileinfo, ' | ')
     endif
-    let result = searchcount({'recompute': 1})
-    if empty(result) | return '' | endif
-    if result.incomplete ==# 1
+    let l:result = searchcount({'recompute': 1})
+    if empty(l:result) | return '' | endif
+    if l:result.incomplete ==# 1
       return printf('%s (?/??)', @/)
-    elseif result.incomplete ==# 2
-      if result.total > result.maxcount && result.current > result.maxcount
-        return printf('%s (>%d/>%d)', @/, result.current, result.total)
-      elseif result.total > result.maxcount
-        return printf('%s (%d/>%d)', @/, result.current, result.total)
+    elseif l:result.incomplete ==# 2
+      if l:result.total > l:result.maxcount && l:result.current > l:result.maxcount
+        return printf('%s (>%d/>%d)', @/, l:result.current, l:result.total)
+      elseif l:result.total > l:result.maxcount
+        return printf('%s (%d/>%d)', @/, l:result.current, l:result.total)
       endif
     endif
-    return printf('%s (%d/%d)', @/, result.current, result.total)
+    return printf('%s (%d/%d)', @/, l:result.current, l:result.total)
   endfunction
   " }}}
 
   " GitGutterSign {{{
   function! g:ShadelineItemGitGutterSign() abort
     try
-      let [a, m, r] = GitGutterGetHunkSummary()
-      return a + m + r == 0 ? ' ' : '*'
+      let [l:a, l:m, l:r] = GitGutterGetHunkSummary()
+      return l:a + l:m + l:r == 0 ? ' ' : '*'
     catch /:E117:/
       " E117: Unknown function
       return ' '
@@ -319,8 +319,8 @@ if s:IsPlugged('shadeline.vim')
   " GitBranch {{{
   function! g:ShadelineItemGitBranch() abort
     try
-      let name = gina#component#repo#branch()
-      return empty(name) ? '' : printf('(%s)', name)
+      let l:name = gina#component#repo#branch()
+      return empty(l:name) ? '' : printf('(%s)', l:name)
     catch /:E117:/
       " E117: Unknown function
       return ''
