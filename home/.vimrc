@@ -339,10 +339,12 @@ endif
 " }}}
 
 " tlr {{{
-noremap <silent> <C-Down>  :TlrDown<CR>
-noremap <silent> <C-Up>    :TlrUp<CR>
-noremap <silent> <C-Left>  :TlrLeft<CR>
-noremap <silent> <C-Right> :TlrRight<CR>
+if s:IsPlugged('tlr.vim')
+  nmap <C-Down>  <Plug>(tlr-down)
+  nmap <C-Up>    <Plug>(tlr-up)
+  nmap <C-Left>  <Plug>(tlr-left)
+  nmap <C-Right> <Plug>(tlr-right)
+endif
 " }}}
 " }}}
 
