@@ -184,6 +184,16 @@ nnoremap <silent> [b :<C-u>bprevious<CR>
 nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
+
+nnoremap <silent> - :<C-u>call <SID>ExploreHead()<CR>
+
+function! s:ExploreHead() abort
+  let l:dir = expand('%:h')
+  if !isdirectory(l:dir)
+    return
+  endif
+  exe 'edit' l:dir
+endfunction
 " }}}
 
 " Visual {{{
