@@ -261,7 +261,6 @@ endif
 " molder {{{
 if s:IsPlugged('vim-molder')
   let g:molder_show_hidden = 1
-
   let g:loaded_netrw = 1
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin = 1
@@ -283,17 +282,26 @@ if s:IsPlugged('shadeline.vim')
   " FileInfoOrSearchCount {{{
   function! g:ShadelineItemFileInfoOrSearchCount() abort
     if v:hlsearch == 0
-      let l:fileinfo = []
-      call add(l:fileinfo, shadeline#functions#fileformat())
-      call add(l:fileinfo, shadeline#functions#fileencoding())
-      call add(l:fileinfo, shadeline#functions#filetype())
-      return join(l:fileinfo, ' | ')
+      return s:ShadelineUtilGetFileInfo()
+    else
+      return s:ShadelineUtilGetSearchCount()
     endif
-    let l:result = searchcount({'recompute': 1})
+  endfunction
+
+  function! s:ShadelineUtilGetFileInfo() abort
+    let l:fileinfo = []
+    call add(l:fileinfo, shadeline#functions#fileformat())
+    call add(l:fileinfo, shadeline#functions#fileencoding())
+    call add(l:fileinfo, shadeline#functions#filetype())
+    return join(l:fileinfo, ' | ')
+  endfunction
+
+  function! s:ShadelineUtilGetSearchCount() abort
+    let l:result = searchcount()
     if empty(l:result) | return '' | endif
-    if l:result.incomplete ==# 1
+    if l:result.incomplete == 1
       return printf('%s (?/??)', @/)
-    elseif l:result.incomplete ==# 2
+    elseif l:result.incomplete == 2
       if l:result.total > l:result.maxcount && l:result.current > l:result.maxcount
         return printf('%s (>%d/>%d)', @/, l:result.current, l:result.total)
       elseif l:result.total > l:result.maxcount
