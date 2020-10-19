@@ -59,7 +59,6 @@ set list
 set listchars=tab:▸\ ,eol:¬
 set number
 set numberwidth=1
-set shortmess& shortmess-=S
 set showcmd
 set signcolumn=yes
 set wildmenu
@@ -265,12 +264,37 @@ if s:IsPlugged('shadeline.vim')
   let g:shadeline = {}
   let g:shadeline.active = {
     \ 'left': ['ShadelineItemGitGutterSign', 'fname', 'flags', 'ShadelineItemGitBranch'],
-    \ 'right': ['<', ['ff', 'fenc', 'ft'], 'ruler']
+    \ 'right': ['<', 'ShadelineItemFileInfoOrSearchCount', 'ruler']
     \ }
   let g:shadeline.inactive = {
     \ 'left': ['fname', 'flags']
     \ }
 
+  " FileInfoOrSearchCount {{{
+  function! g:ShadelineItemFileInfoOrSearchCount() abort
+    if v:hlsearch == 0
+      let fileinfo = []
+      call add(fileinfo, shadeline#functions#fileformat())
+      call add(fileinfo, shadeline#functions#fileencoding())
+      call add(fileinfo, shadeline#functions#filetype())
+      return join(fileinfo, ' | ')
+    endif
+    let result = searchcount({'recompute': 1})
+    if empty(result) | return '' | endif
+    if result.incomplete ==# 1
+      return printf('%s (?/??)', @/)
+    elseif result.incomplete ==# 2
+      if result.total > result.maxcount && result.current > result.maxcount
+        return printf('%s (>%d/>%d)', @/, result.current, result.total)
+      elseif result.total > result.maxcount
+        return printf('%s (%d/>%d)', @/, result.current, result.total)
+      endif
+    endif
+    return printf('%s (%d/%d)', @/, result.current, result.total)
+  endfunction
+  " }}}
+
+  " GitGutterSign {{{
   function! g:ShadelineItemGitGutterSign() abort
     try
       let [a, m, r] = GitGutterGetHunkSummary()
@@ -280,7 +304,9 @@ if s:IsPlugged('shadeline.vim')
       return ' '
     endtry
   endfunction
+  " }}}
 
+  " GitBranch {{{
   function! g:ShadelineItemGitBranch() abort
     try
       let name = gina#component#repo#branch()
@@ -290,6 +316,7 @@ if s:IsPlugged('shadeline.vim')
       return ''
     endtry
   endfunction
+  " }}}
 endif
 " }}}
 
