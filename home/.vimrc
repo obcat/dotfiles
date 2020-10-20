@@ -215,6 +215,7 @@ cnoremap <C-p> <Up>
 " Commands {{{
 command! -nargs=? -complete=help H vertical help <args>
 command! -nargs=1 Helpg vertical helpgrep <args>
+command! -nargs=1 -complete=command Redir call s:Redir(<f-args>)
 
 command! Deco
   \ setlocal list
@@ -225,6 +226,26 @@ command! NoDeco
   \ setlocal nolist
   \|setlocal nonumber
   \|setlocal signcolumn=no
+
+function! s:Redir(cmd) abort
+  if a:cmd =~ '^!'
+    echomsg 'Redir: External commands not supported'
+    return
+  endif
+  redir => l:output
+  try
+    silent execute a:cmd
+  catch /^Vim:E492:/
+    echo substitute(v:exception, '^Vim:', '', '')
+  endtry
+  redir END
+  tabnew
+  setlocal nobuflisted noswapfile bufhidden=wipe buftype=nofile
+  call setline(1, split(l:output, "\n"))
+  1put! = repeat('-', 1 + strlen(a:cmd) + 1)
+  2put! = ':' . a:cmd
+  3put! = repeat('-', 1 + strlen(a:cmd) + 1)
+endfunction
 " }}}
 
 " File types {{{
