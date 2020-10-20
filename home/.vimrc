@@ -285,6 +285,7 @@ endif
 " gitgutter {{{
 if s:IsPlugged('vim-gitgutter')
   set updatetime=100
+  let g:gitgutter_sign_priority = 10
 endif
 " }}}
 
@@ -301,6 +302,7 @@ if s:IsPlugged('vim-lsp')
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_diagnostics_enabled = 1
   let g:lsp_signs_enabled = 1
+  let g:lsp_signs_priority = 11
 endif
 " }}}
 
