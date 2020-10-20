@@ -311,6 +311,9 @@ if s:IsPlugged('vim-lsp')
   let g:lsp_diagnostics_enabled = 1
   let g:lsp_signs_enabled = 1
   let g:lsp_signs_priority = 11
+  let g:lsp_signs_error = {'text': 'x'}
+  let g:lsp_signs_warning = {'text': '!'}
+  let g:lsp_signs_hint = {'texe': 'i'}
 endif
 " }}}
 
