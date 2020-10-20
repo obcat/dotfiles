@@ -318,7 +318,7 @@ if s:IsPlugged('shadeline.vim')
   let g:shadeline = {}
   let g:shadeline.active = {
     \ 'left': ['ShadelineItemGitGutterSign', 'fname', 'flags', 'ShadelineItemGitBranch'],
-    \ 'right': ['<', 'ShadelineItemFileInfoOrSearchCount', 'ruler']
+    \ 'right': ['<', 'ShadelineItemFileInfoOrSearchCount', '%3p%%:%-2c']
     \ }
   let g:shadeline.inactive = {
     \ 'left': ['fname', 'flags']
