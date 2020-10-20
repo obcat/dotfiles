@@ -17,13 +17,17 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/iceberg.vim'             " Color scheme
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
   Plug 'cocopon/shadeline.vim'           " Minimal status line
+  Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
+  Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
+  Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-molder'                " Minimal file explorer
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
+  Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   call plug#end()
@@ -132,8 +136,11 @@ function! s:OverrideHiColors() abort
     hi Normal       ctermfg=250 guifg=#aaadbb
     hi netrwExe     ctermfg=234 guifg=#e27878
     hi netrwSymlink ctermfg=140 guifg=#a093c7
-    hi CursorLineNr ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
-    hi Search       ctermfg=217 ctermbg=95  guifg=#ffc29a guibg=#64564e
+    hi CursorLineNr   ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
+    hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
+    hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
+    hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
+    hi Search         ctermfg=217 ctermbg=95  guifg=#ffc29a guibg=#64564e
     hi IncSearch  cterm=bold ctermfg=52  ctermbg=168 gui=NONE guifg=#392313 guibg=#e4aa80
     hi StatusLine cterm=NONE ctermfg=248 ctermbg=236 gui=NONE guifg=#9198b6 guibg=#272c42
     hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=#161821 guibg=NONE
@@ -234,6 +241,15 @@ augroup END
 " }}}
 
 " Plugin settings {{{
+" CtrlP {{{
+if s:IsPlugged('ctrlp.vim')
+  let g:ctrlp_show_hidden = 1
+  if s:IsPlugged('ctrlp_matchfuzzy.vim')
+    let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
+  endif
+endif
+" }}}
+
 " better-whitespace {{{
 if s:IsPlugged('vim-better-whitespace')
   let g:better_whitespace_ctermcolor = 'NONE'
@@ -255,6 +271,14 @@ if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
   autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
   hi! link HighlightedyankRegion Visual
+endif
+" }}}
+
+" lsp {{{
+if s:IsPlugged('vim-lsp')
+  let g:lsp_diagnostics_echo_cursor = 1
+  let g:lsp_diagnostics_enabled = 1
+  let g:lsp_signs_enabled = 1
 endif
 " }}}
 
