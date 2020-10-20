@@ -143,8 +143,8 @@ function! s:OverrideHiColors() abort
     hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
     hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
     hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
-    hi Search         ctermfg=217 ctermbg=95  guifg=#ffc29a guibg=#64564e
-    hi IncSearch  cterm=bold ctermfg=52  ctermbg=168 gui=NONE guifg=#392313 guibg=#e4aa80
+    hi Search         ctermfg=252 ctermbg=95  guifg=#c6c8d1 guibg=#5e4a40
+    hi IncSearch  cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
     hi StatusLine cterm=NONE ctermfg=248 ctermbg=236 gui=NONE guifg=#9198b6 guibg=#272c42
     hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=#161821 guibg=NONE
     hi! link StatusLineTerm StatusLine
