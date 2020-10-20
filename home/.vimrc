@@ -21,6 +21,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
+  Plug 'machakann/vim-sandwich'          " Handle the sandwiched text easily
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-molder'                " Minimal file explorer
@@ -310,6 +311,14 @@ if s:IsPlugged('vim-molder')
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin = 1
   let g:loaded_netrwSettings = 1
+endif
+" }}}
+
+" sandwich {{{
+if s:IsPlugged('vim-sandwich')
+  " NOTE: s can be replaced by cl or xi
+  nmap s <Nop>
+  xmap s <Nop>
 endif
 " }}}
 
