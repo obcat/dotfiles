@@ -131,6 +131,8 @@ set ttimeoutlen=50
 " Color scheme {{{
 function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
+    hi GitGutterChange guifg=#728dbb
+    hi GitGutterAdd    guifg=#a5b368
     hi Delimiter    ctermfg=250 guifg=#aaadbb
     hi Directory    ctermfg=110 guifg=#84a0c6
     hi EndOfBuffer  ctermfg=239 guifg=#444b71
