@@ -364,16 +364,10 @@ if s:IsPlugged('shadeline.vim')
   endfunction
 
   function! s:ShadelineUtilGetSearchCount() abort
-    let l:result = searchcount()
+    let l:result = searchcount(#{maxcount: 0, timeout: 30})
     if empty(l:result) | return '' | endif
     if l:result.incomplete == 1
       return printf('%s (?/??)', @/)
-    elseif l:result.incomplete == 2
-      if l:result.total > l:result.maxcount && l:result.current > l:result.maxcount
-        return printf('%s (>%d/>%d)', @/, l:result.current, l:result.total)
-      elseif l:result.total > l:result.maxcount
-        return printf('%s (%d/>%d)', @/, l:result.current, l:result.total)
-      endif
     endif
     return printf('%s (%d/%d)', @/, l:result.current, l:result.total)
   endfunction
