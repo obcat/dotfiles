@@ -274,6 +274,7 @@ augroup vimrc_filetype
   autocmd FileType help        nnoremap <buffer> q <C-w>c
   autocmd FileType molder      setlocal nonumber
   autocmd FileType qf          nnoremap <buffer> q <C-w>c
+  autocmd FileType qf          setlocal nowrap
   autocmd FileType vim         setlocal foldmethod=marker
 augroup END
 " }}}
