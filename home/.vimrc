@@ -251,6 +251,20 @@ function! s:Redir(cmd) abort
 endfunction
 " }}}
 
+" Aliases {{{
+" Alias() {{{
+function! s:Alias(key, val) abort
+  exe printf(
+    \ 'cnoreabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() == %d) ? %s : %s',
+    \ a:key, 1 + len(a:key), string(a:val), string(a:key)
+    \ )
+endfunction
+" }}}
+
+call s:Alias('gina', 'Gina')
+call s:Alias('redir', 'Redir')
+" }}}
+
 " File types {{{
 augroup vimrc_filetype
   autocmd!
