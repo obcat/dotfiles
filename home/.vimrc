@@ -133,7 +133,7 @@ function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
     hi GitGutterChange guifg=#728dbb
     hi GitGutterAdd    guifg=#a5b368
-    hi Delimiter    ctermfg=250 guifg=#aaadbb
+    hi Delimiter    ctermfg=250 guifg=fg
     hi Directory    ctermfg=110 guifg=#84a0c6
     hi EndOfBuffer  ctermfg=239 guifg=#444b71
     hi Normal       ctermfg=250 guifg=#aaadbb
@@ -146,7 +146,7 @@ function! s:OverrideHiColors() abort
     hi Search         ctermfg=252 ctermbg=95  guifg=#c6c8d1 guibg=#5e4a40
     hi IncSearch  cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
     hi StatusLine cterm=NONE ctermfg=248 ctermbg=236 gui=NONE guifg=#9198b6 guibg=#272c42
-    hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=#161821 guibg=NONE
+    hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=bg guibg=NONE
     hi! link StatusLineTerm StatusLine
     hi! link netrwClassify  netrwPlain
     hi! link netrwLink      netrwPlain
@@ -154,6 +154,7 @@ function! s:OverrideHiColors() abort
   endif
 endfunction
 
+" Misc {{{
 function! s:SwitchTermColors() abort
   if g:colors_name == 'iceberg'
     call s:Use24bitColorsIfPossible()
@@ -171,6 +172,7 @@ endfunction
 autocmd vimrc ColorScheme *
   \ call s:OverrideHiColors()
   \|call s:SwitchTermColors()
+" }}}
 
 if s:IsPlugged('iceberg.vim')
   colorscheme iceberg
@@ -238,7 +240,7 @@ function! s:Redir(cmd) abort
   redir => l:output
   try
     silent execute a:cmd
-  catch /^Vim:E492:/
+  catch /^Vim:/
     echo substitute(v:exception, '^Vim:', '', '')
   endtry
   redir END
