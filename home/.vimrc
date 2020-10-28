@@ -149,7 +149,7 @@ function! s:OverrideHiColors() abort
     hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
     hi Search         ctermfg=252 ctermbg=95  guifg=#c6c8d1 guibg=#5e4a40
     hi IncSearch  cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
-    hi StatusLine cterm=NONE ctermfg=248 ctermbg=236 gui=NONE guifg=#9198b6 guibg=#272c42
+    hi StatusLine cterm=NONE ctermfg=249 ctermbg=236 gui=NONE guifg=#9ca0b0 guibg=#272c42
     hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=bg guibg=NONE
     hi! link StatusLineTerm StatusLine
     hi! link netrwClassify  netrwPlain
