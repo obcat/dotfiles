@@ -31,6 +31,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
+  if has('gui_running')
+    Plug 'obcat/vim-hitspop'             " Popup the number of search results
+  endif
   call plug#end()
 else
   autocmd vimrc VimEnter *
@@ -140,6 +143,7 @@ function! s:OverrideHiColors() abort
     hi netrwExe     ctermfg=234 guifg=#e27878
     hi netrwSymlink ctermfg=140 guifg=#a093c7
     hi CursorLineNr   ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
+    hi HitsPopPopup   ctermfg=250 ctermbg=236 guifg=#aaadbb guibg=#272c42
     hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
     hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
     hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
@@ -354,14 +358,19 @@ endif
 
 " shadeline {{{
 if s:IsPlugged('shadeline.vim')
-  let g:shadeline = {}
-  let g:shadeline.active = {
-    \ 'left': ['ShadelineItemGitGutterSign', 'fname', 'flags', 'ShadelineItemGitBranch'],
-    \ 'right': ['<', 'ShadelineItemFileInfoOrSearchCount', '%3p%%:%-2c']
-    \ }
-  let g:shadeline.inactive = {
-    \ 'left': ['fname', 'flags']
-    \ }
+  let g:shadeline = #{active: {}, inactive: {}}
+  let g:shadeline.active.left = [
+    \ 'ShadelineItemGitGutterSign',
+    \ 'fname',
+    \ 'flags',
+    \ 'ShadelineItemGitBranch'
+    \ ]
+  if s:IsPlugged('vim-hitspop')
+    let g:shadeline.active.right = ['<', ['ff', 'fenc', 'ft'], '%3p%%:%-2c']
+  else
+    let g:shadeline.active.right = ['<', 'ShadelineItemFileInfoOrSearchCount', '%3p%%:%-2c']
+  endif
+  let g:shadeline.inactive.left = ['fname', 'flags']
 
   " FileInfoOrSearchCount {{{
   function! g:ShadelineItemFileInfoOrSearchCount() abort
