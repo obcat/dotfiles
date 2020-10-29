@@ -28,6 +28,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
+  Plug 'prabirshrestha/asyncomplete-lsp.vim' " LSP source for asyncomplete.vim and vim-lsp
+  Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
@@ -125,6 +127,7 @@ set history=10000
 
 " Misc
 set belloff=all
+set completeopt=menuone,noinsert,noselect
 set hidden
 set splitbelow
 set splitright
@@ -213,6 +216,10 @@ endfunction
 " }}}
 
 " Visual {{{
+" }}}
+
+" Insert {{{
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 " }}}
 
 " Command {{{
@@ -328,6 +335,8 @@ endif
 
 " lsp {{{
 if s:IsPlugged('vim-lsp')
+  \ && s:IsPlugged('asyncomplete.vim')
+  \ && s:IsPlugged('asyncomplete-lsp.vim')
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_diagnostics_enabled = 1
   let g:lsp_signs_enabled = 1
@@ -335,6 +344,8 @@ if s:IsPlugged('vim-lsp')
   let g:lsp_signs_error = {'text': 'x'}
   let g:lsp_signs_warning = {'text': '!'}
   let g:lsp_signs_hint = {'texe': 'i'}
+  let g:asyncomplete_auto_popup = 1
+  let g:asyncomplete_auto_completeopt = 0
 endif
 " }}}
 
