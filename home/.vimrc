@@ -229,19 +229,7 @@ cnoremap <C-p> <Up>
 " }}}
 
 " Commands {{{
-command! -nargs=? -complete=help H vertical help <args>
-command! -nargs=1 Helpg vertical helpgrep <args>
 command! -nargs=1 -complete=command Redir call s:Redir(<f-args>)
-
-command! Deco
-  \ setlocal list
-  \|setlocal number
-  \|setlocal signcolumn=yes
-
-command! NoDeco
-  \ setlocal nolist
-  \|setlocal nonumber
-  \|setlocal signcolumn=no
 
 function! s:Redir(cmd) abort
   if a:cmd =~ '^!'
