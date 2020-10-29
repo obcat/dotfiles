@@ -430,6 +430,7 @@ endif
 
 " tlr {{{
 if s:IsPlugged('tlr.vim')
+  let g:tlr_num_of_cells_for_res = 2
   nmap <C-Down>  <Plug>(tlr-down)
   nmap <C-Up>    <Plug>(tlr-up)
   nmap <C-Left>  <Plug>(tlr-left)
