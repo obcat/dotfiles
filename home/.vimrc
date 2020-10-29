@@ -340,12 +340,16 @@ if s:IsPlugged('vim-lsp')
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_diagnostics_enabled = 1
   let g:lsp_signs_enabled = 1
-  let g:lsp_signs_priority = 11
-  let g:lsp_signs_error = {'text': 'x'}
-  let g:lsp_signs_warning = {'text': '!'}
-  let g:lsp_signs_hint = {'texe': 'i'}
+  let g:lsp_signs_priority = 20
   let g:asyncomplete_auto_popup = 1
   let g:asyncomplete_auto_completeopt = 0
+
+  function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    nmap <buffer> gd <Plug>(lsp-definition)
+  endfunction
+
+  autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 endif
 " }}}
 
