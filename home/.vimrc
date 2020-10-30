@@ -32,6 +32,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
+  Plug 'tyru/caw.vim'                    " Comment out
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   if has('gui_running')
