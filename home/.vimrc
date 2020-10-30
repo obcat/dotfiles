@@ -31,6 +31,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete-lsp.vim' " LSP source for asyncomplete.vim and vim-lsp
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
+  Plug 'previm/previm'                   " Realtime markdown preview
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'tyru/caw.vim'                    " Comment out
   Plug 'tyru/open-browser.vim'           " Open URL with browser
