@@ -32,6 +32,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
+  Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   if has('gui_running')
     Plug 'obcat/vim-hitspop'             " Popup the number of search results
@@ -352,6 +353,14 @@ if s:IsPlugged('vim-molder')
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin = 1
   let g:loaded_netrwSettings = 1
+endif
+" }}}
+
+" open browser {{{
+if s:IsPlugged('open-browser.vim')
+  let g:netrw_nogx = 1
+  nmap gx <Plug>(openbrowser-smart-search)
+  vmap gx <Plug>(openbrowser-smart-search)
 endif
 " }}}
 
