@@ -263,6 +263,7 @@ endfunction
 " }}}
 
 call s:Alias('gina', 'Gina')
+call s:Alias('hc', 'helpc')
 call s:Alias('redir', 'Redir')
 " }}}
 
