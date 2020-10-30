@@ -36,9 +36,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'tyru/caw.vim'                    " Comment out
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
-  if has('gui_running')
-    Plug 'obcat/vim-hitspop'             " Popup the number of search results
-  endif
   call plug#end()
 else
   autocmd vimrc VimEnter *
@@ -439,11 +436,11 @@ if s:IsPlugged('shadeline.vim')
     \ 'flags',
     \ 'ShadelineItemGitBranch'
     \ ]
-  if s:IsPlugged('vim-hitspop')
-    let g:shadeline.active.right = ['<', ['ff', 'fenc', 'ft'], '%3p%%:%-2c']
-  else
-    let g:shadeline.active.right = ['<', 'ShadelineItemFileInfoOrSearchCount', '%3p%%:%-2c']
-  endif
+  let g:shadeline.active.right = [
+    \ '<',
+    \ 'ShadelineItemFileInfoOrSearchCount',
+    \ '%3p%%:%-2c'
+    \ ]
   let g:shadeline.inactive.left = ['fname', 'flags']
 
   " FileInfoOrSearchCount {{{
