@@ -153,11 +153,14 @@ function! s:OverrideHiColors() abort
     hi Search         ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
     hi IncSearch  cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
     hi StatusLine cterm=NONE ctermfg=249 ctermbg=236 gui=NONE guifg=#9ca0b0 guibg=#272c42
-    hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=bg guibg=NONE
+    hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
+    hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
     hi! link StatusLineTerm StatusLine
     hi! link netrwClassify  netrwPlain
     hi! link netrwLink      netrwPlain
     hi! link netrwTreeBar   netrwPlain
+  else
+    hi! link User1 StatusLine
   endif
 endfunction
 
@@ -431,7 +434,7 @@ endif
 if s:IsPlugged('shadeline.vim')
   let g:shadeline = #{active: {}, inactive: {}}
   let g:shadeline.active.left = [
-    \ 'ShadelineItemGitGutterSign',
+    \ '%1*%{ShadelineItemGitGutterSign()}%*',
     \ 'fname',
     \ 'flags',
     \ 'ShadelineItemGitBranch'
