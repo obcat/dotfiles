@@ -163,7 +163,7 @@ endfunction
 
 " Misc {{{
 function! s:SwitchTermColors() abort
-  if g:colors_name == 'iceberg'
+  if index(['iceberg'], g:colors_name) != -1
     call s:Use24bitColorsIfPossible()
   else
     set notermguicolors
