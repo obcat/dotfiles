@@ -54,8 +54,9 @@ filetype plugin on
 
 " Check if a plugin exists
 function! s:IsPlugged(name) abort
-  if !has_key(g:plugs, a:name) | return 0 | endif
-  return isdirectory(g:plugs[a:name].dir)
+  return exists(printf("g:plugs['%s'].dir", a:name))
+    \ ? isdirectory(g:plugs[a:name].dir)
+    \ : 0
 endfunction
 " }}}
 
