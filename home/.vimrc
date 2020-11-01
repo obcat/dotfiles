@@ -223,7 +223,7 @@ endfunction
 " }}}
 
 " Insert {{{
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
 " }}}
 
 " Command {{{
@@ -237,14 +237,13 @@ command! -nargs=1 -complete=command Redir call s:Redir(<f-args>)
 
 function! s:Redir(cmd) abort
   if a:cmd =~ '^!'
-    echomsg 'Redir: External commands not supported'
     return
   endif
   redir => l:output
   try
     silent execute a:cmd
-  catch /^Vim:/
-    echo substitute(v:exception, '^Vim:', '', '')
+  catch /^Vim\%((\a\+)\)\=:E/
+    echomsg substitute(v:exception, '^Vim\%((\a\+)\)\=:', '', '')
   endtry
   redir END
   tabnew
