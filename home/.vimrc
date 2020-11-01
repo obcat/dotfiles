@@ -18,6 +18,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
   Plug 'cocopon/shadeline.vim'           " Minimal status line
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
+  Plug 'glidenote/memolist.vim'          " Create and manage memo
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
@@ -401,6 +402,16 @@ if s:IsPlugged('vim-lsp')
     autocmd!
     autocmd FileType vim let b:asyncomplete_refresh_pattern = '\([bwtglsav]:\)\?\k*$'
   augroup END
+endif
+" }}}
+
+" memolist {{{
+if s:IsPlugged('memolist.vim')
+  let g:memolist_path = isdirectory(expand('~/Dropbox/memolist'))
+    \ ? expand('~/Dropbox/memolist')
+    \ : expand('~/memolist')
+  let g:memolist_memo_suffix = 'md'
+  let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
 endif
 " }}}
 
