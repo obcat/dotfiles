@@ -318,62 +318,6 @@ if s:IsPlugged('vim-gitgutter')
   let g:gitgutter_sign_removed_first_line = '‾'
   let g:gitgutter_sign_removed_above_and_below = '_¯'
   let g:gitgutter_sign_modified_removed   = '┃_'
-
-  nnoremap <silent> ]c :<C-u>call <SID>gitgutter_next_hunk_with_echo(v:count1)<CR>
-  nnoremap <silent> [c :<C-u>call <SID>gitgutter_prev_hunk_with_echo(v:count1)<CR>
-
-  " functions {{{
-  function! s:gitgutter_next_hunk_with_echo(count) abort
-    let bufnr = bufnr('')
-    if !gitgutter#utility#is_active(bufnr) | return | endif
-
-    let hunks = gitgutter#hunk#hunks(bufnr)
-    if empty(hunks)
-      call gitgutter#utility#warn('No hunks in file')
-      return
-    endif
-
-    let current_line = line('.')
-    let hunk_count = 0
-    for hunk in hunks
-      if hunk[2] > current_line
-        let hunk_count += 1
-        if hunk_count == a:count
-          execute 'normal!' hunk[2] . 'Gzv'
-          redraw | echo printf('(hunk %d of %d)', index(hunks, hunk) + 1, len(hunks))
-          return
-        endif
-      endif
-    endfor
-    call gitgutter#utility#warn('No more hunks')
-  endfunction
-
-  function! s:gitgutter_prev_hunk_with_echo(count) abort
-    let bufnr = bufnr('')
-    if !gitgutter#utility#is_active(bufnr) | return | endif
-
-    let hunks = gitgutter#hunk#hunks(bufnr)
-    if empty(hunks)
-      call gitgutter#utility#warn('No hunks in file')
-      return
-    endif
-
-    let current_line = line('.')
-    let hunk_count = 0
-    for hunk in reverse(copy(hunks))
-      if hunk[2] < current_line
-        let hunk_count += 1
-        if hunk_count == a:count
-          let target = hunk[2] == 0 ? 1 : hunk[2]
-          execute 'normal!' target . 'Gzv'
-          redraw | echo printf('(hunk %d of %d)', index(hunks, hunk) + 1, len(hunks))
-          return
-        endif
-      endif
-    endfor
-    call gitgutter#utility#warn('No previous hunks')
-  endfunction
-  " }}}
 endif
 " }}}
 
