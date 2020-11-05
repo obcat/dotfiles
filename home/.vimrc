@@ -162,10 +162,11 @@ function! s:OverrideHiColors() abort
     hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
     hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
     hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
-    hi! link StatusLineTerm StatusLine
-    hi! link netrwClassify  netrwPlain
-    hi! link netrwLink      netrwPlain
-    hi! link netrwTreeBar   netrwPlain
+    hi! link LspPreviewPopup StatusLine
+    hi! link StatusLineTerm  StatusLine
+    hi! link netrwClassify   netrwPlain
+    hi! link netrwLink       netrwPlain
+    hi! link netrwTreeBar    netrwPlain
   else
     hi! link User1 StatusLine
   endif
@@ -346,6 +347,12 @@ if s:IsPlugged('vim-lsp')
   endfunction
 
   autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  autocmd vimrc User lsp_float_opened
+    \ call popup_setoptions(lsp#ui#vim#output#getpreviewwinid(), #{
+    \   padding: [0, 1, 0, 1],
+    \   maxheight: 8,
+    \   highlight: 'LspPreviewPopup',
+    \ })
 endif
 " }}}
 
