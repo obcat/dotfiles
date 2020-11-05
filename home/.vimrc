@@ -340,15 +340,10 @@ if s:IsPlugged('vim-lsp')
   function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     nmap <buffer> gd <Plug>(lsp-definition)
+    nmap <buffer> gr <Plug>(lsp-references)
   endfunction
 
   autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-
-  " Don't know how to configure this using g:lsp_settings ;(
-  augroup vimrc_lsp_filetype
-    autocmd!
-    autocmd FileType vim let b:asyncomplete_refresh_pattern = '\([bwtglsav]:\)\?\k*$'
-  augroup END
 endif
 " }}}
 
