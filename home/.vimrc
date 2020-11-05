@@ -457,6 +457,19 @@ if s:IsPlugged('shadeline.vim')
 endif
 " }}}
 
+" sonictemplate {{{
+if s:IsPlugged('vim-sonictemplate')
+  let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
+  let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
+
+  let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
+  let g:sonictemplate_license = 'MIT License'
+
+  command! -nargs=1 -complete=customlist,sonictemplate#complete
+    \ Template call sonictemplate#apply(<f-args>, 'n')
+endif
+" }}}
+
 " tlr {{{
 if s:IsPlugged('tlr.vim')
   let g:tlr_num_of_cells_for_res = 2
