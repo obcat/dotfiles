@@ -19,6 +19,8 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/shadeline.vim'           " Minimal status line
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
   Plug 'glidenote/memolist.vim'          " Create and manage memo
+  Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
+  Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
@@ -224,6 +226,10 @@ endfunction
 " }}}
 
 " Visual {{{
+" }}}
+
+" Insert {{{
+inoremap <expr> <CR> pumvisible() ? "<C-y>" : "<CR>"
 " }}}
 
 " Command {{{
@@ -470,6 +476,13 @@ if s:IsPlugged('tlr.vim')
   nmap <C-Right> <Plug>(tlr-right)
 endif
 " }}}
+
+" vsnip {{{
+if s:IsPlugged('vim-vsnip')
+  let g:vsnip_snippet_dir = expand('~/.vim/snippet/vsnip')
+  imap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
+  smap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
+endif
 " }}}
 
 " Local settings {{{
