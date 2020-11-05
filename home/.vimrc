@@ -226,10 +226,6 @@ endfunction
 " Visual {{{
 " }}}
 
-" Insert {{{
-inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
-" }}}
-
 " Command {{{
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
