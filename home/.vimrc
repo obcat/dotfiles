@@ -37,6 +37,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'previm/previm'                   " Realtime markdown preview
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
+  Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    " Comment out
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
@@ -259,29 +260,6 @@ cnoremap <C-p> <Up>
 " }}}
 " }}}
 
-" Commands {{{
-command! -nargs=1 -complete=command Redir call s:Redir(<f-args>)
-
-function! s:Redir(cmd) abort
-  if a:cmd =~ '^!'
-    return
-  endif
-  redir => l:output
-  try
-    silent execute a:cmd
-  catch /^Vim\%((\a\+)\)\=:E/
-    echomsg substitute(v:exception, '^Vim\%((\a\+)\)\=:', '', '')
-  endtry
-  redir END
-  tabnew
-  setlocal nobuflisted noswapfile bufhidden=wipe buftype=nofile
-  call setline(1, split(l:output, "\n"))
-  1put! = repeat('-', 1 + strlen(a:cmd) + 1)
-  2put! = ':' . a:cmd
-  3put! = repeat('-', 1 + strlen(a:cmd) + 1)
-endfunction
-" }}}
-
 " Aliases {{{
 " Alias() {{{
 function! s:Alias(key, val) abort
@@ -292,9 +270,9 @@ function! s:Alias(key, val) abort
 endfunction
 " }}}
 
+call s:Alias('cap', 'Capture')
 call s:Alias('gina', 'Gina')
 call s:Alias('hc', 'helpc')
-call s:Alias('redir', 'Redir')
 " }}}
 
 " File types {{{
