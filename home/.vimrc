@@ -201,6 +201,9 @@ end
 " }}}
 
 " Key mappings {{{
+let g:mapleader = "\<Space>"
+map <Space> <Nop>
+
 " Normal {{{
 nnoremap j gj
 nnoremap k gk
@@ -209,7 +212,7 @@ nnoremap gk k
 
 nnoremap Y y$
 
-nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+nnoremap <silent> <Leader>l :<C-u>let v:hlsearch = !v:hlsearch<CR>
 
 nnoremap <silent> [b :<C-u>bprevious<CR>
 nnoremap <silent> ]b :<C-u>bnext<CR>
