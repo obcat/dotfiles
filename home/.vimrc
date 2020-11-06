@@ -146,6 +146,22 @@ function! s:OverrideHiColors() abort
     hi GitGutterDelete       cterm=bold
     hi GitGutterAdd    cterm=bold guifg=#a5b368
     hi GitGutterChange cterm=bold guifg=#728dbb
+    hi AnsiColor0   ctermfg=0   guifg=#161821
+    hi AnsiColor1   ctermfg=1   guifg=#e27878
+    hi AnsiColor2   ctermfg=2   guifg=#b4be82
+    hi AnsiColor3   ctermfg=3   guifg=#e2a478
+    hi AnsiColor4   ctermfg=4   guifg=#84a0c6
+    hi AnsiColor5   ctermfg=5   guifg=#a093c7
+    hi AnsiColor6   ctermfg=6   guifg=#89b8c2
+    hi AnsiColor7   ctermfg=7   guifg=#aaadbb
+    hi AnsiColor8   ctermfg=8   guifg=#6b7089
+    hi AnsiColor9   ctermfg=9   guifg=#e98989
+    hi AnsiColor10  ctermfg=10  guifg=#c0ca8e
+    hi AnsiColor11  ctermfg=11  guifg=#e9b189
+    hi AnsiColor12  ctermfg=12  guifg=#91acd1
+    hi AnsiColor13  ctermfg=13  guifg=#ada0d3
+    hi AnsiColor14  ctermfg=14  guifg=#95c4ce
+    hi AnsiColor15  ctermfg=15  guifg=#b4b8c6
     hi Delimiter    ctermfg=250 guifg=fg
     hi Directory    ctermfg=110 guifg=#84a0c6
     hi EndOfBuffer  ctermfg=239 guifg=#444b71
