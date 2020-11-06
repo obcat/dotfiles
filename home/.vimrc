@@ -358,7 +358,7 @@ if s:IsPlugged('vim-lsp')
   autocmd vimrc User lsp_float_opened
     \ call popup_setoptions(lsp#ui#vim#output#getpreviewwinid(), #{
     \   padding: [0, 1, 0, 1],
-    \   maxheight: 8,
+    \   maxheight: 16,
     \   highlight: 'LspPreviewPopup',
     \ })
 endif
