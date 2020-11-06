@@ -19,6 +19,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/shadeline.vim'           " Minimal status line
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
   Plug 'glidenote/memolist.vim'          " Create and manage memo
+  Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
   Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
   Plug 'junegunn/vim-plug'               " Plugin manager
@@ -329,6 +330,13 @@ if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
   autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
   hi! link HighlightedyankRegion Visual
+endif
+" }}}
+
+" asterisk {{{
+if s:IsPlugged('vim-asterisk')
+  map *  <Plug>(asterisk-z*)
+  map g* <Plug>(asterisk-gz*)
 endif
 " }}}
 
