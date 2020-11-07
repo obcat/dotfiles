@@ -363,7 +363,8 @@ endif
 
 " memolist {{{
 if s:IsPlugged('memolist.vim')
-  let g:memolist_path = isdirectory(expand('~/Dropbox/memolist'))
+  " NOTE: memolist creates directories if needed
+  let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
     \ : expand('~/memolist')
   let g:memolist_memo_suffix = 'md'
