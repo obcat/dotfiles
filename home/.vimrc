@@ -252,7 +252,7 @@ endfunction
 " }}}
 
 " Insert {{{
-inoremap <expr> <CR> pumvisible() ? "<C-y>" : "<CR>"
+inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 " }}}
 
 " Command {{{
@@ -492,8 +492,8 @@ endif
 " vsnip {{{
 if s:IsPlugged('vim-vsnip')
   let g:vsnip_snippet_dir = expand('~/.vim/snippet/vsnip')
-  imap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
-  smap <expr> <C-l> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-l>'
+  imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
+  smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
 endif
 " }}}
 
