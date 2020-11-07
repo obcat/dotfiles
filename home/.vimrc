@@ -99,10 +99,6 @@ set shiftwidth=0
 set softtabstop=-1
 set tabstop=2
 
-" Edit
-set backspace=indent,eol,start
-set virtualedit=block
-
 " Scroll
 set sidescroll=1
 set scrolloff=7
@@ -132,12 +128,14 @@ let &directory = s:swapdir
 set history=10000
 
 " Misc
+set backspace=indent,eol,start
 set belloff=all
 set completeopt=menuone,noinsert,noselect
 set hidden
 set splitbelow
 set splitright
 set ttimeoutlen=50
+set virtualedit=block
 " }}}
 
 " Color scheme {{{
@@ -248,9 +246,6 @@ function! s:ExploreHead() abort
 endfunction
 " }}}
 
-" Visual {{{
-" }}}
-
 " Insert {{{
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 " }}}
@@ -291,22 +286,29 @@ augroup END
 " }}}
 
 " Plugin settings {{{
+" asterisk {{{
+if s:IsPlugged('vim-asterisk')
+  map *  <Plug>(asterisk-z*)
+  map g* <Plug>(asterisk-gz*)
+endif
+" }}}
+
+" better-whitespace {{{
+if s:IsPlugged('vim-better-whitespace')
+  let g:strip_whitespace_on_save = 1
+  let g:better_whitespace_ctermcolor = 'NONE'
+  let g:better_whitespace_guicolor   = 'NONE'
+  nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
+  nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
+endif
+" }}}
+
 " CtrlP {{{
 if s:IsPlugged('ctrlp.vim')
   let g:ctrlp_show_hidden = 1
   if s:IsPlugged('ctrlp_matchfuzzy.vim')
     let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
   endif
-endif
-" }}}
-
-" better-whitespace {{{
-if s:IsPlugged('vim-better-whitespace')
-  let g:better_whitespace_ctermcolor = 'NONE'
-  let g:better_whitespace_guicolor = 'NONE'
-  let g:strip_whitespace_on_save = 1
-  nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
-  nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
 endif
 " }}}
 
@@ -326,13 +328,6 @@ endif
 " highlightedyank {{{
 if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
-endif
-" }}}
-
-" asterisk {{{
-if s:IsPlugged('vim-asterisk')
-  map *  <Plug>(asterisk-z*)
-  map g* <Plug>(asterisk-gz*)
 endif
 " }}}
 
@@ -374,10 +369,10 @@ endif
 " molder {{{
 if s:IsPlugged('vim-molder')
   let g:molder_show_hidden = 1
-  let g:loaded_netrw = 1
+  let g:loaded_netrw             = 1
   let g:loaded_netrwFileHandlers = 1
-  let g:loaded_netrwPlugin = 1
-  let g:loaded_netrwSettings = 1
+  let g:loaded_netrwPlugin       = 1
+  let g:loaded_netrwSettings     = 1
 endif
 " }}}
 
@@ -446,7 +441,6 @@ if s:IsPlugged('shadeline.vim')
       let [l:a, l:m, l:r] = GitGutterGetHunkSummary()
       return l:a + l:m + l:r == 0 ? ' ' : '*'
     catch /:E117:/
-      " E117: Unknown function
       return ' '
     endtry
   endfunction
@@ -458,7 +452,6 @@ if s:IsPlugged('shadeline.vim')
       let l:name = gina#component#repo#branch()
       return empty(l:name) ? '' : printf('(%s)', l:name)
     catch /:E117:/
-      " E117: Unknown function
       return ''
     endtry
   endfunction
@@ -470,9 +463,8 @@ endif
 if s:IsPlugged('vim-sonictemplate')
   let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
-
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
-  let g:sonictemplate_license = 'MIT License'
+  let g:sonictemplate_license    = 'MIT License'
 
   command! -nargs=1 -complete=customlist,sonictemplate#complete
     \ Template call sonictemplate#apply(<f-args>, 'n')
@@ -495,6 +487,7 @@ if s:IsPlugged('vim-vsnip')
   imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
   smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
 endif
+" }}}
 " }}}
 
 " Local settings {{{
