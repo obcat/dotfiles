@@ -182,12 +182,13 @@ function! s:OverrideHiColors() abort
     hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
     hi! link LspPreviewPopup StatusLine
     hi! link StatusLineTerm  StatusLine
-    hi! link netrwClassify   netrwPlain
-    hi! link netrwLink       netrwPlain
-    hi! link netrwTreeBar    netrwPlain
   else
     hi! link User1 StatusLine
   endif
+  hi! link HighlightedyankRegion Visual
+  hi! link netrwClassify netrwPlain
+  hi! link netrwLink     netrwPlain
+  hi! link netrwTreeBar  netrwPlain
 endfunction
 
 " Misc {{{
@@ -325,8 +326,6 @@ endif
 " highlightedyank {{{
 if s:IsPlugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
-  autocmd vimrc ColorScheme * hi! link HighlightedyankRegion Visual
-  hi! link HighlightedyankRegion Visual
 endif
 " }}}
 
