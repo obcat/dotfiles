@@ -40,6 +40,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    " Comment out
+  Plug 'tyru/open-browser-github.vim'    " Opens GitHub URL of current file
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   call plug#end()
