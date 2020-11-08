@@ -19,6 +19,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
   Plug 'cocopon/shadeline.vim'           " Minimal status line
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
+  Plug 'ghifarit53/tokyonight-vim'       " Color scheme
   Plug 'glidenote/memolist.vim'          " Create and manage memo
   Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
@@ -185,6 +186,25 @@ function! s:OverrideHiColors() abort
     hi! link MatchUpOffScreenPopup CursorLineNr
     hi! link MatchWord             CursorColumn
     hi! link StatusLineTerm        StatusLine
+  elseif g:colors_name == 'tokyonight' && &background == 'dark'
+    hi VertSplit guifg=bg
+    hi LineNr       guibg=#232433
+    hi TabLineFill  guibg=#13131c
+    hi StatusLineNC guibg=#0f0f17
+    hi Search guifg=#cdebad guibg=#4f5e3f
+    hi User1  guifg=#ff9e64 guibg=#32344a
+    hi LspErrorText   ctermfg=15  guifg=#f7768e guibg=#232433
+    hi LspHintText    ctermfg=98  guifg=#ad8ee6 guibg=#232433
+    hi LspWarningText ctermfg=224 guifg=#e0af68 guibg=#232433
+    hi IncSearch ctermfg=0 ctermbg=11 guifg=#1a1b26 guibg=#b9f27c
+    hi! link EndOfBuffer           Comment
+    hi! link LspPreviewPopup       StatusLine
+    hi! link LspReference          CursorColumn
+    hi! link MatchUpOffScreenPopup CursorLineNr
+    hi! link MatchWord             CursorColumn
+    hi! link MatchWordCur          MatchWord
+    hi! link TabLine               TabLineFill
+    hi! link TabLineSel            Normal
   else
     hi! link User1 StatusLine
   endif
@@ -196,7 +216,7 @@ endfunction
 
 " Misc {{{
 function! s:SwitchTermColors() abort
-  if index(['iceberg'], g:colors_name) != -1
+  if index(['iceberg', 'tokyonight'], g:colors_name) != -1
     call s:Use24bitColorsIfPossible()
   else
     set notermguicolors
@@ -212,6 +232,9 @@ endfunction
 autocmd vimrc ColorScheme *
   \ call s:OverrideHiColors()
   \|call s:SwitchTermColors()
+
+let g:tokyonight_enable_italic = 0
+let g:tokyonight_disable_italic_comment = 1
 " }}}
 
 if s:IsPlugged('iceberg.vim')
