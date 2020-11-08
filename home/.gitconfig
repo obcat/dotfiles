@@ -17,3 +17,5 @@
 	unstage = restore --staged
 [commit]
 	verbose = true
+[include]
+	path = ~/.gitconfig_local
