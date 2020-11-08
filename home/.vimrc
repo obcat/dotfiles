@@ -181,7 +181,8 @@ function! s:OverrideHiColors() abort
     hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
     hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
     hi! link LspPreviewPopup       StatusLine
-    hi! link MatchUpOffScreenPopup CursorColumn
+    hi! link LspReference          CursorColumn
+    hi! link MatchUpOffScreenPopup CursorLineNr
     hi! link MatchWord             CursorColumn
     hi! link StatusLineTerm        StatusLine
   else
