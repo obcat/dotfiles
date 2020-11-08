@@ -144,82 +144,20 @@ set virtualedit=block
 " Color scheme {{{
 function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
-    hi GitGutterChangeDelete cterm=bold
-    hi GitGutterDelete       cterm=bold
-    hi ModeMsg               cterm=bold
-    hi MoreMsg               cterm=bold
-    hi NonText               cterm=bold
-    hi Question              cterm=bold
-    hi GitGutterAdd    cterm=bold guifg=#a5b368
-    hi GitGutterChange cterm=bold guifg=#728dbb
-    hi AnsiColor0   ctermfg=0   guifg=#161821
-    hi AnsiColor1   ctermfg=1   guifg=#e27878
-    hi AnsiColor2   ctermfg=2   guifg=#b4be82
-    hi AnsiColor3   ctermfg=3   guifg=#e2a478
-    hi AnsiColor4   ctermfg=4   guifg=#84a0c6
-    hi AnsiColor5   ctermfg=5   guifg=#a093c7
-    hi AnsiColor6   ctermfg=6   guifg=#89b8c2
-    hi AnsiColor7   ctermfg=7   guifg=#aaadbb
-    hi AnsiColor8   ctermfg=8   guifg=#6b7089
-    hi AnsiColor9   ctermfg=9   guifg=#e98989
-    hi AnsiColor10  ctermfg=10  guifg=#c0ca8e
-    hi AnsiColor11  ctermfg=11  guifg=#e9b189
-    hi AnsiColor12  ctermfg=12  guifg=#91acd1
-    hi AnsiColor13  ctermfg=13  guifg=#ada0d3
-    hi AnsiColor14  ctermfg=14  guifg=#95c4ce
-    hi AnsiColor15  ctermfg=15  guifg=#b4b8c6
-    hi Delimiter    ctermfg=250 guifg=fg
-    hi Directory    ctermfg=110 guifg=#84a0c6
-    hi EndOfBuffer  ctermfg=239 guifg=#444b71
-    hi Normal       ctermfg=250 guifg=#aaadbb
-    hi netrwExe     ctermfg=234 guifg=#e27878
-    hi netrwSymlink ctermfg=140 guifg=#a093c7
-    hi CursorLineNr   ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
-    hi HitsPopPopup   ctermfg=250 ctermbg=236 guifg=#aaadbb guibg=#272c42
-    hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
-    hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
-    hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
-    hi Search         ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
-    hi IncSearch    cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
-    hi StatusLine   cterm=NONE ctermfg=249 ctermbg=236 gui=NONE guifg=#9ca0b0 guibg=#272c42
-    hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
-    hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
-    hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
-    hi! link LspPreviewPopup       StatusLine
-    hi! link LspReference          CursorColumn
-    hi! link MatchUpOffScreenPopup CursorLineNr
-    hi! link MatchWord             CursorColumn
-    hi! link StatusLineTerm        StatusLine
+    source ~/.vim/highlight/iceberg/dark.vim
   elseif g:colors_name == 'tokyonight' && &background == 'dark'
-    hi VertSplit guifg=bg
-    hi LineNr       guibg=#232433
-    hi TabLineFill  guibg=#13131c
-    hi StatusLineNC guibg=#0f0f17
-    hi Search guifg=#cdebad guibg=#4f5e3f
-    hi User1  guifg=#ff9e64 guibg=#32344a
-    hi LspErrorText   ctermfg=15  guifg=#f7768e guibg=#232433
-    hi LspHintText    ctermfg=98  guifg=#ad8ee6 guibg=#232433
-    hi LspWarningText ctermfg=224 guifg=#e0af68 guibg=#232433
-    hi IncSearch ctermfg=0 ctermbg=11 guifg=#1a1b26 guibg=#b9f27c
-    hi! link EndOfBuffer           Comment
-    hi! link LspPreviewPopup       StatusLine
-    hi! link LspReference          CursorColumn
-    hi! link MatchUpOffScreenPopup CursorLineNr
-    hi! link MatchWord             CursorColumn
-    hi! link MatchWordCur          MatchWord
-    hi! link TabLine               TabLineFill
-    hi! link TabLineSel            Normal
+    source ~/.vim/highlight/tokyonight/dark.vim
   else
     hi CursorLineNr cterm=bold
     hi! link SignColumn LineNr
   endif
+
   hi! link HighlightedyankRegion Visual
   hi! link netrwClassify netrwPlain
   hi! link netrwLink     netrwPlain
   hi! link netrwTreeBar  netrwPlain
 endfunction
 
-" Misc {{{
 function! s:SwitchTermColors() abort
   if index(['iceberg', 'tokyonight'], g:colors_name) != -1
     call s:Use24bitColorsIfPossible()
@@ -240,7 +178,6 @@ autocmd vimrc ColorScheme *
 
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
-" }}}
 
 if s:IsPlugged('iceberg.vim')
   colorscheme iceberg
