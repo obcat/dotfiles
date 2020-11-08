@@ -12,9 +12,12 @@
 	keepBackup = false
 [alias]
 	graph = log --all --decorate --oneline --graph
+	ignored = ls-files --others --ignored --exclude-standard --directory
 	ss = status --short
 	today = graph --since=midnight
+	tracked = ls-files --cached
 	unstage = restore --staged
+	untracked = ls-files --others --exclude-standard --directory
 [commit]
 	verbose = true
 [include]
