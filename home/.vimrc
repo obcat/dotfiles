@@ -146,6 +146,10 @@ function! s:OverrideHiColors() abort
   if g:colors_name == 'iceberg' && &background == 'dark'
     hi GitGutterChangeDelete cterm=bold
     hi GitGutterDelete       cterm=bold
+    hi ModeMsg               cterm=bold
+    hi MoreMsg               cterm=bold
+    hi NonText               cterm=bold
+    hi Question              cterm=bold
     hi GitGutterAdd    cterm=bold guifg=#a5b368
     hi GitGutterChange cterm=bold guifg=#728dbb
     hi AnsiColor0   ctermfg=0   guifg=#161821
@@ -206,7 +210,8 @@ function! s:OverrideHiColors() abort
     hi! link TabLine               TabLineFill
     hi! link TabLineSel            Normal
   else
-    hi! link User1 StatusLine
+    hi CursorLineNr cterm=bold
+    hi! link SignColumn LineNr
   endif
   hi! link HighlightedyankRegion Visual
   hi! link netrwClassify netrwPlain
