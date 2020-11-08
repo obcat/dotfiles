@@ -34,8 +34,9 @@ hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
 hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
 hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
 hi Search         ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
+hi WildMenu       ctermfg=253 ctermbg=240 guifg=#c2c6d3 guibg=#414a70
 hi IncSearch    cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
-hi StatusLine   cterm=NONE ctermfg=249 ctermbg=236 gui=NONE guifg=#9ca0b0 guibg=#272c42
+hi StatusLine   cterm=NONE ctermfg=250 ctermbg=236 gui=NONE guifg=#aaadbb guibg=#272c42
 hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
 hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
 hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
