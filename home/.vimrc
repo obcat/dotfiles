@@ -142,50 +142,32 @@ set virtualedit=block
 " }}}
 
 " Color scheme {{{
-function! s:OverrideHiColors() abort
-  let [l:name, l:bg] = [g:colors_name, &background]
+let g:tokyonight_enable_italic = 0
+let g:tokyonight_disable_italic_comment = 1
 
-  if [l:name, l:bg] == ['iceberg', 'dark']
-    source ~/.vim/highlight/iceberg/dark.vim
-  elseif [l:name, l:bg] == ['tokyonight', 'dark']
-    source ~/.vim/highlight/tokyonight/dark.vim
+function! s:OverrideHiColors(name, bg) abort
+  let l:dir = expand('~/.vim/highlight')
+  let l:file = printf('%s/%s/%s.vim', l:dir, a:name, a:bg)
+  if filereadable(l:file)
+    exe 'source' l:file
   else
-    hi CursorLineNr cterm=bold
-    hi! link SignColumn LineNr
+    exe 'source' l:dir . '/others.vim'
   endif
-
-  hi! link HighlightedyankRegion Visual
-  hi! link netrwClassify netrwPlain
-  hi! link netrwLink     netrwPlain
-  hi! link netrwTreeBar  netrwPlain
-endfunction
-
-function! s:SwitchTermColors() abort
-  if index(['iceberg', 'tokyonight'], g:colors_name) != -1
-    call s:Use24bitColorsIfPossible()
-  else
-    set notermguicolors
-  endif
-endfunction
-
-function! s:Use24bitColorsIfPossible() abort
-  if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
-    set termguicolors
-  endif
+  exe 'source' l:dir . '/common.vim'
 endfunction
 
 autocmd vimrc ColorScheme *
-  \ call s:OverrideHiColors()
-  \|call s:SwitchTermColors()
-
-let g:tokyonight_enable_italic = 0
-let g:tokyonight_disable_italic_comment = 1
+  \ call s:OverrideHiColors(expand('<amatch>'), &background)
 
 if s:IsPlugged('iceberg.vim')
   colorscheme iceberg
 else
-  colorscheme default
-end
+  colorscheme slate
+endif
+
+if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
+  set termguicolors
+endif
 " }}}
 
 " Key mappings {{{
