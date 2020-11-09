@@ -143,9 +143,11 @@ set virtualedit=block
 
 " Color scheme {{{
 function! s:OverrideHiColors() abort
-  if g:colors_name == 'iceberg' && &background == 'dark'
+  let [l:name, l:bg] = [g:colors_name, &background]
+
+  if [l:name, l:bg] == ['iceberg', 'dark']
     source ~/.vim/highlight/iceberg/dark.vim
-  elseif g:colors_name == 'tokyonight' && &background == 'dark'
+  elseif [l:name, l:bg] == ['tokyonight', 'dark']
     source ~/.vim/highlight/tokyonight/dark.vim
   else
     hi CursorLineNr cterm=bold
