@@ -381,11 +381,9 @@ if s:IsPlugged('shadeline.vim')
   endfunction
 
   function! s:ShadelineUtilGetFileInfo() abort
-    let l:fileinfo = []
-    call add(l:fileinfo, shadeline#functions#fileformat())
-    call add(l:fileinfo, shadeline#functions#fileencoding())
-    call add(l:fileinfo, shadeline#functions#filetype())
-    return join(l:fileinfo, ' | ')
+    return shadeline#functions#fileformat()
+      \ . ' | ' . shadeline#functions#fileencoding()
+      \ . ' | ' . shadeline#functions#filetype()
   endfunction
 
   function! s:ShadelineUtilGetSearchCount() abort
