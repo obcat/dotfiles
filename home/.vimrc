@@ -201,12 +201,54 @@ endfunction
 " }}}
 
 " Insert {{{
+inoremap <C-b> <C-g>U<Left>
+inoremap <C-f> <C-g>U<Right>
+inoremap <expr> <C-a> <SID>i_ctrl_a()
+inoremap <expr> <C-e> <SID>i_ctrl_e()
+inoremap <C-d> <Del>
+
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
+
+function! s:i_ctrl_a() abort
+  let l:chars = getline('.')
+  let l:ind_len  = strchars(matchstr(l:chars, '^\s*'))
+  let l:pres_len = strchars(strpart(l:chars, 0, col('.') - 1))
+  if  l:ind_len < l:pres_len
+    return repeat("\<C-g>U\<Left>", l:pres_len - l:ind_len)
+  else
+    return repeat("\<C-g>U\<Left>", l:pres_len)
+  endif
+endfunction
+
+function! s:i_ctrl_e() abort
+  return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), col('.') - 1)))
+endfunction
 " }}}
 
-" Command {{{
+" Command line {{{
+cnoremap <C-b> <Left>
+cnoremap <expr> <C-f> <SID>c_ctrl_f()
+cnoremap <C-a> <Home>
+cnoremap <expr> <C-d> <SID>c_ctrl_d()
+
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
+
+function! s:c_ctrl_f() abort
+  if getcmdpos() - 1 < strlen(getcmdline())
+    return "\<Right>"
+  else
+    return &cedit
+  endif
+endfunction
+
+function! s:c_ctrl_d() abort
+  if getcmdpos() - 1 < strlen(getcmdline())
+    return "\<Del>"
+  else
+    return "\<C-d>"
+  endif
+endfunction
 " }}}
 " }}}
 
