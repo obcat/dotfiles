@@ -70,18 +70,26 @@ endfunction
 " Options {{{
 " Appearance
 set background=dark
+set cmdheight=2
 set cursorline
 set cursorlineopt=number
 set display=lastline
+set fillchars=vert:│,fold:-
+set foldlevel=99
 set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
 set number
 set numberwidth=1
+set shortmess& shortmess+=mrI
 set showcmd
 set signcolumn=yes
 set wildmenu
 syntax enable
+
+" Completion
+set completeopt=menuone,noinsert,noselect
+set pumheight=8
 
 " Cursor
 if has('vim_starting')
@@ -90,9 +98,13 @@ if has('vim_starting')
   let &t_SR .= "\e[3 q"
 endif
 
+" Editing
+set backspace=indent,eol,start
+set formatoptions& formatoptions+=j
+set virtualedit=block
+
 " Indent
 filetype indent on
-let &showbreak = '+ '
 set autoindent
 set breakindent
 set breakindentopt=min:20,shift:-2
@@ -101,6 +113,8 @@ set linebreak
 set shiftwidth=0
 set softtabstop=-1
 set tabstop=2
+let &showbreak = '+ '
+let g:vim_indent_cont = &tabstop
 
 " Scroll
 set sidescroll=1
@@ -131,14 +145,13 @@ let &directory = s:swapdir
 set history=10000
 
 " Misc
-set backspace=indent,eol,start
 set belloff=all
-set completeopt=menuone,noinsert,noselect
+set clipboard=unnamed
 set hidden
+set mouse=a
 set splitbelow
 set splitright
 set ttimeoutlen=50
-set virtualedit=block
 " }}}
 
 " Color scheme {{{
