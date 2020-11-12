@@ -316,10 +316,20 @@ endif
 
 " CtrlP {{{
 if s:IsPlugged('ctrlp.vim')
-  let g:ctrlp_show_hidden = 1
+  let g:ctrlp_show_hidden     = 1
+  let g:ctrlp_follow_symlinks = 1
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
+  let g:ctrlp_buffer_func = #{enter: 'g:CtrlpBufferFuncEnter'}
+
   if s:IsPlugged('ctrlp_matchfuzzy.vim')
-    let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
+    let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
+
+  function! g:CtrlpBufferFuncEnter() abort
+    setlocal cursorlineopt=line
+  endfunction
+
+  nnoremap ,, :<C-u>CtrlPMRU<CR>
 endif
 " }}}
 
