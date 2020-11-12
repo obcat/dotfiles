@@ -31,6 +31,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-molder'                " Minimal file explorer
+  Plug 'mattn/vim-molder-operations'     " Operations for vim-molder
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
