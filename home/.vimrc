@@ -284,12 +284,15 @@ call s:Alias('hc', 'helpc')
 " File types {{{
 augroup vimrc_filetype
   autocmd!
+  autocmd FileType *           setlocal formatoptions-=o
   autocmd FileType gina-commit setlocal spell
   autocmd FileType gitcommit   setlocal spell
   autocmd FileType gitconfig   setlocal noexpandtab
-  autocmd FileType molder      setlocal nonumber
-  autocmd FileType qf          setlocal nowrap
+  autocmd FileType help        setlocal conceallevel=0
+  autocmd FileType stpl        setlocal noexpandtab
   autocmd FileType vim         setlocal foldmethod=marker
+  autocmd FileType molder      source ~/.vim/filetype_plugin/molder.vim
+  autocmd FileType qf          source ~/.vim/filetype_plugin/qf.vim
 augroup END
 " }}}
 
