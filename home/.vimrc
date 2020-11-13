@@ -88,7 +88,7 @@ set wildmenu
 syntax enable
 
 " Completion
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone
 set pumheight=8
 
 " Cursor
@@ -356,8 +356,10 @@ if s:IsPlugged('vim-lsp')
   \ && s:IsPlugged('asyncomplete.vim')
   \ && s:IsPlugged('asyncomplete-lsp.vim')
   let g:lsp_diagnostics_echo_cursor = 1
-  let g:lsp_signs_priority = 20
+  let g:lsp_documentation_float     = 0
+  let g:lsp_signs_priority          = 20
   let g:asyncomplete_auto_completeopt = 0
+  let g:asyncomplete_auto_popup       = 0
 
   function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
