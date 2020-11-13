@@ -13,7 +13,6 @@ augroup vimrc | autocmd! | augroup END
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
-  Plug 'andymass/vim-matchup'            " Modern matching words
   Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
   Plug 'cocopon/iceberg.vim'             " Color scheme
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
@@ -373,15 +372,6 @@ if s:IsPlugged('vim-lsp')
     \   maxheight: 16,
     \   highlight: 'LspPreviewPopup',
     \ })
-endif
-" }}}
-
-" matchup {{{
-if s:IsPlugged('vim-matchup')
-  let g:matchup_matchparen_offscreen = #{
-    \ method:    'popup',
-    \ highlight: 'MatchUpOffScreenPopup',
-    \ }
 endif
 " }}}
 
