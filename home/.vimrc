@@ -13,6 +13,7 @@ augroup vimrc | autocmd! | augroup END
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
+  Plug 'airblade/vim-rooter'             " Change the working directory
   Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
   Plug 'cocopon/iceberg.vim'             " Color scheme
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
@@ -403,6 +404,19 @@ if s:IsPlugged('open-browser.vim')
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
+endif
+" }}}
+
+" rooter {{{
+if s:IsPlugged('vim-rooter')
+  let g:rooter_cd_cmd = 'lcd'
+  let g:rooter_silent_chdir = 1
+
+  autocmd vimrc User RooterChDir
+    \ echo '[rooter] cwd is '
+    \|echohl Directory
+    \|echon getcwd()
+    \|echohl None
 endif
 " }}}
 
