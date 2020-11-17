@@ -167,7 +167,6 @@ function! s:OverrideHiColors(name, bg) abort
   else
     exe 'source' l:dir . '/others.vim'
   endif
-  exe 'source' l:dir . '/common.vim'
 endfunction
 
 autocmd vimrc ColorScheme *

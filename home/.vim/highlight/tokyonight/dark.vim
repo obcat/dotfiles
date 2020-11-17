@@ -1,3 +1,4 @@
+hi CursorLineNr cterm=bold
 hi VertSplit guifg=bg
 hi LineNr       guibg=#232433
 hi TabLineFill  guibg=#13131c
@@ -9,6 +10,7 @@ hi LspHintText    ctermfg=98  guifg=#ad8ee6 guibg=#232433
 hi LspWarningText ctermfg=224 guifg=#e0af68 guibg=#232433
 hi IncSearch ctermfg=0 ctermbg=11 guifg=#1a1b26 guibg=#b9f27c
 hi! link EndOfBuffer           Comment
+hi! link HighlightedyankRegion Visual
 hi! link LspPreviewPopup       StatusLine
 hi! link LspReference          CursorColumn
 hi! link MatchUpOffScreenPopup CursorLineNr
@@ -16,3 +18,6 @@ hi! link MatchWord             CursorColumn
 hi! link MatchWordCur          MatchWord
 hi! link TabLine               TabLineFill
 hi! link TabLineSel            Normal
+hi! link netrwClassify         netrwPlain
+hi! link netrwLink             netrwPlain
+hi! link netrwTreeBar          netrwPlain
