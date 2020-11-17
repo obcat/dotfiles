@@ -290,13 +290,10 @@ call s:Alias('hc', 'helpc')
 augroup vimrc_filetype
   autocmd!
   autocmd FileType *           setlocal formatoptions-=o
-  autocmd FileType gina-commit setlocal spell
   autocmd FileType gitcommit   setlocal spell
   autocmd FileType gitconfig   setlocal noexpandtab
   autocmd FileType help        setlocal conceallevel=0
-  autocmd FileType stpl        setlocal noexpandtab
   autocmd FileType vim         setlocal foldmethod=marker
-  autocmd FileType molder      source ~/.vim/filetype_plugin/molder.vim
   autocmd FileType qf          source ~/.vim/filetype_plugin/qf.vim
 augroup END
 " }}}
@@ -335,6 +332,12 @@ if s:IsPlugged('ctrlp.vim')
   endfunction
 
   nnoremap ,, :<C-u>CtrlPMRU<CR>
+endif
+" }}}
+
+" gina {{{
+if s:IsPlugged('gina.vim')
+  autocmd vimrc FileType gina-commit setlocal spell
 endif
 " }}}
 
@@ -401,6 +404,8 @@ if s:IsPlugged('vim-molder')
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin       = 1
   let g:loaded_netrwSettings     = 1
+
+  autocmd vimrc FileType molder source ~/.vim/filetype_plugin/molder.vim
 endif
 " }}}
 
@@ -507,6 +512,8 @@ if s:IsPlugged('vim-sonictemplate')
 
   command! -nargs=1 -complete=customlist,sonictemplate#complete
     \ Template call sonictemplate#apply(<f-args>, 'n')
+
+  autocmd vimrc FileType stpl setlocal noexpandtab
 endif
 " }}}
 
