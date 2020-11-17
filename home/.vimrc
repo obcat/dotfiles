@@ -204,7 +204,7 @@ nnoremap <silent> ]q :<C-u>cnext<CR>
 nnoremap <silent> - :<C-u>call <SID>ExploreHead()<CR>
 
 function! s:ExploreHead() abort
-  let l:dir = expand('%:h')
+  let l:dir = expand('%:p:h')
   if !isdirectory(l:dir)
     return
   endif
