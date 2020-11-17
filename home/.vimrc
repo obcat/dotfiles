@@ -286,16 +286,22 @@ call s:Alias('gina', 'Gina')
 call s:Alias('hc', 'helpc')
 " }}}
 
-" File types {{{
-augroup vimrc_filetype
-  autocmd!
-  autocmd FileType *           setlocal formatoptions-=o
-  autocmd FileType gitcommit   setlocal spell
-  autocmd FileType gitconfig   setlocal noexpandtab
-  autocmd FileType help        setlocal conceallevel=0
-  autocmd FileType vim         setlocal foldmethod=marker
-  autocmd FileType qf          source ~/.vim/filetype_plugin/qf.vim
-augroup END
+" Autocommands {{{
+autocmd vimrc FileType *         setlocal formatoptions-=o
+autocmd vimrc FileType gitcommit setlocal spell
+autocmd vimrc FileType gitconfig setlocal noexpandtab
+autocmd vimrc FileType help      setlocal conceallevel=0
+autocmd vimrc FileType vim       setlocal foldmethod=marker
+autocmd vimrc FileType qf        source ~/.vim/filetype_plugin/qf.vim
+
+autocmd vimrc BufReadPost     * call <SID>restore_curpos()
+autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
+
+function! s:restore_curpos() abort
+  if 1 <= line('''"') && line('''"') <= line('$') && &ft !~# 'commit'
+    exe 'norm! g`"'
+  endif
+endfunction
 " }}}
 
 " Plugin settings {{{
