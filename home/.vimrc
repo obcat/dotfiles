@@ -31,7 +31,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-molder'                " Minimal file explorer
-  Plug 'mattn/vim-molder-operations'     " Operations for vim-molder
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
@@ -292,10 +291,21 @@ autocmd vimrc FileType gitcommit setlocal spell
 autocmd vimrc FileType gitconfig setlocal noexpandtab
 autocmd vimrc FileType help      setlocal conceallevel=0
 autocmd vimrc FileType vim       setlocal foldmethod=marker
-autocmd vimrc FileType qf        source ~/.vim/filetype_plugin/qf.vim
+autocmd vimrc FileType qf        call <SID>on_ft_qf()
 
 autocmd vimrc BufReadPost     * call <SID>restore_curpos()
 autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
+
+function! s:on_ft_qf() abort
+  exe 'resize' min([line('$') + 2, 10])
+  setlocal nowrap
+  nnoremap <buffer> <silent> p :<C-u>call <SID>qf_preview()<CR>
+endfunction
+
+function! s:qf_preview() abort
+  " :normal avoids redrawing
+  exe "normal! \<CR>zz\<C-w>p"
+endfunction
 
 function! s:restore_curpos() abort
   if 1 <= line('''"') && line('''"') <= line('$') && &ft !~# 'commit'
@@ -408,7 +418,23 @@ if s:IsPlugged('vim-molder')
   let g:loaded_netrwPlugin       = 1
   let g:loaded_netrwSettings     = 1
 
-  autocmd vimrc FileType molder source ~/.vim/filetype_plugin/molder.vim
+  autocmd vimrc FileType molder call <SID>on_ft_molder()
+
+  function! s:on_ft_molder() abort
+    setlocal cursorlineopt=line
+    setlocal nonumber
+    nnoremap <buffer> o <C-w>s:call molder#open()<CR>
+    nnoremap <buffer> v <C-w>v:call molder#open()<CR>
+    nnoremap <buffer> t :<C-u>tab split<CR>:call molder#open()<CR>
+    nnoremap <buffer> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
+  endfunction
+
+  function! s:molder_run_shell() abort
+    call term_start(&shell, #{
+      \ cwd: molder#curdir(),
+      \ term_finish: 'close',
+      \ })
+  endfunction
 endif
 " }}}
 
