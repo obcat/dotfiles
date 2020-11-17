@@ -235,7 +235,13 @@ function! s:i_ctrl_a() abort
 endfunction
 
 function! s:i_ctrl_e() abort
-  return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), col('.') - 1)))
+  let l:cur_col = col('.')
+  let l:end_col = col('$')
+  if l:cur_col < l:end_col
+    return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), l:cur_col - 1)))
+  else
+    return "\<C-e>"
+  endif
 endfunction
 " }}}
 
