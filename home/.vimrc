@@ -60,7 +60,7 @@ endif
 filetype plugin on
 
 " Check if a plugin exists
-function! s:IsPlugged(name) abort
+function! s:is_plugged(name) abort
   return exists(printf("g:plugs['%s'].dir", a:name))
     \ ? isdirectory(g:plugs[a:name].dir)
     \ : 0
@@ -158,7 +158,7 @@ set ttimeoutlen=50
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 
-function! s:OverrideHiColors(name, bg) abort
+function! s:override_hlcolors(name, bg) abort
   let l:dir = expand('~/.vim/highlight')
   let l:file = printf('%s/%s/%s.vim', l:dir, a:name, a:bg)
   if filereadable(l:file)
@@ -169,9 +169,9 @@ function! s:OverrideHiColors(name, bg) abort
 endfunction
 
 autocmd vimrc ColorScheme *
-  \ call s:OverrideHiColors(expand('<amatch>'), &background)
+  \ call s:override_hlcolors(expand('<amatch>'), &background)
 
-if s:IsPlugged('iceberg.vim')
+if s:is_plugged('iceberg.vim')
   colorscheme iceberg
 else
   colorscheme slate
@@ -201,9 +201,9 @@ nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
 
-nnoremap <silent> - :<C-u>call <SID>ExploreHead()<CR>
+nnoremap <silent> - :<C-u>call <SID>explore_head()<CR>
 
-function! s:ExploreHead() abort
+function! s:explore_head() abort
   let l:dir = expand('%:p:h')
   if !isdirectory(l:dir)
     return
@@ -272,7 +272,7 @@ endfunction
 
 " Aliases {{{
 " Alias() {{{
-function! s:Alias(key, val) abort
+function! s:alias(key, val) abort
   exe printf(
     \ 'cnoreabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() == %d) ? %s : %s',
     \ a:key, 1 + len(a:key), string(a:val), string(a:key)
@@ -280,9 +280,9 @@ function! s:Alias(key, val) abort
 endfunction
 " }}}
 
-call s:Alias('cap', 'Capture')
-call s:Alias('gina', 'Gina')
-call s:Alias('hc', 'helpc')
+call s:alias('cap', 'Capture')
+call s:alias('gina', 'Gina')
+call s:alias('hc', 'helpc')
 " }}}
 
 " Autocommands {{{
@@ -316,14 +316,14 @@ endfunction
 
 " Plugin settings {{{
 " asterisk {{{
-if s:IsPlugged('vim-asterisk')
+if s:is_plugged('vim-asterisk')
   map *  <Plug>(asterisk-z*)
   map g* <Plug>(asterisk-gz*)
 endif
 " }}}
 
 " better-whitespace {{{
-if s:IsPlugged('vim-better-whitespace')
+if s:is_plugged('vim-better-whitespace')
   let g:strip_whitespace_on_save = 1
   let g:better_whitespace_ctermcolor = 'NONE'
   let g:better_whitespace_guicolor   = 'NONE'
@@ -333,13 +333,13 @@ endif
 " }}}
 
 " CtrlP {{{
-if s:IsPlugged('ctrlp.vim')
+if s:is_plugged('ctrlp.vim')
   let g:ctrlp_show_hidden     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
   let g:ctrlp_buffer_func = #{enter: 'g:CtrlpBufferFuncEnter'}
 
-  if s:IsPlugged('ctrlp_matchfuzzy.vim')
+  if s:is_plugged('ctrlp_matchfuzzy.vim')
     let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
 
@@ -352,13 +352,13 @@ endif
 " }}}
 
 " gina {{{
-if s:IsPlugged('gina.vim')
+if s:is_plugged('gina.vim')
   autocmd vimrc FileType gina-commit setlocal spell
 endif
 " }}}
 
 " gitgutter {{{
-if s:IsPlugged('vim-gitgutter')
+if s:is_plugged('vim-gitgutter')
   set updatetime=100
   let g:gitgutter_sign_priority = 10
   let g:gitgutter_sign_added              = '┃'
@@ -368,15 +368,15 @@ endif
 " }}}
 
 " highlightedyank {{{
-if s:IsPlugged('vim-highlightedyank')
+if s:is_plugged('vim-highlightedyank')
   let g:highlightedyank_highlight_duration = 500
 endif
 " }}}
 
 " lsp {{{
-if s:IsPlugged('vim-lsp')
-  \ && s:IsPlugged('asyncomplete.vim')
-  \ && s:IsPlugged('asyncomplete-lsp.vim')
+if s:is_plugged('vim-lsp')
+  \ && s:is_plugged('asyncomplete.vim')
+  \ && s:is_plugged('asyncomplete-lsp.vim')
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_documentation_float     = 0
   let g:lsp_signs_priority          = 20
@@ -400,7 +400,7 @@ endif
 " }}}
 
 " memolist {{{
-if s:IsPlugged('memolist.vim')
+if s:is_plugged('memolist.vim')
   " NOTE: memolist creates directories if needed
   let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
@@ -411,7 +411,7 @@ endif
 " }}}
 
 " molder {{{
-if s:IsPlugged('vim-molder')
+if s:is_plugged('vim-molder')
   let g:molder_show_hidden = 1
   let g:loaded_netrw             = 1
   let g:loaded_netrwFileHandlers = 1
@@ -439,7 +439,7 @@ endif
 " }}}
 
 " open browser {{{
-if s:IsPlugged('open-browser.vim')
+if s:is_plugged('open-browser.vim')
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
@@ -447,7 +447,7 @@ endif
 " }}}
 
 " rooter {{{
-if s:IsPlugged('vim-rooter')
+if s:is_plugged('vim-rooter')
   let g:rooter_cd_cmd = 'lcd'
   let g:rooter_silent_chdir = 1
 
@@ -460,7 +460,7 @@ endif
 " }}}
 
 " sandwich {{{
-if s:IsPlugged('vim-sandwich')
+if s:is_plugged('vim-sandwich')
   " NOTE: s can be replaced by cl or xi
   nmap s <Nop>
   xmap s <Nop>
@@ -468,7 +468,7 @@ endif
 " }}}
 
 " shadeline {{{
-if s:IsPlugged('shadeline.vim')
+if s:is_plugged('shadeline.vim')
   let g:shadeline = #{active: {}, inactive: {}}
   let g:shadeline.active.left = [
     \ '%1*%{ShadelineItemGitGutterSign()}%*',
@@ -486,19 +486,19 @@ if s:IsPlugged('shadeline.vim')
   " FileInfoOrSearchCount {{{
   function! g:ShadelineItemFileInfoOrSearchCount() abort
     if v:hlsearch == 0
-      return s:ShadelineUtilGetFileInfo()
+      return s:shadeline_util_get_fileinfo()
     else
-      return s:ShadelineUtilGetSearchCount()
+      return s:shadeline_util_get_searchcount()
     endif
   endfunction
 
-  function! s:ShadelineUtilGetFileInfo() abort
+  function! s:shadeline_util_get_fileinfo() abort
     return shadeline#functions#fileformat()
       \ . ' | ' . shadeline#functions#fileencoding()
       \ . ' | ' . shadeline#functions#filetype()
   endfunction
 
-  function! s:ShadelineUtilGetSearchCount() abort
+  function! s:shadeline_util_get_searchcount() abort
     let l:result = searchcount(#{maxcount: 0, timeout: 30})
     if empty(l:result) | return '' | endif
     if l:result.incomplete == 1
@@ -533,7 +533,7 @@ endif
 " }}}
 
 " sonictemplate {{{
-if s:IsPlugged('vim-sonictemplate')
+if s:is_plugged('vim-sonictemplate')
   let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
@@ -547,7 +547,7 @@ endif
 " }}}
 
 " tlr {{{
-if s:IsPlugged('tlr.vim')
+if s:is_plugged('tlr.vim')
   let g:tlr_num_of_cells_for_res = 2
   nmap <C-Down>  <Plug>(tlr-down)
   nmap <C-Up>    <Plug>(tlr-up)
@@ -557,7 +557,7 @@ endif
 " }}}
 
 " vsnip {{{
-if s:IsPlugged('vim-vsnip')
+if s:is_plugged('vim-vsnip')
   let g:vsnip_snippet_dir = expand('~/.vim/snippet/vsnip')
   imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
   smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
