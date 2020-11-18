@@ -162,9 +162,9 @@ function! s:OverrideHiColors(name, bg) abort
   let l:dir = expand('~/.vim/highlight')
   let l:file = printf('%s/%s/%s.vim', l:dir, a:name, a:bg)
   if filereadable(l:file)
-    exe 'source' l:file
+    exe 'source' fnameescape(l:file)
   else
-    exe 'source' l:dir . '/others.vim'
+    exe 'source' fnameescape(l:dir . '/others.vim')
   endif
 endfunction
 
@@ -208,7 +208,7 @@ function! s:ExploreHead() abort
   if !isdirectory(l:dir)
     return
   endif
-  exe 'edit' l:dir
+  exe 'edit' fnameescape(l:dir)
 endfunction
 " }}}
 
