@@ -457,12 +457,6 @@ endif
 if s:is_plugged('vim-rooter')
   let g:rooter_cd_cmd = 'lcd'
   let g:rooter_silent_chdir = 1
-
-  autocmd vimrc User RooterChDir
-    \ echo '[rooter] cwd is '
-    \|echohl Directory
-    \|echon getcwd()
-    \|echohl None
 endif
 " }}}
 
