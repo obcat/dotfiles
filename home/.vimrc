@@ -62,7 +62,7 @@ filetype plugin on
 
 " Check if a plugin exists
 function! s:is_plugged(name) abort
-  return exists(printf("g:plugs['%s'].dir", a:name))
+  return exists('g:plugs[''' . a:name . '''].dir')
     \ ? isdirectory(g:plugs[a:name].dir)
     \ : 0
 endfunction
@@ -223,9 +223,9 @@ inoremap <C-d> <Del>
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 
 function! s:i_ctrl_a() abort
-  let l:chars = getline('.')
-  let l:ind_len  = strchars(matchstr(l:chars, '^\s*'))
-  let l:pres_len = strchars(strpart(l:chars, 0, col('.') - 1))
+  let l:str = getline('.')
+  let l:ind_len  = strchars(matchstr(l:str, '^\s*'))
+  let l:pres_len = strchars(strpart(l:str, 0, col('.') - 1))
   if  l:ind_len < l:pres_len
     return repeat("\<C-g>U\<Left>", l:pres_len - l:ind_len)
   else
@@ -310,7 +310,7 @@ endfunction
 
 function! s:restore_curpos() abort
   if 1 <= line('''"') && line('''"') <= line('$') && &ft !~# 'commit'
-    exe 'norm! g`"'
+    exe 'normal! g`"'
   endif
 endfunction
 " }}}
@@ -432,7 +432,7 @@ if s:is_plugged('vim-molder')
     setlocal nonumber
     nnoremap <buffer> o <C-w>s:call molder#open()<CR>
     nnoremap <buffer> v <C-w>v:call molder#open()<CR>
-    nnoremap <buffer> <silent> t :<C-u>tab split<CR>:call molder#open()<CR>
+    nnoremap <buffer> <silent> t :<C-u>tab split <Bar> call molder#open()<CR>
     nnoremap <buffer> <silent> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
   endfunction
 
