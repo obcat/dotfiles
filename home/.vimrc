@@ -475,7 +475,7 @@ if s:is_plugged('shadeline.vim')
     \ '%1*%{ShadelineItemGitGutterSign()}%*',
     \ 'fname',
     \ 'flags',
-    \ 'ShadelineItemGitBranch'
+    \ 'ShadelineItemGitBranchOrSomething'
     \ ]
   let g:shadeline.active.right = [
     \ '<',
@@ -494,9 +494,11 @@ if s:is_plugged('shadeline.vim')
   endfunction
 
   function! s:shadeline_util_get_fileinfo() abort
-    return shadeline#functions#fileformat()
-      \ . ' | ' . shadeline#functions#fileencoding()
-      \ . ' | ' . shadeline#functions#filetype()
+    return printf('%s | %s | %s',
+      \ shadeline#functions#fileformat(),
+      \ shadeline#functions#fileencoding(),
+      \ shadeline#functions#filetype()
+      \ )
   endfunction
 
   function! s:shadeline_util_get_searchcount() abort
@@ -520,8 +522,16 @@ if s:is_plugged('shadeline.vim')
   endfunction
   " }}}
 
-  " GitBranch {{{
-  function! g:ShadelineItemGitBranch() abort
+  " GitBranchOrSomething {{{
+  function! g:ShadelineItemGitBranchOrSomething() abort
+    if &ft ==# 'help'
+      return ''
+    endif
+
+    if &ft ==# 'qf'
+      return get(w:, 'quickfix_title', '')
+    endif
+
     try
       let l:name = gina#component#repo#branch()
       return empty(l:name) ? '' : printf('(%s)', l:name)
