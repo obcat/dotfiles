@@ -24,6 +24,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
   Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
+  Plug 'junegunn/vim-easy-align'         " Alignment plugin
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
@@ -347,6 +348,10 @@ if s:is_plugged('ctrlp.vim')
     setlocal cursorlineopt=line
   endfunction
 
+
+" easy align {{{
+if s:is_plugged('vim-easy-align')
+  xmap ga <Plug>(EasyAlign)
   nnoremap ,, :<C-u>CtrlPMRU<CR>
 endif
 " }}}
