@@ -348,11 +348,13 @@ if s:is_plugged('ctrlp.vim')
     setlocal cursorlineopt=line
   endfunction
 
+  nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
+endif
+" }}}
 
 " easy align {{{
 if s:is_plugged('vim-easy-align')
   xmap ga <Plug>(EasyAlign)
-  nnoremap ,, :<C-u>CtrlPMRU<CR>
 endif
 " }}}
 
@@ -430,8 +432,8 @@ if s:is_plugged('vim-molder')
     setlocal nonumber
     nnoremap <buffer> o <C-w>s:call molder#open()<CR>
     nnoremap <buffer> v <C-w>v:call molder#open()<CR>
-    nnoremap <buffer> t :<C-u>tab split<CR>:call molder#open()<CR>
-    nnoremap <buffer> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
+    nnoremap <buffer> <silent> t :<C-u>tab split<CR>:call molder#open()<CR>
+    nnoremap <buffer> <silent> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
   endfunction
 
   function! s:molder_run_shell() abort
