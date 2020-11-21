@@ -430,10 +430,19 @@ if s:is_plugged('vim-molder')
   function! s:on_ft_molder() abort
     setlocal cursorlineopt=line
     setlocal nonumber
-    nnoremap <buffer> o <C-w>s:call molder#open()<CR>
-    nnoremap <buffer> v <C-w>v:call molder#open()<CR>
-    nnoremap <buffer> <silent> t :<C-u>tab split <Bar> call molder#open()<CR>
-    nnoremap <buffer> <silent> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
+    setlocal statusline=\ \ %{expand('%:p:~')}
+
+    nnoremap <buffer> <silent> o <C-w>s:call molder#open()<CR>
+    nnoremap <buffer> <silent> v <C-w>v:call molder#open()<CR>
+    nnoremap <buffer> <silent> <silent> t :<C-u>tab split <Bar> call molder#open()<CR>
+    nnoremap <buffer> <silent> <silent> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
+
+    " Silence default maps
+    nnoremap <silent> <Plug>(molder-open)   :<C-u>call molder#open()<CR>
+    nnoremap <silent> <Plug>(molder-up)     :<C-u>call molder#up()<CR>
+    nnoremap <silent> <Plug>(molder-reload) :<C-u>call molder#reload()<CR>
+    nnoremap <silent> <Plug>(molder-home)   :<C-u>call molder#home()<CR>
+    nnoremap <silent> <Plug>(molder-toggle-hidden) :<C-u>call molder#toggle_hidden()<CR>
   endfunction
 
   function! s:molder_run_shell() abort
