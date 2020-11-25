@@ -52,7 +52,7 @@ else
     \|echomsg 'Plugins are not installed yet. See README.md.'
     \|echohl None
 
-  function! g:PluginManagerInstall() abort
+  function! PluginManagerInstall() abort
     !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   endfunction
@@ -344,7 +344,7 @@ if s:is_plugged('ctrlp.vim')
     let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
 
-  function! g:CtrlpBufferFuncEnter() abort
+  function! CtrlpBufferFuncEnter() abort
     setlocal cursorlineopt=line
   endfunction
 
@@ -494,7 +494,7 @@ if s:is_plugged('shadeline.vim')
   let g:shadeline.inactive.left = ['fname', 'flags']
 
   " FileInfoOrSearchCount {{{
-  function! g:ShadelineItemFileInfoOrSearchCount() abort
+  function! ShadelineItemFileInfoOrSearchCount() abort
     if v:hlsearch == 0
       return s:shadeline_util_get_fileinfo()
     else
@@ -521,7 +521,7 @@ if s:is_plugged('shadeline.vim')
   " }}}
 
   " GitGutterSign {{{
-  function! g:ShadelineItemGitGutterSign() abort
+  function! ShadelineItemGitGutterSign() abort
     try
       let [l:a, l:m, l:r] = GitGutterGetHunkSummary()
       return l:a + l:m + l:r == 0 ? ' ' : '*'
@@ -532,7 +532,7 @@ if s:is_plugged('shadeline.vim')
   " }}}
 
   " GitBranchOrSomething {{{
-  function! g:ShadelineItemGitBranchOrSomething() abort
+  function! ShadelineItemGitBranchOrSomething() abort
     if &ft ==# 'help'
       return ''
     endif
