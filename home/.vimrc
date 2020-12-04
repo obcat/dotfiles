@@ -35,6 +35,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
+  Plug 'obcat/vim-sclow'                 " Text-based scrollbar for Vim
   Plug 'prabirshrestha/asyncomplete-lsp.vim' " LSP source for asyncomplete.vim and vim-lsp
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
@@ -346,6 +347,9 @@ if s:is_plugged('ctrlp.vim')
 
   function! CtrlpBufferFuncEnter() abort
     setlocal cursorlineopt=line
+    if s:is_plugged('vim-sclow')
+      call win_execute(win_getid(winnr('#')), 'call sclow#clean()')
+    endif
   endfunction
 
   nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
@@ -474,6 +478,13 @@ if s:is_plugged('vim-sandwich')
   " NOTE: s can be replaced by cl or xi
   nmap s <Nop>
   xmap s <Nop>
+endif
+" }}}
+
+" sclow {{{
+if s:is_plugged('vim-sclow')
+  let g:sclow_block_filetypes = 'ctrlp'
+  let g:sclow_show_full_length_sbar = 0
 endif
 " }}}
 
