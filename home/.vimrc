@@ -348,7 +348,7 @@ if s:is_plugged('ctrlp.vim')
   function! CtrlpBufferFuncEnter() abort
     setlocal cursorlineopt=line
     if s:is_plugged('vim-sclow')
-      call win_execute(win_getid(winnr('#')), 'call sclow#clean()')
+      call win_execute(win_getid(winnr('#')), 'call sclow#delete()')
     endif
   endfunction
 
@@ -483,8 +483,7 @@ endif
 
 " sclow {{{
 if s:is_plugged('vim-sclow')
-  let g:sclow_block_filetypes = 'ctrlp'
-  let g:sclow_show_full_length_sbar = 0
+  let g:sclow_hide_full_length = 1
 endif
 " }}}
 
