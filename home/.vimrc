@@ -284,19 +284,37 @@ endfunction
 
 call s:alias('cap', 'Capture')
 call s:alias('gina', 'Gina')
+call s:alias('h', 'H')
 call s:alias('hc', 'helpc')
+call s:alias('helpg', 'Helpg')
+" }}}
+
+" User-defined commands {{{
+command! -nargs=? -complete=help H
+  \ exe (max([160, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'help' <q-args>
+
+command! -nargs=1 Helpg
+  \ exe (max([160, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'helpgrep' <q-args>
 " }}}
 
 " Autocommands {{{
 autocmd vimrc FileType *         setlocal formatoptions-=o
 autocmd vimrc FileType gitcommit setlocal spell
 autocmd vimrc FileType gitconfig setlocal noexpandtab
-autocmd vimrc FileType help      setlocal conceallevel=0
 autocmd vimrc FileType vim       setlocal foldmethod=marker
+autocmd vimrc FileType help      call <SID>on_ft_help()
 autocmd vimrc FileType qf        call <SID>on_ft_qf()
 
 autocmd vimrc BufReadPost     * call <SID>restore_curpos()
 autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
+
+function! s:on_ft_help() abort
+  setlocal conceallevel=0
+  if !&modifiable
+    nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>') . '@en'<CR>
+    nnoremap <buffer> <silent> J :<C-u>exe 'help' expand('<cword>') . '@ja'<CR>
+  endif
+endfunction
 
 function! s:on_ft_qf() abort
   exe 'resize' min([line('$') + 2, 10])
