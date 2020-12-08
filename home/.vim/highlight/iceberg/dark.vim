@@ -41,6 +41,7 @@ hi StatusLine   cterm=NONE ctermfg=250 ctermbg=236 gui=NONE guifg=#aab1d4 guibg=
 hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
 hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
 hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
+hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
 hi! link HighlightedyankRegion Visual
 hi! link LspPreviewPopup       StatusLine
 hi! link LspReference          CursorColumn

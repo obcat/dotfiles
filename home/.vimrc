@@ -40,6 +40,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'previm/previm'                   " Realtime markdown preview
+  Plug 'rhysd/clever-f.vim'              " Make f, F, t and T cleverer
   Plug 'thinca/vim-prettyprint'          " Prettyprint Vim variable for debug
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
@@ -350,6 +351,12 @@ if s:is_plugged('vim-better-whitespace')
   let g:better_whitespace_guicolor   = 'NONE'
   nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
   nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
+endif
+" }}}
+
+" clever-f {{{
+if s:is_plugged('clever-f.vim')
+  let g:clever_f_across_no_line = 1
 endif
 " }}}
 
