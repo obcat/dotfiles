@@ -507,6 +507,7 @@ endif
 " sclow {{{
 if s:is_plugged('vim-sclow')
   let g:sclow_hide_full_length = 1
+  let g:sclow_sbar_right_offset = -1
 endif
 " }}}
 
