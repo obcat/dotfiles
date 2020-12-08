@@ -40,6 +40,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'previm/previm'                   " Realtime markdown preview
+  Plug 'thinca/vim-prettyprint'          " Prettyprint Vim variable for debug
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    " Comment out
