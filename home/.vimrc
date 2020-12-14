@@ -35,7 +35,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
-  Plug 'obcat/vim-sclow'                 " Text-based scrollbar for Vim
   Plug 'prabirshrestha/asyncomplete-lsp.vim' " LSP source for asyncomplete.vim and vim-lsp
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
