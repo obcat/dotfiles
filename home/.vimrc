@@ -522,37 +522,10 @@ if s:is_plugged('shadeline.vim')
     \ ]
   let g:shadeline.active.right = [
     \ '<',
-    \ 'ShadelineItemFileInfoOrSearchCount',
+    \ ['ff', 'fenc', 'ft'],
     \ '%3p%%:%-2c'
     \ ]
   let g:shadeline.inactive.left = ['fname', 'flags']
-
-  " FileInfoOrSearchCount {{{
-  function! ShadelineItemFileInfoOrSearchCount() abort
-    if v:hlsearch == 0
-      return s:shadeline_util_get_fileinfo()
-    else
-      return s:shadeline_util_get_searchcount()
-    endif
-  endfunction
-
-  function! s:shadeline_util_get_fileinfo() abort
-    return printf('%s | %s | %s',
-      \ shadeline#functions#fileformat(),
-      \ shadeline#functions#fileencoding(),
-      \ shadeline#functions#filetype()
-      \ )
-  endfunction
-
-  function! s:shadeline_util_get_searchcount() abort
-    let l:result = searchcount(#{maxcount: 0, timeout: 30})
-    if empty(l:result) | return '' | endif
-    if l:result.incomplete == 1
-      return printf('%s (?/??)', @/)
-    endif
-    return printf('%s (%d/%d)', @/, l:result.current, l:result.total)
-  endfunction
-  " }}}
 
   " GitGutterSign {{{
   function! ShadelineItemGitGutterSign() abort
