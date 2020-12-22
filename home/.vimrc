@@ -274,14 +274,12 @@ endfunction
 " }}}
 
 " Aliases {{{
-" Alias() {{{
-function! s:alias(key, val) abort
+function! s:alias(key, val) abort "{{{
   exe printf(
     \ 'cnoreabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() == %d) ? %s : %s',
     \ a:key, 1 + len(a:key), string(a:val), string(a:key)
     \ )
-endfunction
-" }}}
+endfunction "}}}
 
 call s:alias('cap', 'Capture')
 call s:alias('gina', 'Gina')
@@ -336,31 +334,24 @@ endfunction
 " }}}
 
 " Plugin settings {{{
-" asterisk {{{
-if s:is_plugged('vim-asterisk')
+if s:is_plugged('vim-asterisk') "{{{
   map *  <Plug>(asterisk-z*)
   map g* <Plug>(asterisk-gz*)
-endif
-" }}}
+endif "}}}
 
-" better-whitespace {{{
-if s:is_plugged('vim-better-whitespace')
+if s:is_plugged('vim-better-whitespace') "{{{
   let g:strip_whitespace_on_save = 1
   let g:better_whitespace_ctermcolor = 'NONE'
   let g:better_whitespace_guicolor   = 'NONE'
   nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
   nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
-endif
-" }}}
+endif "}}}
 
-" clever-f {{{
-if s:is_plugged('clever-f.vim')
+if s:is_plugged('clever-f.vim') "{{{
   let g:clever_f_across_no_line = 1
-endif
-" }}}
+endif "}}}
 
-" CtrlP {{{
-if s:is_plugged('ctrlp.vim')
+if s:is_plugged('ctrlp.vim') "{{{
   let g:ctrlp_show_hidden     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -375,36 +366,26 @@ if s:is_plugged('ctrlp.vim')
   endfunction
 
   nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
-endif
-" }}}
+endif "}}}
 
-" easy align {{{
-if s:is_plugged('vim-easy-align')
+if s:is_plugged('vim-easy-align') "{{{
   xmap ga <Plug>(EasyAlign)
-endif
-" }}}
+endif "}}}
 
-" gina {{{
-if s:is_plugged('gina.vim')
+if s:is_plugged('gina.vim') "{{{
   autocmd vimrc FileType gina-commit setlocal spell
-endif
-" }}}
+endif "}}}
 
-" gitgutter {{{
-if s:is_plugged('vim-gitgutter')
+if s:is_plugged('vim-gitgutter') "{{{
   set updatetime=100
   let g:gitgutter_sign_priority = 10
-endif
-" }}}
+endif "}}}
 
-" highlightedyank {{{
-if s:is_plugged('vim-highlightedyank')
+if s:is_plugged('vim-highlightedyank') "{{{
   let g:highlightedyank_highlight_duration = 500
-endif
-" }}}
+endif "}}}
 
-" lsp {{{
-if s:is_plugged('vim-lsp')
+if s:is_plugged('vim-lsp') "{{{
   \ && s:is_plugged('asyncomplete.vim')
   \ && s:is_plugged('asyncomplete-lsp.vim')
   let g:lsp_diagnostics_echo_cursor = 1
@@ -426,22 +407,18 @@ if s:is_plugged('vim-lsp')
     \   maxheight: 16,
     \   highlight: 'LspPreviewPopup',
     \ })
-endif
-" }}}
+endif "}}}
 
-" memolist {{{
-if s:is_plugged('memolist.vim')
+if s:is_plugged('memolist.vim') "{{{
   " NOTE: memolist creates directories if needed
   let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
     \ : expand('~/memolist')
   let g:memolist_memo_suffix = 'md'
   let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
-endif
-" }}}
+endif "}}}
 
-" molder {{{
-if s:is_plugged('vim-molder')
+if s:is_plugged('vim-molder') "{{{
   let g:molder_show_hidden = 1
   let g:loaded_netrw             = 1
   let g:loaded_netrwFileHandlers = 1
@@ -474,41 +451,31 @@ if s:is_plugged('vim-molder')
       \ term_finish: 'close',
       \ })
   endfunction
-endif
-" }}}
+endif "}}}
 
-" open browser {{{
-if s:is_plugged('open-browser.vim')
+if s:is_plugged('open-browser.vim') "{{{
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
-endif
-" }}}
+endif "}}}
 
-" rooter {{{
-if s:is_plugged('vim-rooter')
+if s:is_plugged('vim-rooter') "{{{
   let g:rooter_cd_cmd = 'lcd'
   let g:rooter_silent_chdir = 1
-endif
-" }}}
+endif "}}}
 
-" sandwich {{{
-if s:is_plugged('vim-sandwich')
-  " NOTE: s can be replaced by cl or xi
+if s:is_plugged('vim-sandwich') "{{{
+  " NOTE: s can be replaced by cl
   nmap s <Nop>
   xmap s <Nop>
-endif
-" }}}
+endif "}}}
 
-" sclow {{{
-if s:is_plugged('vim-sclow')
+if s:is_plugged('vim-sclow') "{{{
   let g:sclow_hide_full_length = 1
   let g:sclow_sbar_right_offset = -1
-endif
-" }}}
+endif "}}}
 
-" shadeline {{{
-if s:is_plugged('shadeline.vim')
+if s:is_plugged('shadeline.vim') "{{{
   let g:shadeline = #{active: {}, inactive: {}}
   let g:shadeline.active.left = [
     \ '%1*%{ShadelineItemGitGutterSign()}%*',
@@ -523,19 +490,16 @@ if s:is_plugged('shadeline.vim')
     \ ]
   let g:shadeline.inactive.left = ['fname', 'flags']
 
-  " GitGutterSign {{{
-  function! ShadelineItemGitGutterSign() abort
+  function! ShadelineItemGitGutterSign() abort "{{{
     try
       let [l:a, l:m, l:r] = GitGutterGetHunkSummary()
       return l:a + l:m + l:r == 0 ? ' ' : '*'
     catch /:E117:/
       return ' '
     endtry
-  endfunction
-  " }}}
+  endfunction "}}}
 
-  " GitBranchOrSomething {{{
-  function! ShadelineItemGitBranchOrSomething() abort
+  function! ShadelineItemGitBranchOrSomething() abort "{{{
     if winwidth(0) < 40
       return ''
     endif
@@ -553,8 +517,7 @@ if s:is_plugged('shadeline.vim')
     catch /:E117:/
       return ''
     endtry
-  endfunction
-  " }}}
+  endfunction "}}}
 
   function! ShadelineItemFileInfo() abort "{{{
     if winwidth(0) < 60
@@ -566,12 +529,9 @@ if s:is_plugged('shadeline.vim')
       \ shadeline#functions#filetype(),
       \ )
   endfunction "}}}
+endif "}}}
 
-endif
-" }}}
-
-" sonictemplate {{{
-if s:is_plugged('vim-sonictemplate')
+if s:is_plugged('vim-sonictemplate') "{{{
   let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
@@ -581,26 +541,21 @@ if s:is_plugged('vim-sonictemplate')
     \ Template call sonictemplate#apply(<f-args>, 'n')
 
   autocmd vimrc FileType stpl setlocal noexpandtab
-endif
-" }}}
+endif "}}}
 
-" tlr {{{
-if s:is_plugged('tlr.vim')
+if s:is_plugged('tlr.vim') "{{{
   let g:tlr_num_of_cells_for_res = 2
   nmap <C-Down>  <Plug>(tlr-down)
   nmap <C-Up>    <Plug>(tlr-up)
   nmap <C-Left>  <Plug>(tlr-left)
   nmap <C-Right> <Plug>(tlr-right)
-endif
-" }}}
+endif "}}}
 
-" vsnip {{{
-if s:is_plugged('vim-vsnip')
+if s:is_plugged('vim-vsnip') "{{{
   let g:vsnip_snippet_dir = expand('~/.vim/snippet/vsnip')
   imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
   smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
-endif
-" }}}
+endif "}}}
 " }}}
 
 " Local settings {{{
