@@ -162,12 +162,12 @@ let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 
 function! s:override_hlcolors(name, bg) abort
-  let l:dir = expand('~/.vim/highlight')
-  let l:file = printf('%s/%s/%s.vim', l:dir, a:name, a:bg)
-  if filereadable(l:file)
-    exe 'source' fnameescape(l:file)
+  const dir  = expand('~/.vim/highlight')
+  const file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
+  if filereadable(file)
+    exe 'source' fnameescape(file)
   else
-    exe 'source' fnameescape(l:dir . '/others.vim')
+    exe 'source' fnameescape(dir . '/others.vim')
   endif
 endfunction
 
@@ -210,11 +210,11 @@ nnoremap <silent> <C-w>o         <C-w>o:doautocmd User WinResized<CR>
 nnoremap <silent> <C-w><C-o> <C-w><C-o>:doautocmd User WinResized<CR>
 
 function! s:explore_head() abort
-  let l:dir = expand('%:p:h')
-  if !isdirectory(l:dir)
+  const dir = expand('%:p:h')
+  if !isdirectory(dir)
     return
   endif
-  exe 'edit' fnameescape(l:dir)
+  exe 'edit' fnameescape(dir)
 endfunction
 " }}}
 
@@ -228,21 +228,21 @@ inoremap <C-d> <Del>
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 
 function! s:i_ctrl_a() abort
-  let l:str = getline('.')
-  let l:ind_len  = strchars(matchstr(l:str, '^\s*'))
-  let l:pres_len = strchars(strpart(l:str, 0, col('.') - 1))
-  if  l:ind_len < l:pres_len
-    return repeat("\<C-g>U\<Left>", l:pres_len - l:ind_len)
+  const str = getline('.')
+  const ind_len  = strchars(matchstr(str, '^\s*'))
+  const pres_len = strchars(strpart(str, 0, col('.') - 1))
+  if  ind_len < pres_len
+    return repeat("\<C-g>U\<Left>", pres_len - ind_len)
   else
-    return repeat("\<C-g>U\<Left>", l:pres_len)
+    return repeat("\<C-g>U\<Left>", pres_len)
   endif
 endfunction
 
 function! s:i_ctrl_e() abort
-  let l:cur_col = col('.')
-  let l:end_col = col('$')
-  if l:cur_col < l:end_col
-    return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), l:cur_col - 1)))
+  const cur_col = col('.')
+  const end_col = col('$')
+  if cur_col < end_col
+    return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), cur_col - 1)))
   else
     return "\<C-e>"
   endif
@@ -501,8 +501,8 @@ if s:is_plugged('shadeline.vim') "{{{
 
   function! ShadelineItemGitGutterSign() abort "{{{
     try
-      let [l:a, l:m, l:r] = GitGutterGetHunkSummary()
-      return l:a + l:m + l:r == 0 ? ' ' : '*'
+      const [a, m, r] = GitGutterGetHunkSummary()
+      return a + m + r == 0 ? ' ' : '*'
     catch /:E117:/
       return ' '
     endtry
@@ -513,16 +513,16 @@ if s:is_plugged('shadeline.vim') "{{{
       return ''
     endif
 
-    if &ft ==# 'help'
+    if &filetype ==# 'help'
       return ''
     endif
-    if &ft ==# 'qf'
+    if &filetype ==# 'qf'
       return get(w:, 'quickfix_title', '')
     endif
 
     try
-      let l:name = gina#component#repo#branch()
-      return empty(l:name) ? '' : printf('(%s)', l:name)
+      const name = gina#component#repo#branch()
+      return empty(name) ? '' : printf('(%s)', name)
     catch /:E117:/
       return ''
     endtry
