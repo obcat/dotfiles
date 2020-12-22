@@ -372,9 +372,6 @@ if s:is_plugged('ctrlp.vim')
 
   function! CtrlpBufferFuncEnter() abort
     setlocal cursorlineopt=line
-    if s:is_plugged('vim-sclow')
-      call win_execute(win_getid(winnr('#')), 'call sclow#delete()')
-    endif
   endfunction
 
   nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
@@ -521,7 +518,7 @@ if s:is_plugged('shadeline.vim')
     \ ]
   let g:shadeline.active.right = [
     \ '<',
-    \ ['ff', 'fenc', 'ft'],
+    \ 'ShadelineItemFileInfo',
     \ '%3p%%:%-2c'
     \ ]
   let g:shadeline.inactive.left = ['fname', 'flags']
@@ -539,10 +536,13 @@ if s:is_plugged('shadeline.vim')
 
   " GitBranchOrSomething {{{
   function! ShadelineItemGitBranchOrSomething() abort
-    if &ft ==# 'help'
+    if winwidth(0) < 40
       return ''
     endif
 
+    if &ft ==# 'help'
+      return ''
+    endif
     if &ft ==# 'qf'
       return get(w:, 'quickfix_title', '')
     endif
@@ -555,6 +555,18 @@ if s:is_plugged('shadeline.vim')
     endtry
   endfunction
   " }}}
+
+  function! ShadelineItemFileInfo() abort "{{{
+    if winwidth(0) < 60
+      return ''
+    endif
+    return printf('%s | %s | %s',
+      \ shadeline#functions#fileformat(),
+      \ shadeline#functions#fileencoding(),
+      \ shadeline#functions#filetype(),
+      \ )
+  endfunction "}}}
+
 endif
 " }}}
 
