@@ -206,6 +206,9 @@ nnoremap <silent> ]q :<C-u>cnext<CR>
 
 nnoremap <silent> - :<C-u>call <SID>explore_head()<CR>
 
+nnoremap <silent> <C-w>o         <C-w>o:doautocmd User WinResized<CR>
+nnoremap <silent> <C-w><C-o> <C-w><C-o>:doautocmd User WinResized<CR>
+
 function! s:explore_head() abort
   let l:dir = expand('%:p:h')
   if !isdirectory(l:dir)
@@ -385,6 +388,11 @@ if s:is_plugged('vim-highlightedyank') "{{{
   let g:highlightedyank_highlight_duration = 500
 endif "}}}
 
+if s:is_plugged('vim-hitspop') "{{{
+  let g:hitspop_line = 'winbot'
+  autocmd vimrc_local User WinResized call hitspop#main()
+endif "}}}
+
 if s:is_plugged('vim-lsp') "{{{
   \ && s:is_plugged('asyncomplete.vim')
   \ && s:is_plugged('asyncomplete-lsp.vim')
@@ -473,6 +481,7 @@ endif "}}}
 if s:is_plugged('vim-sclow') "{{{
   let g:sclow_hide_full_length = 1
   let g:sclow_sbar_right_offset = -1
+  autocmd vimrc User WinResized call sclow#update()
 endif "}}}
 
 if s:is_plugged('shadeline.vim') "{{{
@@ -544,11 +553,11 @@ if s:is_plugged('vim-sonictemplate') "{{{
 endif "}}}
 
 if s:is_plugged('tlr.vim') "{{{
-  let g:tlr_num_of_cells_for_res = 2
-  nmap <C-Down>  <Plug>(tlr-down)
-  nmap <C-Up>    <Plug>(tlr-up)
-  nmap <C-Left>  <Plug>(tlr-left)
-  nmap <C-Right> <Plug>(tlr-right)
+  let g:tlr_num_of_cells_for_res = 8
+  nmap <silent> <C-Down>  <Plug>(tlr-down):doautocmd User WinResized<CR>
+  nmap <silent> <C-Up>    <Plug>(tlr-up):doautocmd User WinResized<CR>
+  nmap <silent> <C-Left>  <Plug>(tlr-left):doautocmd User WinResized<CR>
+  nmap <silent> <C-Right> <Plug>(tlr-right):doautocmd User WinResized<CR>
 endif "}}}
 
 if s:is_plugged('vim-vsnip') "{{{
