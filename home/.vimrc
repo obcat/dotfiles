@@ -63,7 +63,7 @@ endif
 filetype plugin on
 
 " Check if a plugin exists
-function! s:is_plugged(name) abort
+function! s:isplugged(name) abort
   return exists('g:plugs[''' . a:name . '''].dir')
     \ ? isdirectory(g:plugs[a:name].dir)
     \ : 0
@@ -78,14 +78,14 @@ set cursorline
 set cursorlineopt=number
 set display=lastline
 set fillchars=vert:│,fold:-
-set foldlevel=99
 set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
+set nowrap
 set number
 set numberwidth=1
+set ruler
 set shortmess& shortmess+=mrI
-set showcmd
 set signcolumn=yes
 set wildmenu
 syntax enable
@@ -110,21 +110,19 @@ set virtualedit=block
 filetype indent on
 set autoindent
 set breakindent
-set breakindentopt=min:20,shift:-2
 set expandtab
 set linebreak
 set shiftwidth=0
 set softtabstop=-1
 set tabstop=2
-let &showbreak = '+ '
-let g:vim_indent_cont = &tabstop
+let g:vim_indent_cont = 2
 
 " Scroll
 set sidescroll=1
 set scrolloff=7
 
 " Search
-if v:hlsearch == 0
+if !v:hlsearch
   set hlsearch
   nohlsearch
 endif
@@ -145,7 +143,7 @@ if !isdirectory(s:swapdir)
   call mkdir(s:swapdir, 'p')
 endif
 let &directory = s:swapdir
-set history=10000
+set history=1000
 
 " Misc
 set belloff=all
@@ -161,7 +159,7 @@ set ttimeoutlen=50
 let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 
-function! s:override_hlcolors(name, bg) abort
+function! s:override_highlights(name, bg) abort
   const dir  = expand('~/.vim/highlight')
   const file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
   if filereadable(file)
@@ -172,15 +170,15 @@ function! s:override_hlcolors(name, bg) abort
 endfunction
 
 autocmd vimrc ColorScheme *
-  \ call s:override_hlcolors(expand('<amatch>'), &background)
+  \ call s:override_highlights(expand('<amatch>'), &background)
 
-if s:is_plugged('iceberg.vim')
+if s:isplugged('iceberg.vim')
   colorscheme iceberg
 else
   colorscheme slate
 endif
 
-if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
+if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
   set termguicolors
 endif
 " }}}
@@ -197,10 +195,9 @@ nnoremap gk k
 
 nnoremap Y y$
 
+nnoremap <silent> <Leader>w :<C-u>setlocal wrap! wrap?<CR>
 nnoremap <silent> <Leader>l :<C-u>let v:hlsearch = !v:hlsearch<CR>
 
-nnoremap <silent> [b :<C-u>bprevious<CR>
-nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
 
@@ -218,6 +215,11 @@ function! s:explore_head() abort
 endfunction
 " }}}
 
+" Visual {{{
+xnoremap y ygv<ESC>
+xnoremap Y Ygv<ESC>
+" }}}
+
 " Insert {{{
 inoremap <C-b> <C-g>U<Left>
 inoremap <C-f> <C-g>U<Right>
@@ -225,24 +227,26 @@ inoremap <expr> <C-a> <SID>i_ctrl_a()
 inoremap <expr> <C-e> <SID>i_ctrl_e()
 inoremap <C-d> <Del>
 
+inoremap <C-u> <C-g>u<C-u>
+
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 
 function! s:i_ctrl_a() abort
-  const str = getline('.')
-  const ind_len  = strchars(matchstr(str, '^\s*'))
-  const pres_len = strchars(strpart(str, 0, col('.') - 1))
-  if  ind_len < pres_len
-    return repeat("\<C-g>U\<Left>", pres_len - ind_len)
+  const line = getline('.')
+  const indent     = strchars(matchstr(line, '^\s*'))
+  const precedings = strchars(strpart(line, 0, col('.') - 1))
+  if  indent < precedings
+    return "\<C-g>U\<Left>" ->repeat(precedings - indent)
   else
-    return repeat("\<C-g>U\<Left>", pres_len)
+    return "\<C-g>U\<Left>" ->repeat(precedings)
   endif
 endfunction
 
 function! s:i_ctrl_e() abort
-  const cur_col = col('.')
-  const end_col = col('$')
-  if cur_col < end_col
-    return repeat("\<C-g>U\<Right>", strchars(strpart(getline('.'), cur_col - 1)))
+  const curcol = col('.')
+  const endcol = col('$')
+  if curcol < endcol
+    return "\<C-g>U\<Right>" ->repeat(strchars(strpart(getline('.'), curcol - 1)))
   else
     return "\<C-e>"
   endif
@@ -259,7 +263,7 @@ cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
 function! s:c_ctrl_f() abort
-  if getcmdpos() - 1 < strlen(getcmdline())
+  if getcmdpos() <= strlen(getcmdline())
     return "\<Right>"
   else
     return &cedit
@@ -267,7 +271,7 @@ function! s:c_ctrl_f() abort
 endfunction
 
 function! s:c_ctrl_d() abort
-  if getcmdpos() - 1 < strlen(getcmdline())
+  if getcmdpos() <= strlen(getcmdline())
     return "\<Del>"
   else
     return "\<C-d>"
@@ -279,7 +283,7 @@ endfunction
 " Aliases {{{
 function! s:alias(key, val) abort "{{{
   exe printf(
-    \ 'cnoreabbrev <expr> %s (getcmdtype() == ":" && getcmdpos() == %d) ? %s : %s',
+    \ 'cnoreabbrev <expr> %s (getcmdtype() is# ":" && getcmdpos() == %d) ? %s : %s',
     \ a:key, 1 + len(a:key), string(a:val), string(a:key)
     \ )
 endfunction "}}}
@@ -304,13 +308,13 @@ autocmd vimrc FileType *         setlocal formatoptions-=o
 autocmd vimrc FileType gitcommit setlocal spell
 autocmd vimrc FileType gitconfig setlocal noexpandtab
 autocmd vimrc FileType vim       setlocal foldmethod=marker
-autocmd vimrc FileType help      call <SID>on_ft_help()
-autocmd vimrc FileType qf        call <SID>on_ft_qf()
+autocmd vimrc FileType help      call <SID>onft_help()
+autocmd vimrc FileType qf        call <SID>onft_qf()
 
 autocmd vimrc BufReadPost     * call <SID>restore_curpos()
 autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
 
-function! s:on_ft_help() abort
+function! s:onft_help() abort
   setlocal conceallevel=0
   if !&modifiable
     nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>') . '@en'<CR>
@@ -318,9 +322,8 @@ function! s:on_ft_help() abort
   endif
 endfunction
 
-function! s:on_ft_qf() abort
+function! s:onft_qf() abort
   exe 'resize' min([line('$') + 2, 10])
-  setlocal nowrap
   nnoremap <buffer> <silent> p :<C-u>call <SID>qf_preview()<CR>
 endfunction
 
@@ -337,30 +340,28 @@ endfunction
 " }}}
 
 " Plugin settings {{{
-if s:is_plugged('vim-asterisk') "{{{
+if s:isplugged('vim-asterisk') "{{{
   map *  <Plug>(asterisk-z*)
   map g* <Plug>(asterisk-gz*)
 endif "}}}
 
-if s:is_plugged('vim-better-whitespace') "{{{
+if s:isplugged('vim-better-whitespace') "{{{
   let g:strip_whitespace_on_save = 1
   let g:better_whitespace_ctermcolor = 'NONE'
   let g:better_whitespace_guicolor   = 'NONE'
-  nnoremap <silent> [w :<C-u>PrevTrailingWhitespace<CR>
-  nnoremap <silent> ]w :<C-u>NextTrailingWhitespace<CR>
 endif "}}}
 
-if s:is_plugged('clever-f.vim') "{{{
+if s:isplugged('clever-f.vim') "{{{
   let g:clever_f_across_no_line = 1
 endif "}}}
 
-if s:is_plugged('ctrlp.vim') "{{{
+if s:isplugged('ctrlp.vim') "{{{
   let g:ctrlp_show_hidden     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
   let g:ctrlp_buffer_func = #{enter: 'g:CtrlpBufferFuncEnter'}
 
-  if s:is_plugged('ctrlp_matchfuzzy.vim')
+  if s:isplugged('ctrlp_matchfuzzy.vim')
     let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
 
@@ -371,31 +372,31 @@ if s:is_plugged('ctrlp.vim') "{{{
   nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
 endif "}}}
 
-if s:is_plugged('vim-easy-align') "{{{
+if s:isplugged('vim-easy-align') "{{{
   xmap ga <Plug>(EasyAlign)
 endif "}}}
 
-if s:is_plugged('gina.vim') "{{{
+if s:isplugged('gina.vim') "{{{
   autocmd vimrc FileType gina-commit setlocal spell
 endif "}}}
 
-if s:is_plugged('vim-gitgutter') "{{{
+if s:isplugged('vim-gitgutter') "{{{
   set updatetime=100
   let g:gitgutter_sign_priority = 10
 endif "}}}
 
-if s:is_plugged('vim-highlightedyank') "{{{
+if s:isplugged('vim-highlightedyank') "{{{
   let g:highlightedyank_highlight_duration = 500
 endif "}}}
 
-if s:is_plugged('vim-hitspop') "{{{
+if s:isplugged('vim-hitspop') "{{{
   let g:hitspop_line = 'winbot'
   autocmd vimrc_local User WinResized call hitspop#main()
 endif "}}}
 
-if s:is_plugged('vim-lsp') "{{{
-  \ && s:is_plugged('asyncomplete.vim')
-  \ && s:is_plugged('asyncomplete-lsp.vim')
+if s:isplugged('vim-lsp') "{{{
+  \ && s:isplugged('asyncomplete.vim')
+  \ && s:isplugged('asyncomplete-lsp.vim')
   let g:lsp_diagnostics_echo_cursor = 1
   let g:lsp_documentation_float     = 0
   let g:lsp_signs_priority          = 20
@@ -417,7 +418,7 @@ if s:is_plugged('vim-lsp') "{{{
     \ })
 endif "}}}
 
-if s:is_plugged('memolist.vim') "{{{
+if s:isplugged('memolist.vim') "{{{
   " NOTE: memolist creates directories if needed
   let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
@@ -426,16 +427,16 @@ if s:is_plugged('memolist.vim') "{{{
   let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
 endif "}}}
 
-if s:is_plugged('vim-molder') "{{{
+if s:isplugged('vim-molder') "{{{
   let g:molder_show_hidden = 1
   let g:loaded_netrw             = 1
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin       = 1
   let g:loaded_netrwSettings     = 1
 
-  autocmd vimrc FileType molder call <SID>on_ft_molder()
+  autocmd vimrc FileType molder call <SID>onft_molder()
 
-  function! s:on_ft_molder() abort
+  function! s:onft_molder() abort
     setlocal cursorlineopt=line
     setlocal nonumber
     setlocal statusline=\ \ %{expand('%:p:~')}
@@ -443,7 +444,7 @@ if s:is_plugged('vim-molder') "{{{
     nnoremap <buffer> <silent> o <C-w>s:call molder#open()<CR>
     nnoremap <buffer> <silent> v <C-w>v:call molder#open()<CR>
     nnoremap <buffer> <silent> <silent> t :<C-u>tab split <Bar> call molder#open()<CR>
-    nnoremap <buffer> <silent> <silent> <nowait> s :<C-u>call <SID>molder_run_shell()<CR>
+    nnoremap <buffer> <silent> <silent> <nowait> s :<C-u>call <SID>molder_runshell()<CR>
 
     " Silence default maps
     nnoremap <silent> <Plug>(molder-open)   :<C-u>call molder#open()<CR>
@@ -453,7 +454,7 @@ if s:is_plugged('vim-molder') "{{{
     nnoremap <silent> <Plug>(molder-toggle-hidden) :<C-u>call molder#toggle_hidden()<CR>
   endfunction
 
-  function! s:molder_run_shell() abort
+  function! s:molder_runshell() abort
     call term_start(&shell, #{
       \ cwd: molder#curdir(),
       \ term_finish: 'close',
@@ -461,30 +462,30 @@ if s:is_plugged('vim-molder') "{{{
   endfunction
 endif "}}}
 
-if s:is_plugged('open-browser.vim') "{{{
+if s:isplugged('open-browser.vim') "{{{
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
 endif "}}}
 
-if s:is_plugged('vim-rooter') "{{{
+if s:isplugged('vim-rooter') "{{{
   let g:rooter_cd_cmd = 'lcd'
   let g:rooter_silent_chdir = 1
 endif "}}}
 
-if s:is_plugged('vim-sandwich') "{{{
+if s:isplugged('vim-sandwich') "{{{
   " NOTE: s can be replaced by cl
   nmap s <Nop>
   xmap s <Nop>
 endif "}}}
 
-if s:is_plugged('vim-sclow') "{{{
+if s:isplugged('vim-sclow') "{{{
   let g:sclow_hide_full_length = 1
   let g:sclow_sbar_right_offset = -1
   autocmd vimrc User WinResized call sclow#update()
 endif "}}}
 
-if s:is_plugged('shadeline.vim') "{{{
+if s:isplugged('shadeline.vim') "{{{
   let g:shadeline = #{active: {}, inactive: {}}
   let g:shadeline.active.left = [
     \ '%1*%{ShadelineItemGitGutterSign()}%*',
@@ -513,10 +514,10 @@ if s:is_plugged('shadeline.vim') "{{{
       return ''
     endif
 
-    if &filetype ==# 'help'
+    if &filetype is# 'help'
       return ''
     endif
-    if &filetype ==# 'qf'
+    if &filetype is# 'qf'
       return get(w:, 'quickfix_title', '')
     endif
 
@@ -540,7 +541,7 @@ if s:is_plugged('shadeline.vim') "{{{
   endfunction "}}}
 endif "}}}
 
-if s:is_plugged('vim-sonictemplate') "{{{
+if s:isplugged('vim-sonictemplate') "{{{
   let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
@@ -552,7 +553,7 @@ if s:is_plugged('vim-sonictemplate') "{{{
   autocmd vimrc FileType stpl setlocal noexpandtab
 endif "}}}
 
-if s:is_plugged('tlr.vim') "{{{
+if s:isplugged('tlr.vim') "{{{
   let g:tlr_num_of_cells_for_res = 8
   nmap <silent> <C-Down>  <Plug>(tlr-down):doautocmd User WinResized<CR>
   nmap <silent> <C-Up>    <Plug>(tlr-up):doautocmd User WinResized<CR>
@@ -560,7 +561,7 @@ if s:is_plugged('tlr.vim') "{{{
   nmap <silent> <C-Right> <Plug>(tlr-right):doautocmd User WinResized<CR>
 endif "}}}
 
-if s:is_plugged('vim-vsnip') "{{{
+if s:isplugged('vim-vsnip') "{{{
   let g:vsnip_snippet_dir = expand('~/.vim/snippet/vsnip')
   imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
   smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
