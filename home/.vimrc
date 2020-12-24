@@ -359,13 +359,30 @@ function! MyTabLine() abort
         let tl .= '%#TabLineSel#'
         let tl .= "\<Space>"
       endif
-      let tl .= s:center(s:bufname(curbufnr), 18)
+      let tl .= "\<Space>"
+      let tl .= "\<Space>"
+      let tl .= s:center(s:bufname(curbufnr), 16)
+      let tl .= "\<Space>"
+      if getbufvar(curbufnr, '&modified')
+        let tl .= '%#TabLineSelMod#'
+        let tl .= '●'
+      else
+        let tl .= "\<Space>"
+      endif
       let tl .= '%#TabLineSelDelim#'
       let tl .= '▕'
     else
       let tl .= '%#TabLine#'
       let tl .= "\<Space>"
-      let tl .= s:center(s:bufname(curbufnr), 18)
+      let tl .= "\<Space>"
+      let tl .= "\<Space>"
+      let tl .= s:center(s:bufname(curbufnr), 16)
+      let tl .= "\<Space>"
+      if getbufvar(curbufnr, '&modified')
+        let tl .= '●'
+      else
+        let tl .= "\<Space>"
+      endif
       let tl .= "\<Space>"
     endif
     let tabnr += 1
