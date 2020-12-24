@@ -339,6 +339,67 @@ function! s:restore_curpos() abort
 endfunction
 " }}}
 
+" Tabline {{{
+set tabline=%!MyTabLine()
+
+function! MyTabLine() abort
+  let tl = ''
+  const curtabnr  = tabpagenr()
+  const lasttbanr = tabpagenr('$')
+  let tabnr = 1
+  while tabnr <= lasttbanr
+    let curbufnr = tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
+    let tl .= '%' . tabnr . 'T'
+    if tabnr == curtabnr
+      if tabnr >= 2
+        let tl .= '%#TabLineSelDelim#'
+        let tl .= '▏'
+        let tl .= '%#TabLineSel#'
+      else
+        let tl .= '%#TabLineSel#'
+        let tl .= "\<Space>"
+      endif
+      let tl .= s:center(s:bufname(curbufnr), 18)
+      let tl .= '%#TabLineSelDelim#'
+      let tl .= '▕'
+    else
+      let tl .= '%#TabLine#'
+      let tl .= "\<Space>"
+      let tl .= s:center(s:bufname(curbufnr), 18)
+      let tl .= "\<Space>"
+    endif
+    let tabnr += 1
+  endwhile
+  let tl .= '%#TabLineFill#'
+  let tl .= '%T'
+  return tl
+endfunction
+
+function! s:center(str, minwid) abort "{{{
+  const strwid = strwidth(a:str)
+  if strwid > a:minwid
+    return a:str
+  endif
+  const p = (a:minwid - strwid) / 2
+  return printf('%s%s%s',
+    \ "\<Space>"->repeat(p),
+    \ a:str,
+    \ "\<Space>"->repeat(a:minwid - (p + strwid))
+    \ )
+endfunction "}}}
+
+function! s:bufname(bufnr) abort "{{{
+  if getbufvar(a:bufnr, '&buftype') is# 'quickfix'
+    return '[Quickfix List]'
+  endif
+  let name = bufname(a:bufnr)
+  if empty(name)
+    return '[No Name]'
+  endif
+  return fnamemodify(name, ':t') . (isdirectory(name) ? '/' : '')
+endfunction "}}}
+" }}}
+
 " Plugin settings {{{
 if s:isplugged('vim-asterisk') "{{{
   map *  <Plug>(asterisk-z*)

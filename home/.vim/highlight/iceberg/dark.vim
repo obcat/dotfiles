@@ -3,6 +3,7 @@ hi ModeMsg       cterm=bold
 hi MoreMsg       cterm=bold
 hi NonText       cterm=bold
 hi Question      cterm=bold
+hi TabLine cterm=underline gui=underline
 hi GitGutterAdd    guifg=#a5b368
 hi GitGutterChange guifg=#728dbb
 hi AnsiColor0      ctermfg=0   guifg=#161821
@@ -23,6 +24,7 @@ hi AnsiColor14     ctermfg=14  guifg=#95c4ce
 hi AnsiColor15     ctermfg=15  guifg=#b4b8c6
 hi Directory       ctermfg=110 guifg=#84a0c6
 hi EndOfBuffer     ctermfg=239 guifg=#444b71
+hi TabLineSelDelim ctermfg=238 guifg=#3e445e
 hi hitspopErrorMsg ctermfg=203 guifg=#f07575
 hi netrwExe        ctermfg=234 guifg=#e27878
 hi netrwSymlink    ctermfg=140 guifg=#a093c7
@@ -32,9 +34,10 @@ hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
 hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
 hi Search         ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
 hi WildMenu       ctermfg=253 ctermbg=240 guifg=#c2c6d3 guibg=#414a70
-hi IncSearch    cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
-hi StatusLine   cterm=NONE ctermfg=250 ctermbg=236 gui=NONE guifg=#aab1d4 guibg=#272c42
-hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
+hi IncSearch    cterm=NONE      ctermfg=234 ctermbg=216 gui=NONE      guifg=#392313 guibg=#e4aa80
+hi StatusLine   cterm=NONE      ctermfg=250 ctermbg=236 gui=NONE      guifg=#aab1d4 guibg=#272c42
+hi StatusLineNC cterm=NONE      ctermfg=238 ctermbg=233 gui=NONE      guifg=#3e445e guibg=#0f1117
+hi TabLineFill  cterm=underline ctermfg=238 ctermbg=233 gui=underline guifg=#3e445e guibg=#0f1117
 hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
 hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
 hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
