@@ -3,7 +3,7 @@ set guifont=SourceCodePro-Regular:h13
 set lines=999
 set columns=9999
 
-let &titlestring = ' '
+set titlestring=びむ
 
 set guioptions&
 set guioptions-=e
