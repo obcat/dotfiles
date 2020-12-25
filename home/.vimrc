@@ -17,7 +17,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
   Plug 'cocopon/iceberg.vim'             " Color scheme
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
-  Plug 'cocopon/shadeline.vim'           " Minimal status line
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
   Plug 'ghifarit53/tokyonight-vim'       " Color scheme
   Plug 'glidenote/memolist.vim'          " Create and manage memo
@@ -339,6 +338,83 @@ function! s:restore_curpos() abort
 endfunction
 " }}}
 
+" Statusline {{{
+function! MyStlActive() abort
+  let stl = ''
+  let stl .= "\<Space>"
+  let stl .= "\<Space>"
+  let stl .= '%t'
+  if winwidth(0) >= 40
+    let stl .= "\<Space>"
+    let stl .= "\<Space>"
+    let stl .= s:gitbranch()
+  endif
+  if winwidth(0) >= 50
+    let stl .= "\<Space>"
+    let stl .= "\<Space>"
+    let stl .= '%4*'
+    let stl .= s:githunks()
+    let stl .= '%0*'
+  endif
+  let stl .= '%='
+  if winwidth(0) >= 60
+    let stl .= fnamemodify(getcwd(), ':t')
+    let stl .= "\<Space>"
+    let stl .= "\<Space>"
+  endif
+  return stl
+endfunction
+
+function! MyStlInactive() abort
+  let stl = ''
+  let stl .= "\<Space>"
+  let stl .= "\<Space>"
+  let stl .= '%t'
+  return stl
+endfunction
+
+function! s:gitbranch() abort "{{{
+  try
+    return gina#component#repo#branch()
+  catch /:E117:/
+    return 'E117'
+  endtry
+endfunction "}}}
+
+function! s:githunks() abort "{{{
+  try
+    let hunknum = len(gitgutter#hunk#hunks(bufnr()))
+  catch /:E117:/
+    return 'E117'
+  endtry
+  let max = 6
+  let symbol = '*'
+  let hunks = ''
+  if hunknum <= max
+    let hunks .= symbol->repeat(hunknum)
+  else
+    let hunks .= (symbol->repeat(max - 1)) . '>'
+  endif
+  return hunks
+endfunction "}}}
+
+autocmd vimrc WinEnter,BufWinEnter * call s:stl_update_all()
+
+function! s:stl_update_all() abort "{{{
+  let N = winnr('$')
+  let i = 1
+  while i <= N
+    call s:stl_update(i)
+    let i += 1
+  endwhile
+endfunction "}}}
+
+function! s:stl_update(winnr) abort "{{{
+  let Activity = (a:winnr == winnr()) ? 'Active' : 'Inactive'
+  call setwinvar(a:winnr, '&statusline', '%!MyStl'..Activity..'()')
+endfunction "}}}
+" }}}
+
 " Tabline {{{
 set tabline=%!MyTabLine()
 
@@ -561,62 +637,6 @@ if s:isplugged('vim-sclow') "{{{
   let g:sclow_hide_full_length = 1
   let g:sclow_sbar_right_offset = -1
   autocmd vimrc User WinResized call sclow#update()
-endif "}}}
-
-if s:isplugged('shadeline.vim') "{{{
-  let g:shadeline = #{active: {}, inactive: {}}
-  let g:shadeline.active.left = [
-    \ '%1*%{ShadelineItemGitGutterSign()}%*',
-    \ 'fname',
-    \ 'flags',
-    \ 'ShadelineItemGitBranchOrSomething'
-    \ ]
-  let g:shadeline.active.right = [
-    \ '<',
-    \ 'ShadelineItemFileInfo',
-    \ '%3p%%:%-2c'
-    \ ]
-  let g:shadeline.inactive.left = ['fname', 'flags']
-
-  function! ShadelineItemGitGutterSign() abort "{{{
-    try
-      const [a, m, r] = GitGutterGetHunkSummary()
-      return a + m + r == 0 ? ' ' : '*'
-    catch /:E117:/
-      return ' '
-    endtry
-  endfunction "}}}
-
-  function! ShadelineItemGitBranchOrSomething() abort "{{{
-    if winwidth(0) < 40
-      return ''
-    endif
-
-    if &filetype is# 'help'
-      return ''
-    endif
-    if &filetype is# 'qf'
-      return get(w:, 'quickfix_title', '')
-    endif
-
-    try
-      const name = gina#component#repo#branch()
-      return empty(name) ? '' : printf('(%s)', name)
-    catch /:E117:/
-      return ''
-    endtry
-  endfunction "}}}
-
-  function! ShadelineItemFileInfo() abort "{{{
-    if winwidth(0) < 60
-      return ''
-    endif
-    return printf('%s | %s | %s',
-      \ shadeline#functions#fileformat(),
-      \ shadeline#functions#fileencoding(),
-      \ shadeline#functions#filetype(),
-      \ )
-  endfunction "}}}
 endif "}}}
 
 if s:isplugged('vim-sonictemplate') "{{{

@@ -33,12 +33,19 @@ hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
 hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
 hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
 hi Search         ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
+hi User1          ctermfg=0   ctermbg=236 guifg=#161821 guibg=#272c42
+hi User2          ctermfg=1   ctermbg=236 guifg=#e27878 guibg=#272c42
+hi User3          ctermfg=2   ctermbg=236 guifg=#b4be82 guibg=#272c42
+hi User4          ctermfg=3   ctermbg=236 guifg=#e2a478 guibg=#272c42
+hi User5          ctermfg=4   ctermbg=236 guifg=#84a0c6 guibg=#272c42
+hi User6          ctermfg=5   ctermbg=236 guifg=#a093c7 guibg=#272c42
+hi User7          ctermfg=6   ctermbg=236 guifg=#89b8c2 guibg=#272c42
+hi User8          ctermfg=7   ctermbg=236 guifg=#c6c8d1 guibg=#272c42
 hi WildMenu       ctermfg=253 ctermbg=240 guifg=#c2c6d3 guibg=#414a70
 hi IncSearch    cterm=NONE      ctermfg=234 ctermbg=216 gui=NONE      guifg=#392313 guibg=#e4aa80
 hi StatusLine   cterm=NONE      ctermfg=250 ctermbg=236 gui=NONE      guifg=#aab1d4 guibg=#272c42
 hi StatusLineNC cterm=NONE      ctermfg=238 ctermbg=233 gui=NONE      guifg=#3e445e guibg=#0f1117
 hi TabLineFill  cterm=underline ctermfg=238 ctermbg=233 gui=underline guifg=#3e445e guibg=#0f1117
-hi User1     term=reverse ctermfg=216 ctermbg=236  guifg=#e2a478 guibg=#272c42
 hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
 hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
 hi! link HighlightedyankRegion Visual
