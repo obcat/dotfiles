@@ -85,6 +85,7 @@ set number
 set numberwidth=1
 set ruler
 set shortmess& shortmess+=mrI
+set showtabline=2
 set signcolumn=yes
 set wildmenu
 syntax enable
@@ -159,8 +160,8 @@ let g:tokyonight_enable_italic = 0
 let g:tokyonight_disable_italic_comment = 1
 
 function! s:override_highlights(name, bg) abort
-  const dir  = expand('~/.vim/highlight')
-  const file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
+  let dir  = expand('~/.vim/highlight')
+  let file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
   if filereadable(file)
     exe 'source' fnameescape(file)
   else
@@ -206,7 +207,7 @@ nnoremap <silent> <C-w>o         <C-w>o:doautocmd User WinResized<CR>
 nnoremap <silent> <C-w><C-o> <C-w><C-o>:doautocmd User WinResized<CR>
 
 function! s:explore_head() abort
-  const dir = expand('%:p:h')
+  let dir = expand('%:p:h')
   if !isdirectory(dir)
     return
   endif
@@ -231,9 +232,9 @@ inoremap <C-u> <C-g>u<C-u>
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 
 function! s:i_ctrl_a() abort
-  const line = getline('.')
-  const indent     = strchars(matchstr(line, '^\s*'))
-  const precedings = strchars(strpart(line, 0, col('.') - 1))
+  let line = getline('.')
+  let indent     = strchars(matchstr(line, '^\s*'))
+  let precedings = strchars(strpart(line, 0, col('.') - 1))
   if  indent < precedings
     return "\<C-g>U\<Left>" ->repeat(precedings - indent)
   else
@@ -242,8 +243,8 @@ function! s:i_ctrl_a() abort
 endfunction
 
 function! s:i_ctrl_e() abort
-  const curcol = col('.')
-  const endcol = col('$')
+  let curcol = col('.')
+  let endcol = col('$')
   if curcol < endcol
     return "\<C-g>U\<Right>" ->repeat(strchars(strpart(getline('.'), curcol - 1)))
   else
@@ -287,10 +288,11 @@ function! s:alias(key, val) abort "{{{
     \ )
 endfunction "}}}
 
-call s:alias('cap', 'Capture')
-call s:alias('gina', 'Gina')
-call s:alias('h', 'H')
-call s:alias('hc', 'helpc')
+call s:alias('ss',    'so %')
+call s:alias('cap',   'Capture')
+call s:alias('gina',  'Gina')
+call s:alias('h',     'H')
+call s:alias('hc',    'helpc')
 call s:alias('helpg', 'Helpg')
 " }}}
 
@@ -419,61 +421,61 @@ endfunction "}}}
 set tabline=%!MyTabLine()
 
 function! MyTabLine() abort
-  let tl = ''
-  const curtabnr  = tabpagenr()
-  const lasttbanr = tabpagenr('$')
+  let tal = ''
+  let curtabnr  = tabpagenr()
+  let lasttbanr = tabpagenr('$')
   let tabnr = 1
   while tabnr <= lasttbanr
     let curbufnr = tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
-    let tl .= '%' . tabnr . 'T'
+    let tal .= '%' . tabnr . 'T'
     if tabnr == curtabnr
       if tabnr >= 2
-        let tl .= '%#TabLineSelDelim#'
-        let tl .= '▏'
-        let tl .= '%#TabLineSel#'
+        let tal .= '%#TabLineSelDelim#'
+        let tal .= '▏'
+        let tal .= '%#TabLineSel#'
       else
-        let tl .= '%#TabLineSel#'
-        let tl .= "\<Space>"
+        let tal .= '%#TabLineSel#'
+        let tal .= "\<Space>"
       endif
-      let tl .= "\<Space>"
-      let tl .= "\<Space>"
-      let tl .= s:center(s:bufname(curbufnr), 16)
-      let tl .= "\<Space>"
+      let tal .= "\<Space>"
+      let tal .= "\<Space>"
+      let tal .= s:center(s:bufname(curbufnr), 16)
+      let tal .= "\<Space>"
       if getbufvar(curbufnr, '&modified')
-        let tl .= '%#TabLineSelMod#'
-        let tl .= '●'
+        let tal .= '%#TabLineSelMod#'
+        let tal .= '●'
       else
-        let tl .= "\<Space>"
+        let tal .= "\<Space>"
       endif
-      let tl .= '%#TabLineSelDelim#'
-      let tl .= '▕'
+      let tal .= '%#TabLineSelDelim#'
+      let tal .= '▕'
     else
-      let tl .= '%#TabLine#'
-      let tl .= "\<Space>"
-      let tl .= "\<Space>"
-      let tl .= "\<Space>"
-      let tl .= s:center(s:bufname(curbufnr), 16)
-      let tl .= "\<Space>"
+      let tal .= '%#TabLine#'
+      let tal .= "\<Space>"
+      let tal .= "\<Space>"
+      let tal .= "\<Space>"
+      let tal .= s:center(s:bufname(curbufnr), 16)
+      let tal .= "\<Space>"
       if getbufvar(curbufnr, '&modified')
-        let tl .= '●'
+        let tal .= '●'
       else
-        let tl .= "\<Space>"
+        let tal .= "\<Space>"
       endif
-      let tl .= "\<Space>"
+      let tal .= "\<Space>"
     endif
     let tabnr += 1
   endwhile
-  let tl .= '%#TabLineFill#'
-  let tl .= '%T'
-  return tl
+  let tal .= '%#TabLineFill#'
+  let tal .= '%T'
+  return tal
 endfunction
 
 function! s:center(str, minwid) abort "{{{
-  const strwid = strwidth(a:str)
+  let strwid = strwidth(a:str)
   if strwid > a:minwid
     return a:str
   endif
-  const p = (a:minwid - strwid) / 2
+  let p = (a:minwid - strwid) / 2
   return printf('%s%s%s',
     \ "\<Space>"->repeat(p),
     \ a:str,
