@@ -62,9 +62,10 @@ endif
 filetype plugin on
 
 " Check if a plugin exists
-function! s:isplugged(name) abort
-  return exists('g:plugs[''' . a:name . '''].dir')
-    \ ? isdirectory(g:plugs[a:name].dir)
+function s:isplugged(name) abort
+  let target = 'g:plugs['''..a:name..'''].dir'
+  return exists(target)
+    \ ? isdirectory(eval(target))
     \ : 0
 endfunction
 " }}}
@@ -82,7 +83,6 @@ set list
 set listchars=tab:▸\ ,eol:¬
 set nowrap
 set number
-set numberwidth=1
 set ruler
 set shortmess& shortmess+=mrI
 set showtabline=2
@@ -118,8 +118,9 @@ set tabstop=2
 let g:vim_indent_cont = 2
 
 " Scroll
-set sidescroll=1
 set scrolloff=7
+set sidescroll=1
+set sidescrolloff=1
 
 " Search
 if !v:hlsearch
@@ -133,9 +134,7 @@ set smartcase
 " Language
 set helplang=ja
 set spelllang=en,cjk
-if exists('+spelloptions')
-  set spelloptions=camel
-endif
+set spelloptions=camel
 
 " Backup
 let s:swapdir = expand('~/.vim/swap')
@@ -155,34 +154,6 @@ set splitright
 set ttimeoutlen=50
 " }}}
 
-" Color scheme {{{
-let g:tokyonight_enable_italic = 0
-let g:tokyonight_disable_italic_comment = 1
-
-function! s:override_highlights(name, bg) abort
-  let dir  = expand('~/.vim/highlight')
-  let file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
-  if filereadable(file)
-    exe 'source' fnameescape(file)
-  else
-    exe 'source' fnameescape(dir . '/others.vim')
-  endif
-endfunction
-
-autocmd vimrc ColorScheme *
-  \ call s:override_highlights(expand('<amatch>'), &background)
-
-if s:isplugged('iceberg.vim')
-  colorscheme iceberg
-else
-  colorscheme slate
-endif
-
-if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
-  set termguicolors
-endif
-" }}}
-
 " Key mappings {{{
 let g:mapleader = "\<Space>"
 map <Space> <Nop>
@@ -195,18 +166,18 @@ nnoremap gk k
 
 nnoremap Y y$
 
-nnoremap <silent> <Leader>w :<C-u>setlocal wrap! wrap?<CR>
 nnoremap <silent> <Leader>l :<C-u>let v:hlsearch = !v:hlsearch<CR>
+nnoremap <silent> <Leader>w :<C-u>silent update<CR>
 
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
 
 nnoremap <silent> - :<C-u>call <SID>explore_head()<CR>
 
-nnoremap <silent> <C-w>o         <C-w>o:doautocmd User WinResized<CR>
+nnoremap <silent> <C-w>o <C-w>o:doautocmd User WinResized<CR>
 nnoremap <silent> <C-w><C-o> <C-w><C-o>:doautocmd User WinResized<CR>
 
-function! s:explore_head() abort
+function s:explore_head() abort
   let dir = expand('%:p:h')
   if !isdirectory(dir)
     return
@@ -231,7 +202,7 @@ inoremap <C-u> <C-g>u<C-u>
 
 inoremap <expr> <CR> pumvisible() ? '<C-y><CR>' : '<CR>'
 
-function! s:i_ctrl_a() abort
+function s:i_ctrl_a() abort
   let line = getline('.')
   let indent     = strchars(matchstr(line, '^\s*'))
   let precedings = strchars(strpart(line, 0, col('.') - 1))
@@ -242,7 +213,7 @@ function! s:i_ctrl_a() abort
   endif
 endfunction
 
-function! s:i_ctrl_e() abort
+function s:i_ctrl_e() abort
   let curcol = col('.')
   let endcol = col('$')
   if curcol < endcol
@@ -262,7 +233,7 @@ cnoremap <expr> <C-d> <SID>c_ctrl_d()
 cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 
-function! s:c_ctrl_f() abort
+function s:c_ctrl_f() abort
   if getcmdpos() <= strlen(getcmdline())
     return "\<Right>"
   else
@@ -270,7 +241,7 @@ function! s:c_ctrl_f() abort
   endif
 endfunction
 
-function! s:c_ctrl_d() abort
+function s:c_ctrl_d() abort
   if getcmdpos() <= strlen(getcmdline())
     return "\<Del>"
   else
@@ -281,7 +252,7 @@ endfunction
 " }}}
 
 " Aliases {{{
-function! s:alias(key, val) abort "{{{
+function s:alias(key, val) abort "{{{
   exe printf(
     \ 'cnoreabbrev <expr> %s (getcmdtype() is# ":" && getcmdpos() == %d) ? %s : %s',
     \ a:key, 1 + len(a:key), string(a:val), string(a:key)
@@ -298,10 +269,10 @@ call s:alias('helpg', 'Helpg')
 
 " User-defined commands {{{
 command! -nargs=? -complete=help H
-  \ exe (max([160, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'help' <q-args>
+  \ exe (max([80 * 2, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'help' <q-args>
 
 command! -nargs=1 Helpg
-  \ exe (max([160, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'helpgrep' <q-args>
+  \ exe (max([80 * 2, winheight(0)]) <= winwidth(0) ? 'vertical' : '') 'helpgrep' <q-args>
 " }}}
 
 " Autocommands {{{
@@ -315,7 +286,7 @@ autocmd vimrc FileType qf        call <SID>onft_qf()
 autocmd vimrc BufReadPost     * call <SID>restore_curpos()
 autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
 
-function! s:onft_help() abort
+function s:onft_help() abort
   setlocal conceallevel=0
   if !&modifiable
     nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>') . '@en'<CR>
@@ -323,17 +294,17 @@ function! s:onft_help() abort
   endif
 endfunction
 
-function! s:onft_qf() abort
+function s:onft_qf() abort
   exe 'resize' min([line('$') + 2, 10])
   nnoremap <buffer> <silent> p :<C-u>call <SID>qf_preview()<CR>
 endfunction
 
-function! s:qf_preview() abort
+function s:qf_preview() abort
   " :normal avoids redrawing
   exe "normal! \<CR>zz\<C-w>p"
 endfunction
 
-function! s:restore_curpos() abort
+function s:restore_curpos() abort
   if 1 <= line('''"') && line('''"') <= line('$') && &ft !~# 'commit'
     exe 'normal! g`"'
   endif
@@ -342,40 +313,43 @@ endfunction
 
 " Statusline {{{
 function! MyStlActive() abort
+  let space = "\<Space>"
+  let winwid = winwidth(0)
   let stl = ''
-  let stl .= "\<Space>"
-  let stl .= "\<Space>"
+  let stl .= space
+  let stl .= space
   let stl .= '%t'
-  if winwidth(0) >= 40
-    let stl .= "\<Space>"
-    let stl .= "\<Space>"
+  if winwid >= 40
+    let stl .= space
+    let stl .= space
     let stl .= s:gitbranch()
   endif
-  if winwidth(0) >= 50
-    let stl .= "\<Space>"
-    let stl .= "\<Space>"
+  if winwid >= 50
+    let stl .= space
+    let stl .= space
     let stl .= '%4*'
     let stl .= s:githunks()
     let stl .= '%0*'
   endif
   let stl .= '%='
-  if winwidth(0) >= 60
+  if winwid >= 60
     let stl .= fnamemodify(getcwd(), ':t')
-    let stl .= "\<Space>"
-    let stl .= "\<Space>"
+    let stl .= space
+    let stl .= space
   endif
   return stl
 endfunction
 
 function! MyStlInactive() abort
+  let space = "\<Space>"
   let stl = ''
-  let stl .= "\<Space>"
-  let stl .= "\<Space>"
+  let stl .= space
+  let stl .= space
   let stl .= '%t'
   return stl
 endfunction
 
-function! s:gitbranch() abort "{{{
+function s:gitbranch() abort "{{{
   try
     return gina#component#repo#branch()
   catch /:E117:/
@@ -383,7 +357,7 @@ function! s:gitbranch() abort "{{{
   endtry
 endfunction "}}}
 
-function! s:githunks() abort "{{{
+function s:githunks() abort "{{{
   try
     let hunknum = len(gitgutter#hunk#hunks(bufnr()))
   catch /:E117:/
@@ -391,18 +365,17 @@ function! s:githunks() abort "{{{
   endtry
   let max = 6
   let symbol = '*'
-  let hunks = ''
   if hunknum <= max
-    let hunks .= symbol->repeat(hunknum)
+    let hunks = symbol->repeat(hunknum)
   else
-    let hunks .= (symbol->repeat(max - 1)) . '>'
+    let hunks = (symbol->repeat(max - 1)) . '>'
   endif
   return hunks
 endfunction "}}}
 
 autocmd vimrc WinEnter,BufWinEnter * call s:stl_update_all()
 
-function! s:stl_update_all() abort "{{{
+function s:stl_update_all() abort "{{{
   let N = winnr('$')
   let i = 1
   while i <= N
@@ -411,7 +384,7 @@ function! s:stl_update_all() abort "{{{
   endwhile
 endfunction "}}}
 
-function! s:stl_update(winnr) abort "{{{
+function s:stl_update(winnr) abort "{{{
   let Activity = (a:winnr == winnr()) ? 'Active' : 'Inactive'
   call setwinvar(a:winnr, '&statusline', '%!MyStl'..Activity..'()')
 endfunction "}}}
@@ -421,9 +394,10 @@ endfunction "}}}
 set tabline=%!MyTabLine()
 
 function! MyTabLine() abort
-  let tal = ''
+  let space = "\<Space>"
   let curtabnr  = tabpagenr()
   let lasttbanr = tabpagenr('$')
+  let tal = ''
   let tabnr = 1
   while tabnr <= lasttbanr
     let curbufnr = tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
@@ -435,33 +409,33 @@ function! MyTabLine() abort
         let tal .= '%#TabLineSel#'
       else
         let tal .= '%#TabLineSel#'
-        let tal .= "\<Space>"
+        let tal .= space
       endif
-      let tal .= "\<Space>"
-      let tal .= "\<Space>"
-      let tal .= s:center(s:bufname(curbufnr), 16)
-      let tal .= "\<Space>"
+      let tal .= space
+      let tal .= space
+      let tal .= s:bufname(curbufnr)->s:center(16)
+      let tal .= space
       if getbufvar(curbufnr, '&modified')
         let tal .= '%#TabLineSelMod#'
         let tal .= '●'
       else
-        let tal .= "\<Space>"
+        let tal .= space
       endif
       let tal .= '%#TabLineSelDelim#'
       let tal .= '▕'
     else
       let tal .= '%#TabLine#'
-      let tal .= "\<Space>"
-      let tal .= "\<Space>"
-      let tal .= "\<Space>"
-      let tal .= s:center(s:bufname(curbufnr), 16)
-      let tal .= "\<Space>"
+      let tal .= space
+      let tal .= space
+      let tal .= space
+      let tal .= s:bufname(curbufnr)->s:center(16)
+      let tal .= space
       if getbufvar(curbufnr, '&modified')
         let tal .= '●'
       else
-        let tal .= "\<Space>"
+        let tal .= space
       endif
-      let tal .= "\<Space>"
+      let tal .= space
     endif
     let tabnr += 1
   endwhile
@@ -470,7 +444,7 @@ function! MyTabLine() abort
   return tal
 endfunction
 
-function! s:center(str, minwid) abort "{{{
+function s:center(str, minwid) abort "{{{
   let strwid = strwidth(a:str)
   if strwid > a:minwid
     return a:str
@@ -483,7 +457,7 @@ function! s:center(str, minwid) abort "{{{
     \ )
 endfunction "}}}
 
-function! s:bufname(bufnr) abort "{{{
+function s:bufname(bufnr) abort "{{{
   if getbufvar(a:bufnr, '&buftype') is# 'quickfix'
     return '[Quickfix List]'
   endif
@@ -559,7 +533,7 @@ if s:isplugged('vim-lsp') "{{{
   let g:asyncomplete_auto_completeopt = 0
   let g:asyncomplete_auto_popup       = 0
 
-  function! s:on_lsp_buffer_enabled() abort
+  function s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     nmap <buffer> gd <Plug>(lsp-definition)
     nmap <buffer> gr <Plug>(lsp-references)
@@ -592,7 +566,7 @@ if s:isplugged('vim-molder') "{{{
 
   autocmd vimrc FileType molder call <SID>onft_molder()
 
-  function! s:onft_molder() abort
+  function s:onft_molder() abort
     setlocal cursorlineopt=line
     setlocal nonumber
     setlocal statusline=\ \ %{expand('%:p:~')}
@@ -610,7 +584,7 @@ if s:isplugged('vim-molder') "{{{
     nnoremap <silent> <Plug>(molder-toggle-hidden) :<C-u>call molder#toggle_hidden()<CR>
   endfunction
 
-  function! s:molder_runshell() abort
+  function s:molder_runshell() abort
     call term_start(&shell, #{
       \ cwd: molder#curdir(),
       \ term_finish: 'close',
@@ -666,6 +640,34 @@ if s:isplugged('vim-vsnip') "{{{
   imap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
   smap <expr> <C-i> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-i>'
 endif "}}}
+" }}}
+
+" Color scheme {{{
+let g:tokyonight_enable_italic = 0
+let g:tokyonight_disable_italic_comment = 1
+
+function s:override_highlights(name, bg) abort
+  let dir  = expand('~/.vim/highlight')
+  let file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
+  if filereadable(file)
+    exe 'source' fnameescape(file)
+  else
+    exe 'source' fnameescape(dir . '/others.vim')
+  endif
+endfunction
+
+autocmd vimrc ColorScheme *
+  \ call s:override_highlights(expand('<amatch>'), &background)
+
+if s:isplugged('iceberg.vim')
+  colorscheme iceberg
+else
+  colorscheme slate
+endif
+
+if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
+  set termguicolors
+endif
 " }}}
 
 " Local settings {{{

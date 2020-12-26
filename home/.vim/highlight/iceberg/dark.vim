@@ -54,7 +54,7 @@ hi! link LspReference          CursorColumn
 hi! link MatchUpOffScreenPopup CursorLineNr
 hi! link MatchWord             CursorColumn
 hi! link StatusLineTerm        StatusLine
-hi! link TabLineSelMod         Constant
+hi! link TabLineSelMod         Statement
 hi! link netrwClassify         netrwPlain
 hi! link netrwLink             netrwPlain
 hi! link netrwTreeBar          netrwPlain
