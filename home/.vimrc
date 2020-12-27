@@ -289,8 +289,8 @@ autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
 function s:onft_help() abort
   setlocal conceallevel=0
   if !&modifiable
-    nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>') . '@en'<CR>
-    nnoremap <buffer> <silent> J :<C-u>exe 'help' expand('<cword>') . '@ja'<CR>
+    nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>')..'@en'<CR>
+    nnoremap <buffer> <silent> J :<C-u>exe 'help' expand('<cword>')..'@ja'<CR>
   endif
 endfunction
 
@@ -312,39 +312,46 @@ endfunction
 " }}}
 
 " Statusline {{{
-function! MyStlActive() abort
-  let space = "\<Space>"
+set statusline=%!MyStatusLine()
+
+function! MyStatusLine() abort "{{{
+  let activity = g:statusline_winid == win_getid()
+    \ ? 'active'
+    \ : 'inactive'
+  return s:stl_{activity}()
+endfunction "}}}
+
+let s:space = "\<Space>" ->repeat(2)
+
+function s:stl_active() abort
   let winwid = winwidth(0)
   let stl = ''
-  let stl .= space
-  let stl .= space
+  let stl .= s:space
   let stl .= '%t'
-  if winwid >= 40
-    let stl .= space
-    let stl .= space
-    let stl .= s:gitbranch()
+  if winwid < 40
+    return stl
   endif
-  if winwid >= 50
-    let stl .= space
-    let stl .= space
-    let stl .= '%4*'
-    let stl .= s:githunks()
-    let stl .= '%0*'
+  let stl .= s:space
+  let stl .= s:gitbranch()
+  if winwid < 50
+    return stl
+  endif
+  let stl .= s:space
+  let stl .= '%4*'
+  let stl .= s:githunks()
+  let stl .= '%0*'
+  if winwid < 60
+    return stl
   endif
   let stl .= '%='
-  if winwid >= 60
-    let stl .= fnamemodify(getcwd(), ':t')
-    let stl .= space
-    let stl .= space
-  endif
+  let stl .= getcwd() ->fnamemodify(':t')
+  let stl .= s:space
   return stl
 endfunction
 
-function! MyStlInactive() abort
-  let space = "\<Space>"
+function s:stl_inactive() abort
   let stl = ''
-  let stl .= space
-  let stl .= space
+  let stl .= s:space
   let stl .= '%t'
   return stl
 endfunction
@@ -365,83 +372,68 @@ function s:githunks() abort "{{{
   endtry
   let max = 6
   let symbol = '*'
-  if hunknum <= max
-    let hunks = symbol->repeat(hunknum)
-  else
-    let hunks = (symbol->repeat(max - 1)) . '>'
-  endif
-  return hunks
-endfunction "}}}
-
-autocmd vimrc WinEnter,BufWinEnter * call s:stl_update_all()
-
-function s:stl_update_all() abort "{{{
-  let N = winnr('$')
-  let i = 1
-  while i <= N
-    call s:stl_update(i)
-    let i += 1
-  endwhile
-endfunction "}}}
-
-function s:stl_update(winnr) abort "{{{
-  let Activity = (a:winnr == winnr()) ? 'Active' : 'Inactive'
-  call setwinvar(a:winnr, '&statusline', '%!MyStl'..Activity..'()')
+  return hunknum <= max
+    \ ? (symbol ->repeat(hunknum))
+    \ : (symbol ->repeat(max - 1))..'>'
 endfunction "}}}
 " }}}
 
 " Tabline {{{
 set tabline=%!MyTabLine()
 
-function! MyTabLine() abort
-  let space = "\<Space>"
-  let curtabnr  = tabpagenr()
-  let lasttbanr = tabpagenr('$')
+function! MyTabLine() abort "{{{
   let tal = ''
-  let tabnr = 1
-  while tabnr <= lasttbanr
-    let curbufnr = tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
-    let tal .= '%' . tabnr . 'T'
-    if tabnr == curtabnr
-      if tabnr >= 2
-        let tal .= '%#TabLineSelDelim#'
-        let tal .= '▏'
-        let tal .= '%#TabLineSel#'
-      else
-        let tal .= '%#TabLineSel#'
-        let tal .= space
-      endif
-      let tal .= space
-      let tal .= space
-      let tal .= s:bufname(curbufnr)->s:center(16)
-      let tal .= space
-      if getbufvar(curbufnr, '&modified')
-        let tal .= '%#TabLineSelMod#'
-        let tal .= '●'
-      else
-        let tal .= space
-      endif
-      let tal .= '%#TabLineSelDelim#'
-      let tal .= '▕'
-    else
-      let tal .= '%#TabLine#'
-      let tal .= space
-      let tal .= space
-      let tal .= space
-      let tal .= s:bufname(curbufnr)->s:center(16)
-      let tal .= space
-      if getbufvar(curbufnr, '&modified')
-        let tal .= '●'
-      else
-        let tal .= space
-      endif
-      let tal .= space
-    endif
-    let tabnr += 1
-  endwhile
-  let tal .= '%#TabLineFill#'
-  let tal .= '%T'
+  let N = tabpagenr('$')
+  for i in range(1, N)
+    let tal .= s:tal_label(i)
+  endfor
+  let tal .= s:tal_fill()
   return tal
+endfunction "}}}
+
+function s:tal_label(tabnr) abort "{{{
+  let activity = a:tabnr == tabpagenr() ? 'active' : 'inactive'
+  return s:tal_label_{activity}(a:tabnr)
+endfunction "}}}
+
+let s:modflag_margin = 1
+let s:padding = 2 * s:modflag_margin + 1
+let s:width = 16
+
+function s:tal_label_active(tabnr) abort
+  let delimleft  = '%#TabLineSelDelim#'..'▏'..'%#TabLineSel#'
+  let delimright = '%#TabLineSelDelim#'..'▕'..'%#TabLineSel#'
+  let modflag    = '%#TabLineSelMod#'  ..'●'..'%#TabLineSel#'
+  let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
+  let lbl = ''
+  let lbl .= '%#TabLineSel#'
+  let lbl .= '%'..a:tabnr..'T'
+  let lbl .= (a:tabnr == 1 ? "\<Space>" : delimleft)
+        \ .. "\<Space>" ->repeat(s:padding - 1)
+  let lbl .= s:bufname(activebufnr) ->s:center(s:width)
+  let lbl .= "\<Space>" ->repeat(s:modflag_margin)
+        \ .. (getbufvar(activebufnr, '&modified') ? modflag : "\<Space>")
+        \ .. "\<Space>" ->repeat(s:modflag_margin - 1)
+        \ .. delimright
+  return lbl
+endfunction
+
+function s:tal_label_inactive(tabnr) abort
+  let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
+  let lbl = ''
+  let lbl .= '%#TabLine#'
+  let lbl .= '%'..a:tabnr..'T'
+  let lbl .= "\<Space>" ->repeat(s:padding)
+  let lbl .= s:bufname(activebufnr) ->s:center(s:width)
+  let lbl .= "\<Space>" ->repeat(s:padding)
+  return lbl
+endfunction
+
+function s:tal_fill() abort
+  let fil = ''
+  let fil .= '%#TabLineFill#'
+  let fil .= '%T'
+  return fil
 endfunction
 
 function s:center(str, minwid) abort "{{{
@@ -451,9 +443,9 @@ function s:center(str, minwid) abort "{{{
   endif
   let p = (a:minwid - strwid) / 2
   return printf('%s%s%s',
-    \ "\<Space>"->repeat(p),
+    \ "\<Space>" ->repeat(p),
     \ a:str,
-    \ "\<Space>"->repeat(a:minwid - (p + strwid))
+    \ "\<Space>" ->repeat(a:minwid - (p + strwid))
     \ )
 endfunction "}}}
 
@@ -465,7 +457,7 @@ function s:bufname(bufnr) abort "{{{
   if empty(name)
     return '[No Name]'
   endif
-  return fnamemodify(name, ':t') . (isdirectory(name) ? '/' : '')
+  return fnamemodify(name, ':t')..(isdirectory(name) ? '/' : '')
 endfunction "}}}
 " }}}
 
@@ -569,26 +561,21 @@ if s:isplugged('vim-molder') "{{{
   function s:onft_molder() abort
     setlocal cursorlineopt=line
     setlocal nonumber
-    setlocal statusline=\ \ %{expand('%:p:~')}
-
-    nnoremap <buffer> <silent> o <C-w>s:call molder#open()<CR>
-    nnoremap <buffer> <silent> v <C-w>v:call molder#open()<CR>
-    nnoremap <buffer> <silent> <silent> t :<C-u>tab split <Bar> call molder#open()<CR>
-    nnoremap <buffer> <silent> <silent> <nowait> s :<C-u>call <SID>molder_runshell()<CR>
-
-    " Silence default maps
-    nnoremap <silent> <Plug>(molder-open)   :<C-u>call molder#open()<CR>
-    nnoremap <silent> <Plug>(molder-up)     :<C-u>call molder#up()<CR>
-    nnoremap <silent> <Plug>(molder-reload) :<C-u>call molder#reload()<CR>
-    nnoremap <silent> <Plug>(molder-home)   :<C-u>call molder#home()<CR>
-    nnoremap <silent> <Plug>(molder-toggle-hidden) :<C-u>call molder#toggle_hidden()<CR>
+    setlocal statusline=%!MolderStl()
   endfunction
 
-  function s:molder_runshell() abort
-    call term_start(&shell, #{
-      \ cwd: molder#curdir(),
-      \ term_finish: 'close',
-      \ })
+  function! MolderStl() abort
+    let space = "\<Space>" ->repeat(2)
+    let stl = ''
+    let stl .= space
+    let stl .= @% ->fnamemodify(':p:~')
+    if winwidth(0) < 60
+      return stl
+    endif
+    let stl .= '%='
+    let stl .= getcwd() ->fnamemodify(':t')
+    let stl .= space
+    return stl
   endfunction
 endif "}}}
 
@@ -652,7 +639,7 @@ function s:override_highlights(name, bg) abort
   if filereadable(file)
     exe 'source' fnameescape(file)
   else
-    exe 'source' fnameescape(dir . '/others.vim')
+    exe 'source' fnameescape(dir..'/others.vim')
   endif
 endfunction
 
