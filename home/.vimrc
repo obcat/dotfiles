@@ -607,6 +607,26 @@ if s:isplugged('vim-sandwich') "{{{
   " NOTE: s can be replaced by cl
   nmap s <Nop>
   xmap s <Nop>
+  nmap sx sdb
+  nmap sc srb
+  nmap s" <Plug>(operator-sandwich-add-query1st)"
+  nmap s' <Plug>(operator-sandwich-add-query1st)'
+  nmap s0 <Plug>(operator-sandwich-add-query1st))
+  nmap s9 <Plug>(operator-sandwich-add-query1st)(
+  nmap s[ <Plug>(operator-sandwich-add-query1st)[
+  nmap s] <Plug>(operator-sandwich-add-query1st)]
+  nmap sf <Plug>(operator-sandwich-add-query1st)f
+  nmap s{ <Plug>(operator-sandwich-add-query1st){
+  nmap s} <Plug>(operator-sandwich-add-query1st)}
+  xmap s" <Plug>(operator-sandwich-add)"
+  xmap s' <Plug>(operator-sandwich-add)'
+  xmap s0 <Plug>(operator-sandwich-add))
+  xmap s9 <Plug>(operator-sandwich-add)(
+  xmap s[ <Plug>(operator-sandwich-add)[
+  xmap s] <Plug>(operator-sandwich-add)]
+  xmap sf <Plug>(operator-sandwich-add)f
+  xmap s{ <Plug>(operator-sandwich-add){
+  xmap s} <Plug>(operator-sandwich-add)}
 endif "}}}
 
 if s:isplugged('vim-sclow') "{{{
