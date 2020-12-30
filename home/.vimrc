@@ -92,7 +92,7 @@ set listchars=tab:▸\ ,eol:¬
 set nowrap
 set number
 set ruler
-set shortmess& shortmess+=mrI
+set shortmess& shortmess+=aIF
 set showtabline=2
 set signcolumn=yes
 set wildmenu
@@ -171,11 +171,14 @@ nnoremap j gj
 nnoremap k gk
 nnoremap gj j
 nnoremap gk k
-
 nnoremap Y y$
+nnoremap z<CR> zt
+nnoremap zt z<CR>
 
-nnoremap <silent> <Leader>l :<C-u>let v:hlsearch = !v:hlsearch<CR>
+nnoremap <Leader>q <C-w>c
 nnoremap <silent> <Leader>w :<C-u>silent update<CR>
+nnoremap <silent> <Leader>l :<C-u>let v:hlsearch = !v:hlsearch<CR>
+nnoremap <silent> <Leader>t :<C-u>call <SID>run_shell()<CR>
 
 nnoremap <silent> [q :<C-u>cprevious<CR>
 nnoremap <silent> ]q :<C-u>cnext<CR>
@@ -185,18 +188,36 @@ nnoremap <silent> - :<C-u>call <SID>explore_head()<CR>
 nnoremap <silent> <C-w>o <C-w>o:doautocmd User WinResized<CR>
 nnoremap <silent> <C-w><C-o> <C-w><C-o>:doautocmd User WinResized<CR>
 
-function s:explore_head() abort
+function s:run_shell() abort "{{{
+  let fname = @% ->fnamemodify(':p')
+  let wd = isdirectory(fname)
+    \ ? fname
+    \ : getcwd()
+  call term_start(&shell, #{
+    \ cwd: wd,
+    \ term_finish: 'close',
+    \ })
+endfunction "}}}
+
+function s:explore_head() abort "{{{
   let dir = expand('%:p:h')
   if !isdirectory(dir)
     return
   endif
   exe 'edit' fnameescape(dir)
-endfunction
+endfunction "}}}
 " }}}
 
 " Visual {{{
 xnoremap y ygv<ESC>
 xnoremap Y Ygv<ESC>
+xnoremap a' 2i'
+xnoremap a" 2i"
+" }}}
+
+" Operator pending {{{
+onoremap a' 2i'
+onoremap a" 2i"
 " }}}
 
 " Insert {{{
@@ -294,6 +315,9 @@ autocmd vimrc FileType qf        call <SID>onft_qf()
 autocmd vimrc BufReadPost     * call <SID>restore_curpos()
 autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
 
+" Avoid `No matching autocommands` error
+autocmd vimrc User * :
+
 function s:onft_help() abort
   setlocal conceallevel=0
   if !&modifiable
@@ -329,7 +353,7 @@ function! MyStatusLine() abort "{{{
   return s:stl_{activity}()
 endfunction "}}}
 
-let s:space = "\<Space>" ->repeat(2)
+const s:space = "\<Space>" ->repeat(2)
 
 function s:stl_active() abort
   let winwid = winwidth(0)
@@ -404,9 +428,9 @@ function s:tal_label(tabnr) abort "{{{
   return s:tal_label_{activity}(a:tabnr)
 endfunction "}}}
 
-let s:modflag_margin = 1
-let s:padding = 2 * s:modflag_margin + 1
-let s:width = 16
+const s:modflag_margin = 1
+const s:padding = 2 * s:modflag_margin + 1
+const s:width = 16
 
 function s:tal_label_active(tabnr) abort
   let delimleft  = '%#TabLineSelDelim#'..'▏'..'%#TabLineSel#'
@@ -521,7 +545,7 @@ endif "}}}
 
 if s:isplugged('vim-hitspop') "{{{
   let g:hitspop_line = 'winbot'
-  autocmd vimrc_local User WinResized call hitspop#main()
+  autocmd vimrc User WinResized call hitspop#main()
 endif "}}}
 
 if s:isplugged('vim-lsp') "{{{
@@ -652,10 +676,10 @@ if s:isplugged('vim-swap') "{{{
   xmap i, <Plug>(swap-textobject-i)
   omap a, <Plug>(swap-textobject-a)
   xmap a, <Plug>(swap-textobject-a)
-endif "{{{
+endif "}}}
 
 if s:isplugged('tlr.vim') "{{{
-  let g:tlr_num_of_cells_for_res = 8
+  let g:tlr_resize_steps = 8
   nmap <silent> <C-Down>  <Plug>(tlr-down):doautocmd User WinResized<CR>
   nmap <silent> <C-Up>    <Plug>(tlr-up):doautocmd User WinResized<CR>
   nmap <silent> <C-Left>  <Plug>(tlr-left):doautocmd User WinResized<CR>
