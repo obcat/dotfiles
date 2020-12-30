@@ -25,9 +25,17 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
   Plug 'junegunn/vim-easy-align'         " Alignment plugin
   Plug 'junegunn/vim-plug'               " Plugin manager
+  Plug 'kana/vim-operator-replace'       " Operator to replace text
+  Plug 'kana/vim-operator-user'          " Make it easy to define operators
+  Plug 'kana/vim-textobj-indent'         " Textobjects for indented block
+  Plug 'kana/vim-textobj-line'           " Textobjects for a portion of current line
+  Plug 'kana/vim-textobj-user'           " Make it easy to define textobjects
   Plug 'lambdalisue/gina.vim'            " Git on Vim
   Plug 'machakann/vim-highlightedyank'   " Highlight the yanked text
   Plug 'machakann/vim-sandwich'          " Handle the sandwiched text easily
+  Plug 'machakann/vim-swap'              " Reorder delimited items.
+  Plug 'machakann/vim-textobj-delimited' " Textobjects for delimited parts of string
+  Plug 'machakann/vim-textobj-functioncall' " Textobjects for function-call regions
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-molder'                " Minimal file explorer
@@ -579,6 +587,11 @@ if s:isplugged('vim-molder') "{{{
   endfunction
 endif "}}}
 
+if s:isplugged('vim-operator-replace') "{{{
+  map  <Space>r  <Plug>(operator-replace)
+  nmap <Space>rr <Plug>(operator-replace)<Plug>(operator-replace)
+endif "}}}
+
 if s:isplugged('open-browser.vim') "{{{
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
@@ -613,6 +626,13 @@ if s:isplugged('vim-sonictemplate') "{{{
 
   autocmd vimrc FileType stpl setlocal noexpandtab
 endif "}}}
+
+if s:isplugged('vim-swap') "{{{
+  omap i, <Plug>(swap-textobject-i)
+  xmap i, <Plug>(swap-textobject-i)
+  omap a, <Plug>(swap-textobject-a)
+  xmap a, <Plug>(swap-textobject-a)
+endif "{{{
 
 if s:isplugged('tlr.vim') "{{{
   let g:tlr_num_of_cells_for_res = 8
