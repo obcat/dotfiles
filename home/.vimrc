@@ -48,6 +48,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'previm/previm'                   " Realtime markdown preview
   Plug 'rhysd/clever-f.vim'              " Make f, F, t and T cleverer
   Plug 'thinca/vim-prettyprint'          " Prettyprint Vim variable for debug
+  Plug 'thinca/vim-themis'               " Testing framework for Vim script
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
   Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    " Comment out
