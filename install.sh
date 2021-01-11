@@ -11,6 +11,7 @@ NONE=${LC}00${RC}
 BOLD=${LC}01${RC}
 RED=${LC}31${RC}
 
+
 add_suffix() {
   if (( $# != 2 )); then
     echo "usage: ${FUNCNAME[0]} file suffix" 1>&2
@@ -24,7 +25,6 @@ add_suffix() {
     echo "${FUNCNAME[0]}: ${file}: No such file or directory" 1>&2
     return 1
   fi
-
   if [[ -e ${file}${suffix} || -h ${file}${suffix} ]]; then
     add_suffix "${file}${suffix}" "${suffix}"
   fi
@@ -33,34 +33,40 @@ add_suffix() {
   echo "renamed: ${file} -> ${file}${suffix}"
 }
 
-printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
 
-shopt -s nullglob
-fpaths=( "${VIRTUAL_HOME}"/.??* )
+main() {
+  printf "${BOLD}%s${NONE}\n" 'Creating symbolic links...'
 
-if (( ${#fpaths[@]} == 0 )); then
-  printf 1>&2 "${BOLD}${RED}%s: ${NONE}%s\n" \
-    Error "No dotfiles in ~/${VIRTUAL_HOME}."
-  exit 1
-fi
+  shopt -s nullglob
+  fpaths=( "${VIRTUAL_HOME}"/.??* )
 
-for fpath in "${fpaths[@]}"; do
-  fname=$(basename "${fpath}")
-
-  if [[ -h ${fname} && $(readlink "${fname}") == ${fpath} ]]; then
-    echo "symlink: already exists: ${fname} -> ${fpath}"
-    continue
+  if (( ${#fpaths[@]} == 0 )); then
+    printf 1>&2 "${BOLD}${RED}%s: ${NONE}%s\n" \
+      Error "No dotfiles in ~/${VIRTUAL_HOME}."
+    exit 1
   fi
 
-  # Note that "[[ -e file ]]" returns false if the file is a broken symbolic
-  # link. Even such files should be backed up, so "[[ -e file || -h file ]]"
-  # is used here.
-  if [[ -e ${fname} || -h ${fname} ]]; then
-    add_suffix "${fname}" '.bak'
-  fi
+  for fpath in "${fpaths[@]}"; do
+    fname=$(basename "${fpath}")
 
-  ln -s "${fpath}" "${fname}" &&
-  echo "symlink: created: ${fname} -> ${fpath}"
-done
+    if [[ -h ${fname} && $(readlink "${fname}") == ${fpath} ]]; then
+      echo "symlink: already exists: ${fname} -> ${fpath}"
+      continue
+    fi
 
-printf "${BOLD}%s${NONE}\n" "It's done!"
+    # Note that "[[ -e file ]]" returns false if the file is a broken symbolic
+    # link. Even such files should be backed up, so "[[ -e file || -h file ]]"
+    # is used here.
+    if [[ -e ${fname} || -h ${fname} ]]; then
+      add_suffix "${fname}" '.bak'
+    fi
+
+    ln -s "${fpath}" "${fname}" &&
+    echo "symlink: created: ${fname} -> ${fpath}"
+  done
+
+  printf "${BOLD}%s${NONE}\n" "It's done!"
+}
+
+
+main
