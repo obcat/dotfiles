@@ -55,6 +55,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'tyru/open-browser-github.vim'    " Opens GitHub URL of current file
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
+  Plug 'w0ng/vim-hybrid'                 " Color scheme
   call plug#end()
 else
   autocmd vimrc VimEnter *
@@ -71,10 +72,10 @@ endif
 filetype plugin on
 
 " Check if a plugin exists
-function s:isplugged(name) abort
-  let target = 'g:plugs['''..a:name..'''].dir'
-  return exists(target)
-    \ ? isdirectory(eval(target))
+function s:isplugged(plugname) abort
+  let item = 'g:plugs[''' . a:plugname . '''].dir'
+  return exists(item)
+    \ ? isdirectory(eval(item))
     \ : 0
 endfunction
 " }}}
@@ -212,13 +213,15 @@ endfunction "}}}
 " Visual {{{
 xnoremap y ygv<ESC>
 xnoremap Y Ygv<ESC>
-xnoremap a' 2i'
 xnoremap a" 2i"
+xnoremap a' 2i'
+xnoremap a` 2i`
 " }}}
 
 " Operator pending {{{
-onoremap a' 2i'
 onoremap a" 2i"
+onoremap a' 2i'
+onoremap a` 2i`
 " }}}
 
 " Insert {{{
@@ -322,8 +325,8 @@ autocmd vimrc User * :
 function s:onft_help() abort
   setlocal conceallevel=0
   if !&modifiable
-    nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>')..'@en'<CR>
-    nnoremap <buffer> <silent> J :<C-u>exe 'help' expand('<cword>')..'@ja'<CR>
+    nnoremap <buffer> <silent> C :<C-u>exe 'help' expand('<cword>') . '@en'<CR>
+    nnoremap <buffer> <silent> J :<C-u>exe 'help' expand('<cword>') . '@ja'<CR>
   endif
 endfunction
 
@@ -354,37 +357,37 @@ function! MyStatusLine() abort "{{{
   return s:stl_{activity}()
 endfunction "}}}
 
-const s:space = "\<Space>" ->repeat(2)
+let s:stl_spacelen = 2
 
 function s:stl_active() abort
   let winwid = winwidth(0)
   let stl = ''
-  let stl .= s:space
+  let stl .= s:space(s:stl_spacelen)
   let stl .= '%t'
   if winwid < 40
     return stl
   endif
-  let stl .= s:space
+  let stl .= s:space(s:stl_spacelen)
   let stl .= s:gitbranch()
   if winwid < 50
     return stl
   endif
-  let stl .= s:space
+  let stl .= s:space(s:stl_spacelen)
   let stl .= '%4*'
-  let stl .= s:githunks()
+  let stl .= s:githunks('*', 6, '>')
   let stl .= '%0*'
   if winwid < 60
     return stl
   endif
   let stl .= '%='
   let stl .= getcwd() ->fnamemodify(':t')
-  let stl .= s:space
+  let stl .= s:space(s:stl_spacelen)
   return stl
 endfunction
 
 function s:stl_inactive() abort
   let stl = ''
-  let stl .= s:space
+  let stl .= s:space(s:stl_spacelen)
   let stl .= '%t'
   return stl
 endfunction
@@ -397,18 +400,20 @@ function s:gitbranch() abort "{{{
   endtry
 endfunction "}}}
 
-function s:githunks() abort "{{{
+function s:githunks(sym, max, t_sym) abort "{{{
   try
     let hunknum = len(gitgutter#hunk#hunks(bufnr()))
   catch /:E117:/
     return 'E117'
   endtry
-  let max = 6
-  let symbol = '*'
-  return hunknum <= max
-    \ ? (symbol ->repeat(hunknum))
-    \ : (symbol ->repeat(max - 1))..'>'
+  return hunknum <= a:max
+    \ ? (a:sym ->repeat(hunknum))
+    \ : (a:sym ->repeat(a:max - 1)) . a:t_sym
 endfunction "}}}
+
+function s:space(len) abort
+  return "\<Space>" ->repeat(a:len)
+endfunction
 " }}}
 
 " Tabline {{{
@@ -418,47 +423,58 @@ function! MyTabLine() abort "{{{
   let tal = ''
   let N = tabpagenr('$')
   for i in range(1, N)
-    let tal .= s:tal_label(i)
+    let tal .= s:tal_label(i, 22)
   endfor
   let tal .= s:tal_fill()
   return tal
 endfunction "}}}
 
-function s:tal_label(tabnr) abort "{{{
-  let activity = a:tabnr == tabpagenr() ? 'active' : 'inactive'
-  return s:tal_label_{activity}(a:tabnr)
+function s:tal_label(tabnr, minwid) abort "{{{
+  let activity = a:tabnr == tabpagenr()
+    \ ? 'active'
+    \ : 'inactive'
+  return s:tal_label_{activity}(a:tabnr, a:minwid)
 endfunction "}}}
 
-const s:modflag_margin = 1
-const s:padding = 2 * s:modflag_margin + 1
-const s:width = 16
+let s:tal_modflag = '@'
+let s:tal_modflagwid = strwidth(s:tal_modflag)
 
-function s:tal_label_active(tabnr) abort
-  let delimleft  = '%#TabLineSelDelim#'..'▏'..'%#TabLineSel#'
-  let delimright = '%#TabLineSelDelim#'..'▕'..'%#TabLineSel#'
-  let modflag    = '%#TabLineSelMod#'  ..'●'..'%#TabLineSel#'
+function s:tal_label_active(tabnr, minwid) abort
   let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
   let lbl = ''
   let lbl .= '%#TabLineSel#'
-  let lbl .= '%'..a:tabnr..'T'
-  let lbl .= (a:tabnr == 1 ? "\<Space>" : delimleft)
-        \ .. "\<Space>" ->repeat(s:padding - 1)
-  let lbl .= s:bufname(activebufnr) ->s:center(s:width)
-  let lbl .= "\<Space>" ->repeat(s:modflag_margin)
-        \ .. (getbufvar(activebufnr, '&modified') ? modflag : "\<Space>")
-        \ .. "\<Space>" ->repeat(s:modflag_margin - 1)
-        \ .. delimright
+  let lbl .= '%' . a:tabnr . 'T'
+  if a:tabnr == 1
+    let lbl .= s:space(1)
+  else
+    let lbl .= '%#TabLineSelDelim#'
+    let lbl .= '▏'
+    let lbl .= '%#TabLineSel#'
+  endif
+  let lbl .= s:space(s:tal_modflagwid + 1)
+  let lbl .= s:bufname(activebufnr) ->s:center(a:minwid - 2 * (s:tal_modflagwid + 2))
+  let lbl .= s:space(1)
+  if getbufvar(activebufnr, '&modified')
+    let lbl .= '%#TabLineSelMod#'
+    let lbl .= s:tal_modflag
+    let lbl .= '%#TabLineSel#'
+  else
+    let lbl .= s:space(s:tal_modflagwid)
+  endif
+  let lbl .= '%#TabLineSelDelim#'
+  let lbl .= '▕'
+  let lbl .= '%#TabLineSel#'
   return lbl
 endfunction
 
-function s:tal_label_inactive(tabnr) abort
+function s:tal_label_inactive(tabnr, minwid) abort
   let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
   let lbl = ''
   let lbl .= '%#TabLine#'
-  let lbl .= '%'..a:tabnr..'T'
-  let lbl .= "\<Space>" ->repeat(s:padding)
-  let lbl .= s:bufname(activebufnr) ->s:center(s:width)
-  let lbl .= "\<Space>" ->repeat(s:padding)
+  let lbl .= '%' . a:tabnr . 'T'
+  let lbl .= s:space(s:tal_modflagwid + 2)
+  let lbl .= s:bufname(activebufnr) ->s:center(a:minwid - 2 * (s:tal_modflagwid + 2))
+  let lbl .= s:space(s:tal_modflagwid + 2)
   return lbl
 endfunction
 
@@ -476,9 +492,9 @@ function s:center(str, minwid) abort "{{{
   endif
   let p = (a:minwid - strwid) / 2
   return printf('%s%s%s',
-    \ "\<Space>" ->repeat(p),
+    \ s:space(p),
     \ a:str,
-    \ "\<Space>" ->repeat(a:minwid - (p + strwid))
+    \ s:space(a:minwid - (p + strwid))
     \ )
 endfunction "}}}
 
@@ -490,7 +506,7 @@ function s:bufname(bufnr) abort "{{{
   if empty(name)
     return '[No Name]'
   endif
-  return fnamemodify(name, ':t')..(isdirectory(name) ? '/' : '')
+  return fnamemodify(name, ':t') . (isdirectory(name) ? '/' : '')
 endfunction "}}}
 " }}}
 
@@ -528,6 +544,8 @@ if s:isplugged('ctrlp.vim') "{{{
 endif "}}}
 
 if s:isplugged('vim-easy-align') "{{{
+  " NOTE: n_ga can be replaced by :as[cii]<CR>
+  nmap ga <Plug>(EasyAlign)
   xmap ga <Plug>(EasyAlign)
 endif "}}}
 
@@ -598,16 +616,15 @@ if s:isplugged('vim-molder') "{{{
   endfunction
 
   function! MolderStl() abort
-    let space = "\<Space>" ->repeat(2)
     let stl = ''
-    let stl .= space
+    let stl .= s:space(2)
     let stl .= @% ->fnamemodify(':p:~')
     if winwidth(0) < 60
       return stl
     endif
     let stl .= '%='
     let stl .= getcwd() ->fnamemodify(':t')
-    let stl .= space
+    let stl .= s:space(2)
     return stl
   endfunction
 endif "}}}
@@ -640,6 +657,7 @@ if s:isplugged('vim-sandwich') "{{{
   nmap s9 <Plug>(operator-sandwich-add-query1st)(
   nmap s[ <Plug>(operator-sandwich-add-query1st)[
   nmap s] <Plug>(operator-sandwich-add-query1st)]
+  nmap s` <Plug>(operator-sandwich-add-query1st)`
   nmap sf <Plug>(operator-sandwich-add-query1st)f
   nmap s{ <Plug>(operator-sandwich-add-query1st){
   nmap s} <Plug>(operator-sandwich-add-query1st)}
@@ -649,6 +667,7 @@ if s:isplugged('vim-sandwich') "{{{
   xmap s9 <Plug>(operator-sandwich-add)(
   xmap s[ <Plug>(operator-sandwich-add)[
   xmap s] <Plug>(operator-sandwich-add)]
+  xmap s` <Plug>(operator-sandwich-add)`
   xmap sf <Plug>(operator-sandwich-add)f
   xmap s{ <Plug>(operator-sandwich-add){
   xmap s} <Plug>(operator-sandwich-add)}
@@ -661,14 +680,12 @@ if s:isplugged('vim-sclow') "{{{
 endif "}}}
 
 if s:isplugged('vim-sonictemplate') "{{{
-  let g:loaded_sonictemplate_vim = 1  " Disable default key mappings
+  let g:sonictemplate_key             = 0
+  let g:sonictemplate_intelligent_key = 0
+  let g:sonictemplate_postfix_key     = 0
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
   let g:sonictemplate_license    = 'MIT License'
-
-  command! -nargs=1 -complete=customlist,sonictemplate#complete
-    \ Template call sonictemplate#apply(<f-args>, 'n')
-
   autocmd vimrc FileType stpl setlocal noexpandtab
 endif "}}}
 
@@ -677,6 +694,11 @@ if s:isplugged('vim-swap') "{{{
   xmap i, <Plug>(swap-textobject-i)
   omap a, <Plug>(swap-textobject-a)
   xmap a, <Plug>(swap-textobject-a)
+endif "}}}
+
+if s:isplugged('vim-tokyonight') "{{{
+  let g:tokyonight_enable_italic          = 0
+  let g:tokyonight_disable_italic_comment = 1
 endif "}}}
 
 if s:isplugged('tlr.vim') "{{{
@@ -695,16 +717,13 @@ endif "}}}
 " }}}
 
 " Color scheme {{{
-let g:tokyonight_enable_italic = 0
-let g:tokyonight_disable_italic_comment = 1
-
-function s:override_highlights(name, bg) abort
+function s:override_highlights(colorscheme, bg) abort
   let dir  = expand('~/.vim/highlight')
-  let file = printf('%s/%s/%s.vim', dir, a:name, a:bg)
+  let file = printf('%s/%s/%s.vim', dir, a:colorscheme, a:bg)
   if filereadable(file)
     exe 'source' fnameescape(file)
   else
-    exe 'source' fnameescape(dir..'/others.vim')
+    exe 'source' fnameescape(dir . '/others.vim')
   endif
 endfunction
 
