@@ -99,6 +99,8 @@ set ruler
 set shortmess& shortmess+=aIF
 set showtabline=2
 set signcolumn=yes
+set statusline=%!statusline#global()
+set tabline=%!tabline#tabline()
 set wildmenu
 syntax enable
 
@@ -336,6 +338,7 @@ endfunction
 function s:onft_qf() abort
   exe 'resize' min([line('$') + 2, 10])
   nnoremap <buffer> <silent> p :<C-u>call <SID>qf_preview()<CR>
+  setlocal statusline=%!statusline#local('qf')
 endfunction
 
 function s:qf_preview() abort
@@ -348,169 +351,6 @@ function s:restore_curpos() abort
     exe 'normal! g`"'
   endif
 endfunction
-" }}}
-
-" Statusline {{{
-set statusline=%!MyStatusLine()
-
-function! MyStatusLine() abort "{{{
-  let activity = g:statusline_winid == win_getid()
-    \ ? 'active'
-    \ : 'inactive'
-  return s:stl_{activity}()
-endfunction "}}}
-
-let s:stl_spacelen = 2
-
-function s:stl_active() abort
-  let winwid = winwidth(0)
-  let stl = ''
-  let stl .= s:space(s:stl_spacelen)
-  let stl .= '%t'
-  if winwid < 40
-    return stl
-  endif
-  let stl .= s:space(s:stl_spacelen)
-  let stl .= s:gitbranch()
-  if winwid < 50
-    return stl
-  endif
-  let stl .= s:space(s:stl_spacelen)
-  let stl .= '%4*'
-  let stl .= s:githunks('*', 6, '>')
-  let stl .= '%0*'
-  if winwid < 60
-    return stl
-  endif
-  let stl .= '%='
-  let stl .= getcwd() ->fnamemodify(':t')
-  let stl .= s:space(s:stl_spacelen)
-  return stl
-endfunction
-
-function s:stl_inactive() abort
-  let stl = ''
-  let stl .= s:space(s:stl_spacelen)
-  let stl .= '%t'
-  return stl
-endfunction
-
-function s:gitbranch() abort "{{{
-  try
-    return gina#component#repo#branch()
-  catch /:E117:/
-    return 'E117'
-  endtry
-endfunction "}}}
-
-function s:githunks(sym, max, t_sym) abort "{{{
-  try
-    let hunknum = len(gitgutter#hunk#hunks(bufnr()))
-  catch /:E117:/
-    return 'E117'
-  endtry
-  return hunknum <= a:max
-    \ ? (a:sym ->repeat(hunknum))
-    \ : (a:sym ->repeat(a:max - 1)) . a:t_sym
-endfunction "}}}
-
-function s:space(len) abort
-  return "\<Space>" ->repeat(a:len)
-endfunction
-" }}}
-
-" Tabline {{{
-set tabline=%!MyTabLine()
-
-function! MyTabLine() abort "{{{
-  let tal = ''
-  let N = tabpagenr('$')
-  for i in range(1, N)
-    let tal .= s:tal_label(i, 22)
-  endfor
-  let tal .= s:tal_fill()
-  return tal
-endfunction "}}}
-
-function s:tal_label(tabnr, minwid) abort "{{{
-  let activity = a:tabnr == tabpagenr()
-    \ ? 'active'
-    \ : 'inactive'
-  return s:tal_label_{activity}(a:tabnr, a:minwid)
-endfunction "}}}
-
-let s:tal_modflag = '@'
-let s:tal_modflagwid = strwidth(s:tal_modflag)
-
-function s:tal_label_active(tabnr, minwid) abort
-  let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
-  let lbl = ''
-  let lbl .= '%#TabLineSel#'
-  let lbl .= '%' . a:tabnr . 'T'
-  if a:tabnr == 1
-    let lbl .= s:space(1)
-  else
-    let lbl .= '%#TabLineSelDelim#'
-    let lbl .= '▏'
-    let lbl .= '%#TabLineSel#'
-  endif
-  let lbl .= s:space(s:tal_modflagwid + 1)
-  let lbl .= s:bufname(activebufnr) ->s:center(a:minwid - 2 * (s:tal_modflagwid + 2))
-  let lbl .= s:space(1)
-  if getbufvar(activebufnr, '&modified')
-    let lbl .= '%#TabLineSelMod#'
-    let lbl .= s:tal_modflag
-    let lbl .= '%#TabLineSel#'
-  else
-    let lbl .= s:space(s:tal_modflagwid)
-  endif
-  let lbl .= '%#TabLineSelDelim#'
-  let lbl .= '▕'
-  let lbl .= '%#TabLineSel#'
-  return lbl
-endfunction
-
-function s:tal_label_inactive(tabnr, minwid) abort
-  let activebufnr = tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
-  let lbl = ''
-  let lbl .= '%#TabLine#'
-  let lbl .= '%' . a:tabnr . 'T'
-  let lbl .= s:space(s:tal_modflagwid + 2)
-  let lbl .= s:bufname(activebufnr) ->s:center(a:minwid - 2 * (s:tal_modflagwid + 2))
-  let lbl .= s:space(s:tal_modflagwid + 2)
-  return lbl
-endfunction
-
-function s:tal_fill() abort
-  let fil = ''
-  let fil .= '%#TabLineFill#'
-  let fil .= '%T'
-  return fil
-endfunction
-
-function s:center(str, minwid) abort "{{{
-  let strwid = strwidth(a:str)
-  if strwid > a:minwid
-    return a:str
-  endif
-  let p = (a:minwid - strwid) / 2
-  return printf('%s%s%s',
-    \ s:space(p),
-    \ a:str,
-    \ s:space(a:minwid - (p + strwid))
-    \ )
-endfunction "}}}
-
-function s:bufname(bufnr) abort "{{{
-  if getbufvar(a:bufnr, '&buftype') is# 'quickfix'
-    return '[Quickfix List]'
-  endif
-  let name = bufname(a:bufnr)
-  if empty(name)
-    return '[No Name]'
-  endif
-  return fnamemodify(name, ':t') . (isdirectory(name) ? '/' : '')
-endfunction "}}}
 " }}}
 
 " Plugin settings {{{
@@ -608,20 +448,7 @@ if s:isplugged('vim-molder') "{{{
 
   function s:onft_molder() abort
     setlocal nonumber
-    setlocal statusline=%!MolderStl()
-  endfunction
-
-  function! MolderStl() abort
-    let stl = ''
-    let stl .= s:space(2)
-    let stl .= @% ->fnamemodify(':p:~')
-    if winwidth(0) < 60
-      return stl
-    endif
-    let stl .= '%='
-    let stl .= getcwd() ->fnamemodify(':t')
-    let stl .= s:space(2)
-    return stl
+    setlocal statusline=%!statusline#local('molder')
   endfunction
 endif "}}}
 
