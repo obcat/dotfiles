@@ -164,6 +164,7 @@ set mouse=a
 set splitbelow
 set splitright
 set ttimeoutlen=50
+set updatetime=100
 " }}}
 
 " Key mappings {{{
@@ -551,7 +552,6 @@ if s:isplugged('gina.vim') "{{{
 endif "}}}
 
 if s:isplugged('vim-gitgutter') "{{{
-  set updatetime=100
   let g:gitgutter_sign_priority = 10
 endif "}}}
 
