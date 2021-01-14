@@ -4,8 +4,6 @@ hi MoreMsg       cterm=bold
 hi NonText       cterm=bold
 hi Question      cterm=bold
 hi TabLine cterm=underline gui=underline
-hi GitGutterAdd    guifg=#a5b368
-hi GitGutterChange guifg=#728dbb
 hi AnsiColor0      ctermfg=0   guifg=#161821
 hi AnsiColor1      ctermfg=1   guifg=#e27878
 hi AnsiColor2      ctermfg=2   guifg=#b4be82
