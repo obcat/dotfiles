@@ -70,6 +70,8 @@ else
   endfunction
 endif
 
+packadd! cfilter
+packadd! matchit
 filetype plugin on
 
 " Check if a plugin exists
