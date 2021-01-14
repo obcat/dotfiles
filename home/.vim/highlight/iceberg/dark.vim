@@ -28,7 +28,6 @@ hi TabLineSelDelim ctermfg=238 guifg=#3e445e
 hi hitspopErrorMsg ctermfg=203 guifg=#f07575
 hi netrwExe        ctermfg=234 guifg=#e27878
 hi netrwSymlink    ctermfg=140 guifg=#a093c7
-hi CursorLineNr   ctermfg=251 ctermbg=235 guifg=#aab1d4 guibg=#1e2132
 hi LspErrorText   ctermfg=203 ctermbg=235 guifg=#e27878 guibg=#1e2132
 hi LspHintText    ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
 hi LspWarningText ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132

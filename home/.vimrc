@@ -23,6 +23,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
   Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
+  Plug 'inkarkat/vim-CursorLineCurrentWindow' " Set cursorline only to current window
   Plug 'junegunn/vim-easy-align'         " Alignment plugin
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'kana/vim-operator-replace'       " Operator to replace text
@@ -85,7 +86,6 @@ endfunction
 set background=dark
 set cmdheight=2
 set cursorline
-set cursorlineopt=number
 set display=lastline
 set fillchars=vert:│,fold:-
 set laststatus=2
@@ -530,15 +530,10 @@ if s:isplugged('ctrlp.vim') "{{{
   let g:ctrlp_show_hidden     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-  let g:ctrlp_buffer_func = #{enter: 'g:CtrlpBufferFuncEnter'}
 
   if s:isplugged('ctrlp_matchfuzzy.vim')
     let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
-
-  function! CtrlpBufferFuncEnter() abort
-    setlocal cursorlineopt=line
-  endfunction
 
   nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
 endif "}}}
@@ -610,7 +605,6 @@ if s:isplugged('vim-molder') "{{{
   autocmd vimrc FileType molder call <SID>onft_molder()
 
   function s:onft_molder() abort
-    setlocal cursorlineopt=line
     setlocal nonumber
     setlocal statusline=%!MolderStl()
   endfunction
