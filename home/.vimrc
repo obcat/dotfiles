@@ -6,7 +6,6 @@
 " Presettings {{{
 set encoding=utf-8
 scriptencoding utf-8
-augroup vimrc | autocmd! | augroup END
 " }}}
 
 " Plugins {{{
@@ -59,10 +58,13 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'w0ng/vim-hybrid'                 " Color scheme
   call plug#end()
 else
-  autocmd vimrc VimEnter *
-    \ echohl Todo
-    \|echomsg 'Plugins are not installed yet. See README.md.'
-    \|echohl None
+  augroup vimrc-notify-noplugin
+    autocmd!
+    autocmd VimEnter *
+      \ echohl Todo
+      \|echomsg 'Plugins are not installed yet. See README.md.'
+      \|echohl None
+  augroup END
 
   function! PluginManagerInstall() abort
     !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -314,18 +316,31 @@ command! -nargs=1 Helpg
 " }}}
 
 " Autocommands {{{
-autocmd vimrc FileType *         setlocal formatoptions-=o
-autocmd vimrc FileType gitcommit setlocal spell
-autocmd vimrc FileType gitconfig setlocal noexpandtab
-autocmd vimrc FileType vim       setlocal foldmethod=marker
-autocmd vimrc FileType help      call <SID>onft_help()
-autocmd vimrc FileType qf        call <SID>onft_qf()
+augroup vimrc-filetype
+  autocmd!
+  autocmd FileType *         setlocal formatoptions-=o
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitconfig setlocal noexpandtab
+  autocmd FileType vim       setlocal foldmethod=marker
+  autocmd FileType help      call <SID>onft_help()
+  autocmd FileType qf        call <SID>onft_qf()
+augroup END
 
-autocmd vimrc BufReadPost     * call <SID>restore_curpos()
-autocmd vimrc TerminalWinOpen * setlocal nonumber signcolumn=no
+augroup vimrc-restore-curpos
+  autocmd!
+  autocmd BufReadPost * call <SID>restore_curpos()
+augroup END
 
-" Avoid `No matching autocommands` error
-autocmd vimrc User * :
+augroup vimrc-terminal-win-open
+  autocmd!
+  autocmd TerminalWinOpen * setlocal nonumber signcolumn=no
+augroup END
+
+augroup vimrc-user
+  autocmd!
+  " Avoid `No matching autocommands` error
+  autocmd User * :
+augroup END
 
 function s:onft_help() abort
   setlocal conceallevel=0
@@ -388,7 +403,10 @@ if s:isplugged('vim-easy-align') "{{{
 endif "}}}
 
 if s:isplugged('gina.vim') "{{{
-  autocmd vimrc FileType gina-commit setlocal spell
+  augroup vimrc-gina
+    autocmd!
+    autocmd FileType gina-commit setlocal spell
+  augroup END
 endif "}}}
 
 if s:isplugged('vim-gitgutter') "{{{
@@ -401,7 +419,10 @@ endif "}}}
 
 if s:isplugged('vim-hitspop') "{{{
   let g:hitspop_line = 'winbot'
-  autocmd vimrc User WinResized call hitspop#main()
+  augroup vimrc-hitspop
+    autocmd!
+    autocmd User WinResized call hitspop#main()
+  augroup END
 endif "}}}
 
 if s:isplugged('vim-lsp') "{{{
@@ -419,13 +440,16 @@ if s:isplugged('vim-lsp') "{{{
     nmap <buffer> gr <Plug>(lsp-references)
   endfunction
 
-  autocmd vimrc User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-  autocmd vimrc User lsp_float_opened
-    \ call popup_setoptions(lsp#ui#vim#output#getpreviewwinid(), #{
-    \   padding: [0, 1, 0, 1],
-    \   maxheight: 16,
-    \   highlight: 'LspPreviewPopup',
-    \ })
+  augroup vimrc-lsp
+    autocmd!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+    autocmd User lsp_float_opened
+      \ call popup_setoptions(lsp#ui#vim#output#getpreviewwinid(), #{
+      \   padding: [0, 1, 0, 1],
+      \   maxheight: 16,
+      \   highlight: 'LspPreviewPopup',
+      \ })
+  augroup END
 endif "}}}
 
 if s:isplugged('memolist.vim') "{{{
@@ -444,7 +468,10 @@ if s:isplugged('vim-molder') "{{{
   let g:loaded_netrwPlugin       = 1
   let g:loaded_netrwSettings     = 1
 
-  autocmd vimrc FileType molder call <SID>onft_molder()
+  augroup vimrc-molder
+    autocmd!
+    autocmd FileType molder call <SID>onft_molder()
+  augroup END
 
   function s:onft_molder() abort
     setlocal nonumber
@@ -499,7 +526,10 @@ endif "}}}
 if s:isplugged('vim-sclow') "{{{
   let g:sclow_hide_full_length = 1
   let g:sclow_sbar_right_offset = -1
-  autocmd vimrc User WinResized call sclow#update()
+  augroup vimrc-sclow
+    autocmd!
+    autocmd User WinResized call sclow#update()
+  augroup END
 endif "}}}
 
 if s:isplugged('vim-sonictemplate') "{{{
@@ -509,7 +539,10 @@ if s:isplugged('vim-sonictemplate') "{{{
   let g:sonictemplate_vim_template_dir = expand('~/.vim/template/sonictemplate')
   let g:sonictemplate_maintainer = 'obcat <obcat@icloud.com>'
   let g:sonictemplate_license    = 'MIT License'
-  autocmd vimrc FileType stpl setlocal noexpandtab
+  augroup vimrc-sonictemplate
+    autocmd!
+    autocmd FileType stpl setlocal noexpandtab
+  augroup END
 endif "}}}
 
 if s:isplugged('vim-swap') "{{{
@@ -550,8 +583,10 @@ function s:override_highlights(colorscheme, bg) abort
   endif
 endfunction
 
-autocmd vimrc ColorScheme *
-  \ call s:override_highlights(expand('<amatch>'), &background)
+augroup vimrc-color-scheme
+  autocmd!
+  autocmd ColorScheme * call s:override_highlights(expand('<amatch>'), &background)
+augroup END
 
 if s:isplugged('iceberg.vim')
   colorscheme iceberg
