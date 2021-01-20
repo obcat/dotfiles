@@ -43,7 +43,9 @@ hi IncSearch    cterm=NONE      ctermfg=234 ctermbg=216 gui=NONE      guifg=#392
 hi StatusLine   cterm=NONE      ctermfg=250 ctermbg=236 gui=NONE      guifg=#aab1d4 guibg=#272c42
 hi StatusLineNC cterm=NONE      ctermfg=238 ctermbg=233 gui=NONE      guifg=#3e445e guibg=#0f1117
 hi TabLineFill  cterm=underline ctermfg=238 ctermbg=233 gui=underline guifg=#3e445e guibg=#0f1117
-hi VertSplit term=NONE    ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
+hi FernMarkedText term=bold     ctermfg=216 ctermbg=235  guifg=#e2a478 guibg=#1e2132
+hi FernSpinner    term=standout ctermfg=252 ctermbg=235  guifg=#c6c8d1 guibg=#1e2132
+hi VertSplit      term=NONE     ctermfg=234 ctermbg=NONE guifg=bg      guibg=NONE
 hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
 hi! link HighlightedyankRegion Visual
 hi! link LspPreviewPopup       StatusLine

@@ -1,15 +1,15 @@
 let s:separator = "\<Space>" ->repeat(2)
 
-function! statusline#global() abort
-  return s:global_{s:activity()}()
+function! statusline#statusline() abort
+  return s:statusline_{s:activity()}()
 endfunction
 
-function! statusline#local(filetype) abort
-  return s:local_{a:filetype}_{s:activity()}()
+function! statusline#filetype(filetype) abort
+  return s:filetype_{a:filetype}_{s:activity()}()
 endfunction
 
 
-function s:global_active() abort
+function s:statusline_active() abort
   let winwidth = winwidth(0)
   let stl = ''
   let stl .= s:separator
@@ -35,7 +35,7 @@ function s:global_active() abort
   return stl
 endfunction
 
-function s:global_inactive() abort
+function s:statusline_inactive() abort
   let stl = ''
   let stl .= s:separator
   let stl .= '%t'
@@ -43,7 +43,7 @@ function s:global_inactive() abort
 endfunction
 
 
-function s:local_qf_active() abort
+function s:filetype_qf_active() abort
   let winwidth = winwidth(0)
   let stl = ''
   let stl .= s:separator
@@ -52,7 +52,7 @@ function s:local_qf_active() abort
     return stl
   endif
   let stl .= s:separator
-  let stl .= ('"' . w:quickfix_title . '"') ->s:escape()
+  let stl .= ('"' . get(w:, 'quickfix_title', '') . '"') ->s:escape()
   if winwidth < 80
     return stl
   endif
@@ -62,7 +62,7 @@ function s:local_qf_active() abort
   return stl
 endfunction
 
-function s:local_qf_inactive() abort
+function s:filetype_qf_inactive() abort
   let stl = ''
   let stl .= s:separator
   let stl .= '%q'
@@ -70,10 +70,10 @@ function s:local_qf_inactive() abort
 endfunction
 
 
-function s:local_molder_active() abort
+function s:filetype_molder_active() abort
   let stl = ''
   let stl .= s:separator
-  let stl .= b:molder_dir ->fnamemodify(':~') ->s:escape()
+  let stl .= molder#curdir() ->fnamemodify(':~') ->s:escape()
   if winwidth(0) < 60
     return stl
   endif
@@ -83,7 +83,7 @@ function s:local_molder_active() abort
   return stl
 endfunction
 
-function s:local_molder_inactive() abort
+function s:filetype_molder_inactive() abort
   let stl = ''
   let stl .= s:separator
   let stl .= getbufvar(winbufnr(g:statusline_winid), 'molder_dir')

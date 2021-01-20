@@ -13,6 +13,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
   Plug 'airblade/vim-rooter'             " Change the working directory
+  Plug 'bakudankun/backandforward.vim'   " Navigate jumplist in buffer units
   Plug 'cocopon/colorswatch.vim'         " Generate beautiful color swatch
   Plug 'cocopon/iceberg.vim'             " Color scheme
   Plug 'cocopon/inspecthi.vim'           " Inspects a link structure of hi-groups
@@ -22,7 +23,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'hrsh7th/vim-vsnip'               " VSCode Snippet like plugin
   Plug 'hrsh7th/vim-vsnip-integ'         " vsnip integrations
-  Plug 'inkarkat/vim-CursorLineCurrentWindow' " Set cursorline only to current window
+  Plug 'inkarkat/vim-cursorlinecurrentwindow' " Set cursorline only to current window
   Plug 'junegunn/vim-easy-align'         " Alignment plugin
   Plug 'junegunn/vim-plug'               " Plugin manager
   Plug 'kana/vim-operator-replace'       " Operator to replace text
@@ -46,10 +47,14 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'previm/previm'                   " Realtime markdown preview
+  Plug 'rbtnn/vim-vimscript_lasterror'   " Jump to Vim script's last error
   Plug 'rhysd/clever-f.vim'              " Make f, F, t and T cleverer
+  Plug 'shougo/junkfile.vim'             " Create temporary file
   Plug 'thinca/vim-prettyprint'          " Prettyprint Vim variable for debug
+  Plug 'thinca/vim-qfreplace'            " Perform the replacement in quickfix
   Plug 'thinca/vim-themis'               " Testing framework for Vim script
   Plug 'tpope/vim-repeat'                " Repeat some plugin commands by dot
+  Plug 'tweekmonster/helpful.vim'        " Get version of Vim that has specific feature
   Plug 'tyru/capture.vim'                " Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    " Comment out
   Plug 'tyru/open-browser-github.vim'    " Opens GitHub URL of current file
@@ -92,6 +97,7 @@ set cmdheight=2
 set cursorline
 set display=lastline
 set fillchars=vert:│,fold:-
+set foldtext=foldtext#foldtext()
 set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
@@ -101,7 +107,7 @@ set ruler
 set shortmess& shortmess+=aIF
 set showtabline=2
 set signcolumn=yes
-set statusline=%!statusline#global()
+set statusline=%!statusline#statusline()
 set tabline=%!tabline#tabline()
 set wildmenu
 syntax enable
@@ -165,6 +171,7 @@ set belloff=all
 set clipboard=unnamed
 set hidden
 set mouse=a
+set nrformats& nrformats-=octal
 set splitbelow
 set splitright
 set ttimeoutlen=50
@@ -183,6 +190,10 @@ nnoremap gk k
 nnoremap Y y$
 nnoremap z<CR> zt
 nnoremap zt z<CR>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 nnoremap <Leader>q <C-w>c
 nnoremap <silent> <Leader>w :<C-u>silent update<CR>
@@ -246,7 +257,7 @@ function s:i_ctrl_a() abort
   let line = getline('.')
   let indent     = strchars(matchstr(line, '^\s*'))
   let precedings = strchars(strpart(line, 0, col('.') - 1))
-  if  indent < precedings
+  if indent < precedings
     return "\<C-g>U\<Left>" ->repeat(precedings - indent)
   else
     return "\<C-g>U\<Left>" ->repeat(precedings)
@@ -292,19 +303,24 @@ endfunction
 " }}}
 
 " Aliases {{{
-function s:alias(key, val) abort "{{{
-  exe printf(
-    \ 'cnoreabbrev <expr> %s (getcmdtype() is# ":" && getcmdpos() == %d) ? %s : %s',
-    \ a:key, 1 + len(a:key), string(a:val), string(a:key)
-    \ )
-endfunction "}}}
+let s:alias_config = [
+  \ ['cap',   'Capture'],
+  \ ['gina',  'Gina'],
+  \ ['fern',  'Fern'],
+  \ ['h',     'H'],
+  \ ['hc',    'helpc'],
+  \ ['helpg', 'Helpg'],
+  \ ]
 
-call s:alias('ss',    'so %')
-call s:alias('cap',   'Capture')
-call s:alias('gina',  'Gina')
-call s:alias('h',     'H')
-call s:alias('hc',    'helpc')
-call s:alias('helpg', 'Helpg')
+function s:alias_define(pairs) abort "{{{
+  for pair in a:pairs
+    exe printf(
+      \ 'cnoreabbrev <expr> %s (getcmdtype() is# '':'' && getcmdline() is# %s) ? %s : %s',
+      \ pair[0], string(pair[0]), string(pair[1]), string(pair[0])
+      \ )
+  endfor
+endfunction "}}}
+call s:alias_define(s:alias_config)
 " }}}
 
 " User-defined commands {{{
@@ -353,7 +369,7 @@ endfunction
 function s:onft_qf() abort
   exe 'resize' min([line('$') + 2, 10])
   nnoremap <buffer> <silent> p :<C-u>call <SID>qf_preview()<CR>
-  setlocal statusline=%!statusline#local('qf')
+  setlocal statusline=%!statusline#filetype('qf')
 endfunction
 
 function s:qf_preview() abort
@@ -374,6 +390,16 @@ if s:isplugged('vim-asterisk') "{{{
   map g* <Plug>(asterisk-gz*)
 endif "}}}
 
+if s:isplugged('backandforward.vim') "{{{
+  let g:backandforward_config = #{
+    \ define_commands: 0,
+    \ auto_map: 0,
+    \ always_last_pos: 1,
+    \ }
+  nmap [b <Plug>(backandforward-back)
+  nmap ]b <Plug>(backandforward-forward)
+endif "}}}
+
 if s:isplugged('vim-better-whitespace') "{{{
   let g:strip_whitespace_on_save = 1
   let g:better_whitespace_ctermcolor = 'NONE'
@@ -385,6 +411,7 @@ if s:isplugged('clever-f.vim') "{{{
 endif "}}}
 
 if s:isplugged('ctrlp.vim') "{{{
+  let g:ctrlp_map = '<Leader>p'
   let g:ctrlp_show_hidden     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -393,7 +420,7 @@ if s:isplugged('ctrlp.vim') "{{{
     let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
   endif
 
-  nnoremap <silent> ,, :<C-u>CtrlPMRU<CR>
+  nnoremap <silent> <Leader>u :<C-u>CtrlPMRU<CR>
 endif "}}}
 
 if s:isplugged('vim-easy-align') "{{{
@@ -425,6 +452,12 @@ if s:isplugged('vim-hitspop') "{{{
   augroup END
 endif "}}}
 
+if s:isplugged('junkfile.vim') "{{{
+  let g:junkfile#directory = isdirectory(expand('~/Dropbox'))
+    \ ? expand('~/Dropbox/junkfile')
+    \ : expand('~/junkfile')
+endif "}}}
+
 if s:isplugged('vim-lsp') "{{{
   \ && s:isplugged('asyncomplete.vim')
   \ && s:isplugged('asyncomplete-lsp.vim')
@@ -453,7 +486,6 @@ if s:isplugged('vim-lsp') "{{{
 endif "}}}
 
 if s:isplugged('memolist.vim') "{{{
-  " NOTE: memolist creates directories if needed
   let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
     \ : expand('~/memolist')
@@ -475,13 +507,13 @@ if s:isplugged('vim-molder') "{{{
 
   function s:onft_molder() abort
     setlocal nonumber
-    setlocal statusline=%!statusline#local('molder')
+    setlocal statusline=%!statusline#filetype('molder')
   endfunction
 endif "}}}
 
 if s:isplugged('vim-operator-replace') "{{{
-  map  <Space>r  <Plug>(operator-replace)
-  nmap <Space>rr <Plug>(operator-replace)<Plug>(operator-replace)
+  map  <Leader>r  <Plug>(operator-replace)
+  nmap <Leader>rr <Plug>(operator-replace)<Plug>(operator-replace)
 endif "}}}
 
 if s:isplugged('open-browser.vim') "{{{
