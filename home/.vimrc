@@ -39,7 +39,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-textobj-functioncall' " Textobjects for function-call regions
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
-  Plug 'mattn/vim-molder'                " Minimal file explorer
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
   Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
@@ -190,10 +189,6 @@ nnoremap gk k
 nnoremap Y y$
 nnoremap z<CR> zt
 nnoremap zt z<CR>
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
 nnoremap <Leader>q <C-w>c
 nnoremap <silent> <Leader>w :<C-u>silent update<CR>
@@ -493,24 +488,6 @@ if s:isplugged('memolist.vim') "{{{
   let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
 endif "}}}
 
-if s:isplugged('vim-molder') "{{{
-  let g:molder_show_hidden = 1
-  let g:loaded_netrw             = 1
-  let g:loaded_netrwFileHandlers = 1
-  let g:loaded_netrwPlugin       = 1
-  let g:loaded_netrwSettings     = 1
-
-  augroup vimrc-molder
-    autocmd!
-    autocmd FileType molder call <SID>onft_molder()
-  augroup END
-
-  function s:onft_molder() abort
-    setlocal nonumber
-    setlocal statusline=%!statusline#filetype('molder')
-  endfunction
-endif "}}}
-
 if s:isplugged('vim-operator-replace') "{{{
   map  <Leader>r  <Plug>(operator-replace)
   nmap <Leader>rr <Plug>(operator-replace)<Plug>(operator-replace)
@@ -531,28 +508,6 @@ if s:isplugged('vim-sandwich') "{{{
   " NOTE: s can be replaced by cl
   nmap s <Nop>
   xmap s <Nop>
-  nmap sx sdb
-  nmap sc srb
-  nmap s" <Plug>(operator-sandwich-add-query1st)"
-  nmap s' <Plug>(operator-sandwich-add-query1st)'
-  nmap s0 <Plug>(operator-sandwich-add-query1st))
-  nmap s9 <Plug>(operator-sandwich-add-query1st)(
-  nmap s[ <Plug>(operator-sandwich-add-query1st)[
-  nmap s] <Plug>(operator-sandwich-add-query1st)]
-  nmap s` <Plug>(operator-sandwich-add-query1st)`
-  nmap sf <Plug>(operator-sandwich-add-query1st)f
-  nmap s{ <Plug>(operator-sandwich-add-query1st){
-  nmap s} <Plug>(operator-sandwich-add-query1st)}
-  xmap s" <Plug>(operator-sandwich-add)"
-  xmap s' <Plug>(operator-sandwich-add)'
-  xmap s0 <Plug>(operator-sandwich-add))
-  xmap s9 <Plug>(operator-sandwich-add)(
-  xmap s[ <Plug>(operator-sandwich-add)[
-  xmap s] <Plug>(operator-sandwich-add)]
-  xmap s` <Plug>(operator-sandwich-add)`
-  xmap sf <Plug>(operator-sandwich-add)f
-  xmap s{ <Plug>(operator-sandwich-add){
-  xmap s} <Plug>(operator-sandwich-add)}
 endif "}}}
 
 if s:isplugged('vim-sclow') "{{{

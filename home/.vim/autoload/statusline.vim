@@ -69,30 +69,6 @@ function s:filetype_qf_inactive() abort
   return stl
 endfunction
 
-
-function s:filetype_molder_active() abort
-  let stl = ''
-  let stl .= s:separator
-  let stl .= molder#curdir() ->fnamemodify(':~') ->s:escape()
-  if winwidth(0) < 60
-    return stl
-  endif
-  let stl .= '%='
-  let stl .= s:cwd() ->s:escape()
-  let stl .= s:separator
-  return stl
-endfunction
-
-function s:filetype_molder_inactive() abort
-  let stl = ''
-  let stl .= s:separator
-  let stl .= getbufvar(winbufnr(g:statusline_winid), 'molder_dir')
-    \ ->fnamemodify(':~')
-    \ ->s:escape()
-  return stl
-endfunction
-
-
 function s:githunks(symbol, max, t_symbol) abort
   try
     let hunknum = len(gitgutter#hunk#hunks(bufnr()))
