@@ -4,6 +4,8 @@
 [core]
 	autocrlf = input
 	editor = vim
+[init]
+	defaultBranch = main
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
