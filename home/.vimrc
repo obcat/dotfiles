@@ -49,6 +49,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'rbtnn/vim-vimscript_lasterror'   " Jump to Vim script's last error
   Plug 'rhysd/clever-f.vim'              " Make f, F, t and T cleverer
   Plug 'shougo/junkfile.vim'             " Create temporary file
+  Plug 't9md/vim-quickhl'                " Quickly highlight multiple pattern
   Plug 'thinca/vim-prettyprint'          " Prettyprint Vim variable for debug
   Plug 'thinca/vim-qfreplace'            " Perform the replacement in quickfix
   Plug 'thinca/vim-themis'               " Testing framework for Vim script
