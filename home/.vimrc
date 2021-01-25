@@ -381,11 +381,6 @@ endfunction
 " }}}
 
 " Plugin settings {{{
-if s:isplugged('vim-asterisk') "{{{
-  map *  <Plug>(asterisk-z*)
-  map g* <Plug>(asterisk-gz*)
-endif "}}}
-
 if s:isplugged('backandforward.vim') "{{{
   let g:backandforward_config = #{
     \ define_commands: 0,
@@ -394,12 +389,6 @@ if s:isplugged('backandforward.vim') "{{{
     \ }
   nmap [b <Plug>(backandforward-back)
   nmap ]b <Plug>(backandforward-forward)
-endif "}}}
-
-if s:isplugged('vim-better-whitespace') "{{{
-  let g:strip_whitespace_on_save = 1
-  let g:better_whitespace_ctermcolor = 'NONE'
-  let g:better_whitespace_guicolor   = 'NONE'
 endif "}}}
 
 if s:isplugged('clever-f.vim') "{{{
@@ -419,17 +408,56 @@ if s:isplugged('ctrlp.vim') "{{{
   nnoremap <silent> <Leader>u :<C-u>CtrlPMRU<CR>
 endif "}}}
 
-if s:isplugged('vim-easy-align') "{{{
-  " NOTE: n_ga can be replaced by :as[cii]<CR>
-  nmap ga <Plug>(EasyAlign)
-  xmap ga <Plug>(EasyAlign)
-endif "}}}
-
 if s:isplugged('gina.vim') "{{{
   augroup vimrc-gina
     autocmd!
     autocmd FileType gina-commit setlocal spell
   augroup END
+endif "}}}
+
+if s:isplugged('junkfile.vim') "{{{
+  let g:junkfile#directory = isdirectory(expand('~/Dropbox'))
+    \ ? expand('~/Dropbox/junkfile')
+    \ : expand('~/junkfile')
+endif "}}}
+
+if s:isplugged('memolist.vim') "{{{
+  let g:memolist_path = isdirectory(expand('~/Dropbox'))
+    \ ? expand('~/Dropbox/memolist')
+    \ : expand('~/memolist')
+  let g:memolist_memo_suffix = 'md'
+  let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
+endif "}}}
+
+if s:isplugged('open-browser.vim') "{{{
+  let g:netrw_nogx = 1
+  nmap gx <Plug>(openbrowser-smart-search)
+  vmap gx <Plug>(openbrowser-smart-search)
+endif "}}}
+
+if s:isplugged('tlr.vim') "{{{
+  let g:tlr_resize_steps = 8
+  nmap <silent> <C-Down>  <Plug>(tlr-down):doautocmd User WinResized<CR>
+  nmap <silent> <C-Up>    <Plug>(tlr-up):doautocmd User WinResized<CR>
+  nmap <silent> <C-Left>  <Plug>(tlr-left):doautocmd User WinResized<CR>
+  nmap <silent> <C-Right> <Plug>(tlr-right):doautocmd User WinResized<CR>
+endif "}}}
+
+if s:isplugged('vim-asterisk') "{{{
+  map *  <Plug>(asterisk-z*)
+  map g* <Plug>(asterisk-gz*)
+endif "}}}
+
+if s:isplugged('vim-better-whitespace') "{{{
+  let g:strip_whitespace_on_save = 1
+  let g:better_whitespace_ctermcolor = 'NONE'
+  let g:better_whitespace_guicolor   = 'NONE'
+endif "}}}
+
+if s:isplugged('vim-easy-align') "{{{
+  " NOTE: n_ga can be replaced by :as[cii]<CR>
+  nmap ga <Plug>(EasyAlign)
+  xmap ga <Plug>(EasyAlign)
 endif "}}}
 
 if s:isplugged('vim-gitgutter') "{{{
@@ -446,12 +474,6 @@ if s:isplugged('vim-hitspop') "{{{
     autocmd!
     autocmd User WinResized call hitspop#main()
   augroup END
-endif "}}}
-
-if s:isplugged('junkfile.vim') "{{{
-  let g:junkfile#directory = isdirectory(expand('~/Dropbox'))
-    \ ? expand('~/Dropbox/junkfile')
-    \ : expand('~/junkfile')
 endif "}}}
 
 if s:isplugged('vim-lsp') "{{{
@@ -481,23 +503,9 @@ if s:isplugged('vim-lsp') "{{{
   augroup END
 endif "}}}
 
-if s:isplugged('memolist.vim') "{{{
-  let g:memolist_path = isdirectory(expand('~/Dropbox'))
-    \ ? expand('~/Dropbox/memolist')
-    \ : expand('~/memolist')
-  let g:memolist_memo_suffix = 'md'
-  let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
-endif "}}}
-
 if s:isplugged('vim-operator-replace') "{{{
   map  <Leader>r  <Plug>(operator-replace)
   nmap <Leader>rr <Plug>(operator-replace)<Plug>(operator-replace)
-endif "}}}
-
-if s:isplugged('open-browser.vim') "{{{
-  let g:netrw_nogx = 1
-  nmap gx <Plug>(openbrowser-smart-search)
-  vmap gx <Plug>(openbrowser-smart-search)
 endif "}}}
 
 if s:isplugged('vim-rooter') "{{{
@@ -543,14 +551,6 @@ endif "}}}
 if s:isplugged('vim-tokyonight') "{{{
   let g:tokyonight_enable_italic          = 0
   let g:tokyonight_disable_italic_comment = 1
-endif "}}}
-
-if s:isplugged('tlr.vim') "{{{
-  let g:tlr_resize_steps = 8
-  nmap <silent> <C-Down>  <Plug>(tlr-down):doautocmd User WinResized<CR>
-  nmap <silent> <C-Up>    <Plug>(tlr-up):doautocmd User WinResized<CR>
-  nmap <silent> <C-Left>  <Plug>(tlr-left):doautocmd User WinResized<CR>
-  nmap <silent> <C-Right> <Plug>(tlr-right):doautocmd User WinResized<CR>
 endif "}}}
 
 if s:isplugged('vim-vsnip') "{{{
