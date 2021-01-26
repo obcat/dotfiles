@@ -41,7 +41,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'mattn/vim-sonictemplate'         " Easy and high speed coding method
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
-  Plug 'obcat/tlr.vim'                   " Tmux-like window Resizer
+  Plug 'obcat/tlr.vim'                   " Tmux-Like window Resizer
+  Plug 'obcat/vim-hitspop'               " Popup the number of search results
+  Plug 'obcat/voyager.vim'               " Minimal file explorer
   Plug 'prabirshrestha/asyncomplete-lsp.vim' " LSP source for asyncomplete.vim and vim-lsp
   Plug 'prabirshrestha/asyncomplete.vim' " Async autocompletion
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
@@ -61,6 +63,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'tyru/open-browser.vim'           " Open URL with browser
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   Plug 'w0ng/vim-hybrid'                 " Color scheme
+  if has('gui_running')
+    Plug 'obcat/vim-sclow'               " Text-based scrollbar
+  endif
   call plug#end()
 else
   augroup vimrc-notify-noplugin
