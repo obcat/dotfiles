@@ -1,72 +1,88 @@
-let s:separator = "\<Space>" ->repeat(2)
-
-function! statusline#statusline() abort
-  return s:statusline_{s:activity()}()
+function statusline#global() abort
+  return s:{s:activity()}()
 endfunction
 
-function! statusline#filetype(filetype) abort
-  return s:filetype_{a:filetype}_{s:activity()}()
+function statusline#local(filetype) abort
+  return s:{a:filetype}_{s:activity()}()
 endfunction
 
-
-function s:statusline_active() abort
-  let winwidth = winwidth(0)
-  let stl = ''
-  let stl .= s:separator
-  let stl .= '%t'
-  if winwidth < 40
-    return stl
+function s:active() abort
+  let w = winwidth(0)
+  let s = ''
+  let s .= '%f' ->s:fmt()
+  if w < 50
+    return s
   endif
-  let stl .= s:separator
-  let stl .= s:gitbranch() ->s:escape()
-  if winwidth < 50
-    return stl
+  let s .= s:gitbranch() ->s:fmt() ->s:esc()
+  if w < 60
+    return s
   endif
-  let stl .= s:separator
-  let stl .= '%4*'
-  let stl .= s:githunks('*', 6, '>') ->s:escape()
-  let stl .= '%0*'
-  if winwidth < 60
-    return stl
+  let s .= '%4*'
+  let s .= s:githunks('*', 6, '>') ->s:fmt() ->s:esc()
+  let s .= '%0*'
+  if w < 70
+    return s
   endif
-  let stl .= '%='
-  let stl .= s:cwd() ->s:escape()
-  let stl .= s:separator
-  return stl
+  let s .= '%='
+  let s .= s:cwd() ->s:fmt() ->s:esc()
+  return s
 endfunction
 
-function s:statusline_inactive() abort
-  let stl = ''
-  let stl .= s:separator
-  let stl .= '%t'
-  return stl
+function s:inactive() abort
+  let s = ''
+  let s .= '%f' ->s:fmt()
+  return s
 endfunction
 
-
-function s:filetype_qf_active() abort
-  let winwidth = winwidth(0)
-  let stl = ''
-  let stl .= s:separator
-  let stl .= '%q'
-  if winwidth < 60
-    return stl
+function s:qf_active() abort
+  let w = winwidth(0)
+  let s = ''
+  let s .= '%q' ->s:fmt()
+  if w < 50
+    return s
   endif
-  let stl .= s:separator
-  let stl .= ('"' . get(w:, 'quickfix_title', '') . '"') ->s:escape()
-  if winwidth < 80
-    return stl
+  let title = get(w:, 'quickfix_title', '')
+  let s .= printf('"%s"', title) ->s:fmt() ->s:esc()
+  if w < 70
+    return s
   endif
-  let stl .= '%='
-  let stl .= s:cwd() ->s:escape()
-  let stl .= s:separator
-  return stl
+  let s .= printf('%%%dl of %%L', len(line('$'))) ->s:fmt()
+  if w < 80
+    return s
+  endif
+  let s .= '%='
+  let s .= s:cwd() ->s:fmt() ->s:esc()
+  return s
 endfunction
 
-function s:filetype_qf_inactive() abort
-  let stl = ''
-  let stl .= s:separator
-  let stl .= '%q'
-  return stl
+function s:qf_inactive() abort
+  let s = ''
+  let s .= '%q' ->s:fmt()
+  return s
+endfunction
+
+function s:voyager_active() abort
+  let w = winwidth(0)
+  let s = ''
+  let dir = getbufvar(winbufnr(g:statusline_winid), 'voyager_curdir')
+  let s .= (empty(dir) ? '?' : fnamemodify(dir, ':p:~')) ->s:fmt() ->s:esc()
+  if w < 50
+    return s
+  endif
+  let s .= s:gitbranch() ->s:fmt() ->s:esc()
+  if w < 60
+    return s
+  endif
+  let s .= '%='
+  let s .= s:cwd() ->s:fmt() ->s:esc()
+  return s
+endfunction
+
+function s:voyager_inactive() abort
+  let s = ''
+  let dir = getbufvar(winbufnr(g:statusline_winid), 'voyager_curdir')
+  let s .= (empty(dir) ? '?' : fnamemodify(dir, ':p:~')) ->s:fmt() ->s:esc()
+  return s
 endfunction
 
 function s:githunks(symbol, max, t_symbol) abort
@@ -76,8 +92,8 @@ function s:githunks(symbol, max, t_symbol) abort
     return 'E117'
   endtry
   return hunknum <= a:max
-    \ ? (a:symbol ->repeat(hunknum))
-    \ : (a:symbol ->repeat(a:max - 1)) . a:t_symbol
+    \ ? repeat(a:symbol, hunknum)
+    \ : repeat(a:symbol, a:max - 1) . a:t_symbol
 endfunction
 
 function s:gitbranch() abort
@@ -89,17 +105,17 @@ function s:gitbranch() abort
 endfunction
 
 function s:cwd() abort
-  return getcwd() ->fnamemodify(':t')
+  return fnamemodify(getcwd(), ':t')
 endfunction
-
 
 function s:activity() abort
-  return g:statusline_winid == win_getid()
-    \ ? 'active'
-    \ : 'inactive'
+  return g:statusline_winid == win_getid() ? 'active' : 'inactive'
 endfunction
 
+function s:fmt(text) abort
+  return printf(' %s ', a:text)
+endfunction
 
-function s:escape(text) abort
+function s:esc(text) abort
   return substitute(a:text, '%', '%%', 'g')
 endfunction

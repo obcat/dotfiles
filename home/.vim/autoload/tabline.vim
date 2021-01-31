@@ -1,77 +1,47 @@
-let s:modflag = '@'
-let s:label_minwidth = 22
-
-let s:modflag_width = strwidth(s:modflag)
-let s:label_padding = s:modflag_width + 2
-let s:label_bufname_minwidth = s:label_minwidth - 2 * (s:label_padding)
-
-function! tabline#tabline() abort
+function tabline#global() abort
   return s:labels() . s:fill()
 endfunction
 
 function s:labels() abort
-  let labels = ''
-  let tabnrs = range(1, tabpagenr('$'))
-  for tabnr in tabnrs
-    let labels .= s:label(tabnr)
-  endfor
-  return labels
+  return range(1, tabpagenr('$')) ->map('s:label(v:val)') ->join('')
 endfunction
 
 function s:label(tabnr) abort
-  let activity = a:tabnr == tabpagenr()
-    \ ? 'active'
-    \ : 'inactive'
+  let activity = a:tabnr == tabpagenr() ? 'active' : 'inactive'
   return s:label_{activity}(a:tabnr)
 endfunction
 
+let s:padding = '   '
+let s:modflag = ' @ '
+let s:minwidth = 22 - len(s:padding) * 2
+
 function s:label_active(tabnr) abort
-  let currentbufnr = s:currentbufnr(a:tabnr)
-  let label = ''
-  let label .= '%#TabLineSel#'
-  let label .= '%' . a:tabnr . 'T'
-  if a:tabnr == 1
-    let label .= s:space(s:label_padding)
-  else
-    let label .= '%#TabLineSelDelim#'
-    let label .= '▏'
-    let label .= '%#TabLineSel#'
-    let label .= s:space(s:label_padding - 1)
-  endif
-  let label .= s:bufname(s:currentbufnr(a:tabnr))
-    \ ->s:center(s:label_bufname_minwidth)
-    \ ->s:escape()
-  let label .= s:space(1)
-  if getbufvar(currentbufnr, '&modified')
-    let label .= '%#TabLineSelMod#'
-    let label .= s:modflag
-    let label .= '%#TabLineSel#'
-  else
-    let label .= s:space(s:modflag_width)
-  endif
-  let label .= '%#TabLineSelDelim#'
-  let label .= '▕'
-  let label .= '%#TabLineSel#'
-  return label
+  let bufnr = s:currentbufnr(a:tabnr)
+  let l = ''
+  let l .= '%#TabLineSel#'
+  let l .= '%' . a:tabnr . 'T'
+  let l .= s:padding
+  let l .= s:bufname(bufnr) ->s:ctr(s:minwidth) ->s:esc()
+  let l .= '%#TabLineSelMod#'
+  let l .= getbufvar(bufnr, '&modified') ? s:modflag : s:padding
+  return l
 endfunction
 
 function s:label_inactive(tabnr) abort
-  let label = ''
-  let label .= '%#TabLine#'
-  let label .= '%' . a:tabnr . 'T'
-  let label .= s:space(s:label_padding)
-  let label .= s:bufname(s:currentbufnr(a:tabnr))
-    \ ->s:center(s:label_bufname_minwidth)
-    \ ->s:escape()
-  let label .= s:space(s:label_padding)
-  return label
+  let l = ''
+  let l .= '%#TabLine#'
+  let l .= '%' . a:tabnr . 'T'
+  let l .= s:padding
+  let l .= s:bufname(s:currentbufnr(a:tabnr)) ->s:ctr(s:minwidth) ->s:esc()
+  let l .= s:padding
+  return l
 endfunction
 
 function s:fill() abort
-  let fill = ''
-  let fill .= '%#TabLineFill#'
-  let fill .= '%T'
-  return fill
+  let f = ''
+  let f .= '%#TabLineFill#'
+  let f .= '%T'
+  return f
 endfunction
 
 function s:currentbufnr(tabnr) abort
@@ -82,7 +52,7 @@ function s:bufname(bufnr) abort
   let bufinfo = getbufinfo(a:bufnr)[0]
   let bufname = bufinfo.name
   if !empty(bufname)
-    return (bufname ->fnamemodify(':t')) . (isdirectory(bufname) ? '/' : '')
+    return fnamemodify(bufname, ':t')
   endif
   let bufwinid = bufinfo.windows[0]
   let wininfo  = getwininfo(bufwinid)[0]
@@ -92,23 +62,19 @@ function s:bufname(bufnr) abort
   return '[No Name]'
 endfunction
 
-function s:center(text, minwidth) abort
+function s:ctr(text, minwidth) abort
   let strwidth = strwidth(a:text)
   if strwidth > a:minwidth
     return a:text
   endif
   let padding = (a:minwidth - strwidth) / 2
-  let centered = ''
-  let centered .= s:space(padding)
-  let centered .= a:text
-  let centered .= s:space(a:minwidth - (padding + strwidth))
-  return centered
+  let c = ''
+  let c .= repeat(' ', padding)
+  let c .= a:text
+  let c .= repeat(' ', a:minwidth - (padding + strwidth))
+  return c
 endfunction
 
-function s:escape(text) abort
+function s:esc(text) abort
   return substitute(a:text, '%', '%%', 'g')
-endfunction
-
-function s:space(size) abort
-  return "\<Space>" ->repeat(a:size)
 endfunction
