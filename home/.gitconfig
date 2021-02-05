@@ -4,8 +4,16 @@
 [core]
 	autocrlf = input
 	editor = vim
+[blame]
+	date = human
+[commit]
+	verbose = true
+[diff]
+	colorMoved = default
 [init]
 	defaultBranch = main
+[log]
+	date = human
 [merge]
 	tool = vimdiff
 	conflictstyle = diff3
@@ -16,13 +24,11 @@
 	amend = commit --amend
 	graph = log --all --decorate --oneline --graph
 	ignored = ls-files --others --ignored --exclude-standard --directory
-	ss = status --short
+	short = status --short
 	today = graph --since=midnight
 	tracked = ls-files --cached
 	unshallow = fetch --unshallow
 	unstage = restore --staged
 	untracked = ls-files --others --exclude-standard --directory
-[commit]
-	verbose = true
 [include]
 	path = ~/.gitconfig_local

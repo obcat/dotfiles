@@ -1,6 +1,6 @@
 set lines=999
 set columns=9999
-set titlestring=びむ
+set titlestring=%{fnamemodify(getcwd(),\ ':t')}
 set guioptions&
 set guioptions-=e
 set guioptions-=m

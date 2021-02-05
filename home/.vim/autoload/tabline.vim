@@ -1,9 +1,12 @@
+let s:SID = expand('<SID>')
+
 function tabline#global() abort
   return s:labels() . s:fill()
 endfunction
 
 function s:labels() abort
-  return range(1, tabpagenr('$')) ->map('s:label(v:val)') ->join('')
+  let labels = map(range(1, tabpagenr('$')), 's:label(v:val)')
+  return join(labels, '')
 endfunction
 
 function s:label(tabnr) abort
@@ -41,6 +44,10 @@ function s:fill() abort
   let f = ''
   let f .= '%#TabLineFill#'
   let f .= '%T'
+  let f .= '%='
+  let f .= ' '
+  let f .= '%{' . s:SID . 'gitinfo()}'
+  let f .= ' '
   return f
 endfunction
 
@@ -60,6 +67,26 @@ function s:bufname(bufnr) abort
     return wininfo.loclist ? '[Location List]' : '[Quickfix List]'
   endif
   return '[No Name]'
+endfunction
+
+function s:gitinfo() abort
+  let info = [
+    \ 'gina#component#repo#preset()',
+    \ 'gina#component#status#preset()',
+    \ 'gina#component#traffic#preset()',
+    \]
+  call map(info, 's:safe(v:val)')
+  call map(info, 'substitute(v:val, ''^\s*\|\s*$'', '''', ''g'')')
+  call filter(info, '!empty(v:val)')
+  return join(info, ' ')
+endfunction
+
+function s:safe(expr) abort
+  try
+    return eval(a:expr)
+  catch
+    return 'error'
+  endtry
 endfunction
 
 function s:ctr(text, minwidth) abort
