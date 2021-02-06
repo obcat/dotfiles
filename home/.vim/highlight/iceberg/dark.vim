@@ -8,10 +8,10 @@ hi Directory    ctermfg=110 guifg=#84a0c6
 hi EndOfBuffer  ctermfg=239 guifg=#444b71
 hi netrwExe     ctermfg=234 guifg=#e27878
 hi netrwSymlink ctermfg=140 guifg=#a093c7
-hi Search   ctermfg=252 ctermbg=95  guifg=#ebc3ad guibg=#5e4a40
+hi IncSearch gui=bold guifg=#000000 guibg=#e4aa80
+hi Search    gui=bold guifg=#000000 guibg=#84a0c6
 hi WildMenu ctermfg=253 ctermbg=240 guifg=#c2c6d3 guibg=#414a70
-hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=bg guibg=NONE
-hi IncSearch    cterm=NONE ctermfg=234 ctermbg=216 gui=NONE guifg=#392313 guibg=#e4aa80
+hi VertSplit term=NONE ctermfg=234 ctermbg=NONE guifg=#0f1117 guibg=NONE
 hi StatusLine   cterm=NONE ctermfg=250 ctermbg=236 gui=NONE guifg=#aab1d4 guibg=#272c42
 hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
 hi! link StatusLineTerm StatusLine

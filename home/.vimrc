@@ -16,6 +16,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'cocopon/inspecthi.vim'           " Show link structure of highlight groups
   Plug 'ctrlpvim/ctrlp.vim'              " Fuzzy finder
   Plug 'glidenote/memolist.vim'          " Create and manage memo
+  Plug 'glts/vim-textobj-comment'        " Textobjects for comments
   Plug 'haya14busa/vim-asterisk'         " Provides improved * motion
   Plug 'junegunn/vim-easy-align'         " Alignment plugin
   Plug 'junegunn/vim-plug'               " Plugin manager
@@ -52,7 +53,7 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'vim-jp/vimdoc-ja'                " Japanese help
   call plug#end()
 else
-  augroup vimrc-notify-noplugins
+  augroup my-notify-noplugins
     autocmd!
     autocmd VimEnter * echomsg 'Plugins are not installed yet. See README.md.'
   augroup END
@@ -66,9 +67,9 @@ packadd! cfilter
 packadd! matchit
 filetype plugin on
 
-function s:isplugged(plugname) abort
-  let item = 'g:plugs[''' . a:plugname . '''].dir'
-  return exists(item) ? isdirectory(eval(item)) : 0
+function s:has(plug) abort
+  let dir = printf('g:plugs[''%s''][''dir'']', a:plug)
+  return exists(dir) ? isdirectory(eval(dir)) : 0
 endfunction
 " }}}
 
@@ -77,14 +78,12 @@ endfunction
 set background=dark
 set cmdheight=2
 set display=lastline
-set fillchars=vert:│,fold:-
 set foldtext=foldtext#global()
 set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
 set nowrap
 set number
-set ruler
 set shortmess& shortmess+=a
 set showtabline=2
 set signcolumn=yes
@@ -101,7 +100,6 @@ endif
 set history=1000
 
 " Completion
-set completeopt=menuone
 set pumheight=8
 set wildignorecase
 
@@ -114,6 +112,7 @@ endif
 
 " Editing
 set backspace=indent,eol,start
+set virtualedit=block
 
 " Indent
 filetype indent on
@@ -152,10 +151,14 @@ set diffopt& diffopt+=vertical
 set hidden
 set lazyredraw
 set mouse=a
-set nrformats& nrformats-=octal
+set nostartofline
+set nrformats&
+  \ nrformats-=octal
+  \ nrformats+=unsigned
 set report=0
 set splitbelow
 set splitright
+set timeoutlen=5000
 set ttimeoutlen=50
 set updatetime=100
 " }}}
@@ -163,11 +166,16 @@ set updatetime=100
 " Key mappings {{{
 let g:mapleader = "\<Space>"
 noremap <Space> <Nop>
+noremap -       <Nop>
 
 " Normal {{{
 " File
 nnoremap # <C-^>
 nnoremap <Leader>w <Cmd>silent update<CR>
+nnoremap -. <Cmd>edit .<CR>
+nnoremap -- <Cmd>call <SID>browse(expand('%:p:h'))<CR>
+nnoremap -d <Cmd>call <SID>browse(expand('~/dotfiles/home'))<CR>
+nnoremap -p <Cmd>call <SID>browse(expand('~/.vim/plugged'))<CR>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
@@ -185,20 +193,21 @@ nnoremap Y y$
 nnoremap <Leader>s <Cmd>source % <Bar> echo 'sourced'<CR>
 
 " Search
-nnoremap <Leader>l <Cmd>let v:hlsearch = !v:hlsearch<CR>
+nnoremap <C-h> <Cmd>nohlsearch<CR>
 
 " Window
 nnoremap <Leader>q <C-w>c
 nmap     <Leader>z <SID>(win-zoom)
 
 " Tabpage
-nnoremap Q <Cmd>tabclose<CR>
-nnoremap <C-n> gt
-nnoremap <C-p> gT
+nnoremap H <Cmd>exe 'tabprevious' v:count1<CR>
+nnoremap L <Cmd>exe 'tabnext' (tabpagenr() + v:count1 - 1) % tabpagenr('$') + 1<CR>
+nnoremap Q <Cmd>exe 'tabclose' v:count ?? ''<CR>
+nnoremap S <Cmd>exe v:count ?? '' 'tab split'<CR>
 
 " QuickFix
-nnoremap [q <Cmd>cprevious<CR>
-nnoremap ]q <Cmd>cnext<CR>
+nnoremap [q <Cmd>exe v:count1 'cprevious'<CR>
+nnoremap ]q <Cmd>exe v:count1 'cnext'<CR>
 
 " Terminal
 nnoremap <Leader>t <Cmd>call <SID>run_shell()<CR>
@@ -207,6 +216,14 @@ nnoremap <Leader>t <Cmd>call <SID>run_shell()<CR>
 nnoremap <SID>(smooth-scroll-up)   <Cmd>call <SID>smooth_scroll(1)<CR>
 nnoremap <SID>(smooth-scroll-down) <Cmd>call <SID>smooth_scroll(0)<CR>
 nnoremap <SID>(win-zoom)           <Cmd>call <SID>toggle_win_zoom()<CR>
+
+function s:browse(dir, opener = 'edit') abort
+  if isdirectory(a:dir)
+    exe a:opener fnameescape(a:dir)
+  else
+    echo a:dir 'is not directory'
+  endif
+endfunction
 
 " Thank you aonemd
 function s:smooth_scroll(up)
@@ -220,7 +237,7 @@ function s:smooth_scroll(up)
   endfor
 endfunction
 
-" Thank you lambdalisue.
+" Thank you lambdalisue
 function s:toggle_win_zoom() abort
   if exists('t:zoom_winrestcmd')
     exe t:zoom_winrestcmd
@@ -233,8 +250,8 @@ function s:toggle_win_zoom() abort
 endfunction
 
 function s:run_shell() abort
-  let current = expand('%:p')
-  let wd = isdirectory(current) ? current : getcwd()
+  let file = expand('%:p')
+  let wd = isdirectory(file) ? file : getcwd()
   call term_start(&shell, #{
     \ cwd: wd,
     \ term_finish: 'close',
@@ -243,7 +260,7 @@ endfunction
 " }}}
 
 " Visual {{{
-xnoremap . :normal! .<CR>
+xnoremap <silent> . :normal! .<CR>
 " }}}
 
 " Insert {{{
@@ -251,48 +268,42 @@ inoremap <C-u> <C-g>u<C-u>
 " }}}
 
 " Command line {{{
-" https://github.com/vim/vim/issues/7552
-cnoremap <C-n> <Cmd>call feedkeys("\<lt>Down>", 'nt')<CR>
+if has('patch-8.2.2221')
+  cnoremap <C-n> <Down>
+else
+  cnoremap <C-n> <Cmd>call feedkeys("\<lt>Down>", 'nt')<CR>
+endif
 cnoremap <C-p> <Up>
-cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : ''
+cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : '<C-o>'
 " }}}
-" }}}
-
-" Aliases {{{
-let s:alias_config = [
-  \ [':', 'hc', 'helpclose'],
-  \ ]
-
-function s:define_alias(triples) abort
-  for triple in a:triples
-    exe printf('cnoreabbrev <expr> %s (getcmdtype() is# %s && getcmdline() is# %s) ? %s : %s',
-      \ triple[1], string(triple[0]), string(triple[1]), string(triple[2]), string(triple[1])
-      \ )
-  endfor
-endfunction
-
-call s:define_alias(s:alias_config)
 " }}}
 
 " User-defined commands {{{
-command! -bang   Wrap setlocal   wrap<bang>
-command! -bang NoWrap setlocal nowrap<bang>
+command! -bang   Spell setlocal   spell<bang>
+command! -bang NoSpell setlocal nospell<bang>
+command! -bang    Wrap setlocal    wrap<bang>
+command! -bang  NoWrap setlocal  nowrap<bang>
+command! -bang   Conceal let &l:conceallevel = <bang>0 ? (&l:conceallevel ? 0 : 3) : 3
+command! -bang NoConceal let &l:conceallevel = <bang>0 ? (&l:conceallevel ? 0 : 3) : 0
+" }}}
+
+" Abbreviations {{{
+cnoreabbrev <expr> hc (getcmdtype() is# ':' && getcmdline() is# 'hc') ? 'helpclose' : 'hc'
 " }}}
 
 " Autocommands {{{
-augroup vimrc-filetype
+augroup my-terminalopen
+  autocmd!
+  autocmd TerminalOpen * call setbufvar(+expand('<abuf>'), '&filetype', 'terminal')
+augroup END
+
+augroup my-filetype
   autocmd!
   autocmd FileType *         setlocal formatoptions-=o formatoptions+=j
   autocmd FileType *commit*  setlocal spell
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType terminal  setlocal nonumber signcolumn=no
-  autocmd FileType vim       setlocal foldmethod=marker
-  autocmd FileType help,qf   call <SID>on_filetype_{&filetype}()
-augroup END
-
-augroup vimrc-terminalopen
-  autocmd!
-  autocmd TerminalOpen * call setbufvar(+expand('<abuf>'), '&filetype', 'terminal')
+  autocmd FileType help,qf,vim call <SID>on_filetype_{&filetype}()
 augroup END
 
 function s:on_filetype_help() abort
@@ -310,7 +321,27 @@ function s:on_filetype_qf() abort
   setlocal cursorline statusline=%!statusline#local('qf')
 endfunction
 
-augroup vimrc-restore-curpos
+function s:on_filetype_vim() abort
+  setlocal foldmethod=marker
+  " Experimental
+  inoremap <buffer> <C-]> 💥<C-]>
+  inoreabbrev <buffer> aug💥
+    \ augroup <CR>
+    \autocmd!<CR>
+    \autocmd <CR>
+    \augroup END
+    \<Up><Up><Up><End>
+  inoreabbrev <buffer> fu💥
+    \ function  abort<CR>
+    \endfunction
+    \<Up><End><S-Left><Left>
+  inoreabbrev <buffer> if💥
+    \ if <CR>
+    \endif
+    \<Up><End>
+endfunction
+
+augroup my-restore-curpos
   autocmd!
   autocmd BufReadPost * call <SID>restore_curpos()
 augroup END
@@ -320,17 +351,26 @@ function s:restore_curpos() abort
     exe 'normal! g`"'
   endif
 endfunction
+
+augroup my-vimresized
+  autocmd!
+  autocmd VimResized * wincmd =
+augroup END
 " }}}
 
 " Plugin settings {{{
-if s:isplugged('caw.vim') "{{{
+if s:has('caw.vim') "{{{
   let g:caw_no_default_keymappings = 1
   let g:caw_operator_keymappings   = 1
   nmap <Leader>k <Plug>(caw:hatpos:toggle:operator)
   vmap <Leader>k <Plug>(caw:hatpos:toggle)
 endif "}}}
 
-if s:isplugged('ctrlp.vim') "{{{
+if s:has('capture.vim') "{{{
+  command! -bang -count Messages exe 'Capture<bang>' <count> ?? '' 'messages'
+endif "}}}
+
+if s:has('ctrlp.vim') "{{{
   let g:ctrlp_line_prefix  = '▸ '
   let g:ctrlp_reuse_window = '\v.*'
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
@@ -338,11 +378,11 @@ if s:isplugged('ctrlp.vim') "{{{
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_show_hidden     = 1
 
-  if s:isplugged('ctrlp_matchfuzzy.vim')
-    let g:ctrlp_match_func = #{match: 'ctrlp_matchfuzzy#matcher'}
+  if s:has('ctrlp_matchfuzzy.vim')
+    let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
   endif
 
-  augroup vimrc-ctrlp
+  augroup my-ctrlp
     autocmd!
     autocmd VimEnter,VimResized * call s:ctrlp_set_options()
   augroup END
@@ -356,10 +396,29 @@ if s:isplugged('ctrlp.vim') "{{{
   nnoremap <Leader>u <Cmd>CtrlPMRU<CR>
 endif "}}}
 
-if s:isplugged('gina.vim') "{{{
+if s:has('gina.vim') "{{{
+  nnoremap <Bslash>. <Cmd>Gina cd<CR>
   nnoremap <Bslash>b <Cmd>Gina branch -av<CR>
-  nnoremap <Bslash>g <Cmd>Gina log --graph --all<CR>
+  nnoremap <Bslash>c <Cmd>Gina compare<CR>
+  nnoremap <Bslash>d <Cmd>Gina diff<CR>
+  nnoremap <Bslash>l <Cmd>Gina log --graph --all<CR>
   nnoremap <Bslash>s <Cmd>Gina status<CR>
+  nnoremap <Bslash>m <Cmd>call <SID>gina_main()<CR>
+  command! Amend  Gina commit --amend
+  command! Blame  Gina blame
+  command! Commit Gina commit
+  command! -nargs=* Stash Gina stash <args>
+
+  function s:gina_main() abort
+    tab split
+    Gina status
+    vertical rightbelow split
+    Gina log --graph --all
+    wincmd p
+    belowright split
+    Gina branch -av
+    wincmd p
+  endfunction
 
   call gina#custom#mapping#map(
    \ 'status', 'i',
@@ -385,27 +444,28 @@ if s:isplugged('gina.vim') "{{{
    \)
 endif "}}}
 
-if s:isplugged('junkfile.vim') "{{{
+if s:has('junkfile.vim') "{{{
   let g:junkfile#directory = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/junkfile')
     \ : expand('~/junkfile')
 endif "}}}
 
-if s:isplugged('memolist.vim') "{{{
+if s:has('memolist.vim') "{{{
   let g:memolist_path = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/memolist')
     \ : expand('~/memolist')
   let g:memolist_memo_suffix = 'md'
   let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
+  nnoremap -m <Cmd>MemoList<CR>
 endif "}}}
 
-if s:isplugged('open-browser.vim') "{{{
+if s:has('open-browser.vim') "{{{
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   vmap gx <Plug>(openbrowser-smart-search)
 endif "}}}
 
-if s:isplugged('tlr.vim') "{{{
+if s:has('tlr.vim') "{{{
   let g:tlr_resize_steps = 8
   nmap <C-Down>  <Plug>(tlr-down)
   nmap <C-Up>    <Plug>(tlr-up)
@@ -413,35 +473,37 @@ if s:isplugged('tlr.vim') "{{{
   nmap <C-Right> <Plug>(tlr-right)
 endif "}}}
 
-if s:isplugged('vim-asterisk') "{{{
+if s:has('vim-asterisk') "{{{
   map *  <Plug>(asterisk-z*)
   map g* <Plug>(asterisk-gz*)
 endif "}}}
 
-if s:isplugged('vim-better-whitespace') "{{{
+if s:has('vim-better-whitespace') "{{{
   let g:strip_whitespace_on_save = 1
   let g:better_whitespace_ctermcolor = 'NONE'
   let g:better_whitespace_guicolor   = 'NONE'
 endif "}}}
 
-if s:isplugged('vim-easy-align') "{{{
-  " NOTE: ga can be replaced by :ascii<CR>
-  nmap ga <Plug>(EasyAlign)
-  xmap ga <Plug>(EasyAlign)
+if s:has('vim-easy-align') "{{{
+  nmap <Leader>= <Plug>(EasyAlign)
+  xmap <Leader>= <Plug>(EasyAlign)
 endif "}}}
 
-if s:isplugged('vim-gitgutter') "{{{
+if s:has('vim-gitgutter') "{{{
   let g:gitgutter_sign_priority = 10
 endif "}}}
 
-if s:isplugged('vim-highlightedyank') "{{{
+if s:has('vim-highlightedyank') "{{{
   let g:highlightedyank_highlight_duration = 500
 endif "}}}
 
-if s:isplugged('vim-lsp') "{{{
-  let g:lsp_diagnostics_echo_cursor = 1
-  let g:lsp_signs_priority          = 20
+if s:has('vim-lsp') "{{{
+  let g:lsp_diagnostics_echo_cursor    = 1
   let g:lsp_document_highlight_enabled = 0
+  let g:lsp_signs_priority = 20
+  let g:lsp_diagnostics_signs_error   = {'text': 'E'}
+  let g:lsp_diagnostics_signs_warning = {'text': 'W'}
+  let g:lsp_diagnostics_signs_hint    = {'text': 'H'}
 
   function s:on_lsp_buffer_enabled() abort
     nmap <buffer> gd <Plug>(lsp-definition)
@@ -451,10 +513,10 @@ if s:isplugged('vim-lsp') "{{{
   function s:on_lsp_float_opened() abort
     let winid = lsp#ui#vim#output#getpreviewwinid()
     let lines = getbufline(winbufnr(winid), 1, '$')
-    let max   = max(map(lines, 'strwidth(v:val)'))
+    let maxwidth = max(map(lines, 'strwidth(v:val)'))
     call popup_setoptions(winid, #{
       \ maxheight: &lines / 3,
-      \ minwidth: max,
+      \ minwidth: maxwidth,
       \ highlight: 'LspPreviewPopup',
       \ padding: [0, 1, 0, 1],
       \ borderhighlight: ['LspPreviewPopupBorder'],
@@ -462,38 +524,48 @@ if s:isplugged('vim-lsp') "{{{
       \ scrollbar: 0,
       \ })
   endfunction
-  augroup vimrc-lsp
+
+  augroup my-lsp
     autocmd!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
     autocmd User lsp_float_opened   call s:on_lsp_float_opened()
   augroup END
 endif "}}}
 
-if s:isplugged('vim-operator-replace') "{{{
+if s:has('vim-operator-replace') "{{{
   map <Leader>r <Plug>(operator-replace)
 endif "}}}
 
-if s:isplugged('vim-sandwich') "{{{
+if s:has('vim-sandwich') "{{{
   " NOTE: s can be replaced by cl
   nmap s <Nop>
   xmap s <Nop>
 endif "}}}
 
-if s:isplugged('vim-swap') "{{{
+if s:has('vim-swap') "{{{
   omap i, <Plug>(swap-textobject-i)
   xmap i, <Plug>(swap-textobject-i)
   omap a, <Plug>(swap-textobject-a)
   xmap a, <Plug>(swap-textobject-a)
 endif "}}}
 
-if s:isplugged('voyager.vim') "{{{
+if s:has('vim-textobj-comment') "{{{
+  let g:textobj_comment_no_default_key_mappings = 1
+  xmap ak <Plug>(textobj-comment-a)
+  omap ak <Plug>(textobj-comment-a)
+  xmap ik <Plug>(textobj-comment-i)
+  omap ik <Plug>(textobj-comment-i)
+  xmap aK <Plug>(textobj-comment-big-a)
+  omap aK <Plug>(textobj-comment-big-a)
+endif "}}}
+
+if s:has('voyager.vim') "{{{
   let g:voyager_keepalt   = 1
-  let g:voyager_keepjumps = 1
   let g:loaded_netrw             = 1
   let g:loaded_netrwFileHandlers = 1
   let g:loaded_netrwPlugin       = 1
   let g:loaded_netrwSettings     = 1
-  augroup vimrc-voyager
+  augroup my-voyager
     autocmd!
     autocmd FileType voyager setlocal cursorline statusline=%!statusline#local('voyager')
   augroup END
@@ -501,7 +573,7 @@ endif "}}}
 " }}}
 
 " Color scheme {{{
-augroup vimrc-color-scheme
+augroup my-colorscheme
   autocmd!
   autocmd ColorScheme * call s:on_colorscheme(expand('<amatch>'), &background)
 augroup END
@@ -509,14 +581,21 @@ augroup END
 function s:on_colorscheme(colorscheme, background) abort
   let dir  = expand('~/.vim/highlight')
   let file = printf('%s/%s/%s.vim', dir, a:colorscheme, a:background)
-  exe 'source' fnameescape(filereadable(file) ? file : dir . '/others.vim')
+  if !filereadable(file)
+    let file = dir . '/others.vim'
+  endif
+  exe 'source' fnameescape(file)
 endfunction
 
 if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
   set termguicolors
 endif
 
-exe 'colorscheme' s:isplugged('iceberg.vim') ? 'iceberg' : 'slate'
+if s:has('iceberg.vim')
+  colorscheme iceberg
+else
+  colorscheme slate
+endif
 " }}}
 
 " Local settings {{{
