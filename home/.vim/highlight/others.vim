@@ -2,6 +2,7 @@
 hi CursorLineNr cterm=bold
 hi NonText ctermbg=NONE guibg=NONE
 hi! link SignColumn    LineNr
+hi! link TabLineFill   Tabline
 hi! link VertSplit     LineNr
 hi! link netrwClassify netrwPlain
 hi! link netrwLink     netrwPlain

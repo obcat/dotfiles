@@ -1,4 +1,3 @@
-set titlestring=%{fnamemodify(getcwd(),\ ':t')}
 set guioptions&
   \ guioptions-=e
   \ guioptions-=m

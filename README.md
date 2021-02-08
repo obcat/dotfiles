@@ -28,7 +28,7 @@ $ vim
 
 Install plugin manager
 ```
-:call PluginManagerInstall()
+:PluginManagerInstall
 ```
 
 Reload `vimrc` file

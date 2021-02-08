@@ -1,5 +1,3 @@
-let s:SID = expand('<SID>')
-
 function tabline#global() abort
   return s:labels() . s:fill()
 endfunction
@@ -14,19 +12,20 @@ function s:label(tabnr) abort
   return s:label_{activity}(a:tabnr)
 endfunction
 
-let s:padding = '   '
-let s:modflag = ' @ '
-let s:minwidth = 22 - len(s:padding) * 2
+let s:padding_0 = '   '
+let s:padding_1 = ' @ '
+let s:minwidth = 16
+let s:maxwidth = 16
 
 function s:label_active(tabnr) abort
   let bufnr = s:currentbufnr(a:tabnr)
   let l = ''
   let l .= '%#TabLineSel#'
   let l .= '%' . a:tabnr . 'T'
-  let l .= s:padding
-  let l .= s:bufname(bufnr) ->s:ctr(s:minwidth) ->s:esc()
+  let l .= s:padding_0
+  let l .= s:bufname(bufnr) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()
   let l .= '%#TabLineSelMod#'
-  let l .= getbufvar(bufnr, '&modified') ? s:modflag : s:padding
+  let l .= s:padding_{getbufvar(bufnr, '&modified')}
   return l
 endfunction
 
@@ -34,9 +33,9 @@ function s:label_inactive(tabnr) abort
   let l = ''
   let l .= '%#TabLine#'
   let l .= '%' . a:tabnr . 'T'
-  let l .= s:padding
-  let l .= s:bufname(s:currentbufnr(a:tabnr)) ->s:ctr(s:minwidth) ->s:esc()
-  let l .= s:padding
+  let l .= s:padding_0
+  let l .= s:bufname(s:currentbufnr(a:tabnr)) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()
+  let l .= s:padding_0
   return l
 endfunction
 
@@ -46,7 +45,7 @@ function s:fill() abort
   let f .= '%T'
   let f .= '%='
   let f .= ' '
-  let f .= '%{' . s:SID . 'gitinfo()}'
+  let f .= s:gitinfo() ->s:escape()
   let f .= ' '
   return f
 endfunction
@@ -57,14 +56,21 @@ endfunction
 
 function s:bufname(bufnr) abort
   let bufinfo = getbufinfo(a:bufnr)[0]
-  let bufname = bufinfo.name
-  if !empty(bufname)
-    return fnamemodify(bufname, ':t')
+  if !empty(bufinfo.name)
+    let trimmed = trim(bufinfo.name, '/', 2)
+    return empty(trimmed) ? bufinfo.name : fnamemodify(trimmed, ':t')
   endif
-  let bufwinid = bufinfo.windows[0]
-  let wininfo  = getwininfo(bufwinid)[0]
+  let wininfo = getwininfo(bufinfo.windows[0])[0]
   if wininfo.quickfix
     return wininfo.loclist ? '[Location List]' : '[Quickfix List]'
+  endif
+  let buftype = getbufvar(a:bufnr, '&buftype')
+  if index(['nofile', 'acwrite', 'terminal'], buftype) >= 0
+    return '[Scratch]'
+  elseif buftype is# 'prompt'
+    return '[Prompt]'
+  elseif buftype is# 'popup'
+    return '[Popup]'
   endif
   return '[No Name]'
 endfunction
@@ -75,8 +81,7 @@ function s:gitinfo() abort
     \ 'gina#component#status#preset()',
     \ 'gina#component#traffic#preset()',
     \]
-  call map(info, 's:safe(v:val)')
-  call map(info, 'substitute(v:val, ''^\s*\|\s*$'', '''', ''g'')')
+  call map(info, 'trim(s:safe(v:val))')
   call filter(info, '!empty(v:val)')
   return join(info, ' ')
 endfunction
@@ -89,19 +94,23 @@ function s:safe(expr) abort
   endtry
 endfunction
 
-function s:ctr(text, minwidth) abort
-  let strwidth = strwidth(a:text)
-  if strwidth > a:minwidth
-    return a:text
+function s:center(string, minwidth)
+  let strwidth = strwidth(a:string)
+  if a:minwidth <= strwidth
+    return a:string
   endif
-  let padding = (a:minwidth - strwidth) / 2
-  let c = ''
-  let c .= repeat(' ', padding)
-  let c .= a:text
-  let c .= repeat(' ', a:minwidth - (padding + strwidth))
-  return c
+  let left  = (a:minwidth - strwidth) / 2
+  let right = a:minwidth - (left + strwidth)
+  return repeat(' ', left) . a:string . repeat(' ', right)
 endfunction
 
-function s:esc(text) abort
-  return substitute(a:text, '%', '%%', 'g')
+function s:truncate(string, maxwidth, symbol = '>')
+  if strwidth(a:string) <= a:maxwidth
+    return a:string
+  endif
+  return printf('%.*S%s', a:maxwidth - strwidth(a:symbol), a:string, a:symbol)
+endfunction
+
+function s:escape(string) abort
+  return substitute(a:string, '%', '%%', 'g')
 endfunction
