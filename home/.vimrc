@@ -38,7 +38,6 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
   Plug 'mattn/ctrlp-matchfuzzy'          " Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          " Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  " Highlight the trailing white spaces
-  Plug 'obcat/tlr.vim'                   " Tmux-Like window Resizer
   Plug 'obcat/voyager.vim'               " Minimal file explorer
   Plug 'prabirshrestha/vim-lsp'          " Language Server Protocol
   Plug 'previm/previm'                   " Realtime markdown preview
@@ -109,13 +108,16 @@ set wildignorecase
 
 " Cursor
 if has('vim_starting')
-  let &t_EI .= "\<Esc>[2 q"
-  let &t_SI .= "\<Esc>[6 q"
-  let &t_SR .= "\<Esc>[4 q"
+  let &t_EI .= "\e[2 q"
+  let &t_SI .= "\e[6 q"
+  let &t_SR .= "\e[4 q"
 endif
 
 " Editing
 set backspace=indent,eol,start
+set nrformats&
+  \ nrformats-=octal
+  \ nrformats+=unsigned
 set virtualedit=block,onemore
 
 " Indent
@@ -144,6 +146,10 @@ set ignorecase
 set incsearch
 set smartcase
 
+" Window
+set splitbelow
+set splitright
+
 " Misc
 set belloff=error
 set clipboard=unnamed
@@ -151,113 +157,39 @@ set diffopt& diffopt+=vertical
 set hidden
 set lazyredraw
 set mouse=a
-set nrformats&
-  \ nrformats-=octal
-  \ nrformats+=unsigned
+set path=.,,
 set report=0
-set splitbelow
-set splitright
 set timeoutlen=5000
 set ttimeoutlen=50
 set updatetime=100
 " }}}
 
 " Key mappings {{{
-let g:mapleader = "\<Nop>"
-
-" Normal {{{
-nnoremap -     <Nop>
-nnoremap <C-h> <Nop>
-
-" File
-nnoremap # <C-^>
-nnoremap -d <Cmd>call <SID>browse(expand('~/dotfiles/home'))<CR>
-nnoremap -p <Cmd>call <SID>browse(expand('~/.vim/plugins'))<CR>
-nnoremap -u <Cmd>call <SID>browse(expand('%:p:h'))<CR>
-nnoremap <Bslash>w <Cmd>silent update<CR>
-nnoremap <Bslash>s <Cmd>source %<CR>
-nnoremap <Bslash>e <Cmd>call <SID>re_edit()<CR>
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
-
-" Motion
+" Normal
 nnoremap g: g;
-
-" Scroll
 nnoremap <C-u> <Cmd>call <SID>smooth_scroll(1)<CR>
 nnoremap <C-d> <Cmd>call <SID>smooth_scroll(0)<CR>
-
-" Change
 nnoremap Y y$
-
-" Option
-nnoremap <C-h>h     <Cmd>set hlsearch!<CR>
-nnoremap <C-h><C-h> <Cmd>set hlsearch!<CR>
-nnoremap <C-h>l     <Cmd>setlocal cursorline!<CR>
-nnoremap <C-h><C-l> <Cmd>setlocal cursorline!<CR>
-
-" Window
-nnoremap <Space>q <Cmd>close<CR>
-nnoremap <C-w><C-\> <C-w><Bar>
-
-" Tabpage
-nnoremap H <Cmd>tabprevious<CR>
-nnoremap L <Cmd>tabnext<CR>
-nnoremap Q <Cmd>tabclose<CR>
-nnoremap S <Cmd>tab split<CR>
-
-" Terminal
-nnoremap <Space>t <Cmd>call <SID>run_shell()<CR>
-
-" QuickFix
-nnoremap [q <Cmd>cprevious<CR>
-nnoremap ]q <Cmd>cnext<CR>
-
-function s:browse(dir) abort
-  if isdirectory(a:dir)
-    edit `=a:dir`
-  else
-    echo printf('"%s" is not directory', a:dir)
-  endif
-endfunction
-
-function s:re_edit() abort
-  let winview = winsaveview()
-  edit
-  call winrestview(winview)
-endfunction
+nnoremap <C-h> <Cmd>set hlsearch!<CR>
+nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
+nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
 
 " Thank you aonemd
 function s:smooth_scroll(up)
   let key = a:up ? "\<C-y>" : "\<C-e>"
-  exe 'normal!' key
+  execute 'normal!' key
   redraw
   for i in range(1, winheight(0), 4)
     sleep 7m
-    exe 'normal!' key
+    execute 'normal!' key
     redraw
   endfor
 endfunction
 
-function s:run_shell() abort
-  let file = expand('%:p')
-  let wd = isdirectory(file) ? file : getcwd()
-  call term_start(&shell, #{
-    \ cwd: wd,
-    \ term_finish: 'close',
-    \ })
-endfunction
-" }}}
-
-" Visual {{{
-xnoremap <silent> . :normal! .<CR>
-" }}}
-
-" Insert {{{
+" Insert
 inoremap <C-u> <C-g>u<C-u>
-" }}}
 
-" Command line {{{
+" Command line
 if has('patch-8.2.2221')
   cnoremap <C-n> <Down>
 else
@@ -266,15 +198,9 @@ endif
 cnoremap <C-p> <Up>
 cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : '<C-o>'
 " }}}
-" }}}
 
 " User-defined commands {{{
-command! Tig   terminal ++curwin tig --all
-command! Vimrc edit `=resolve($MYVIMRC)`
-" }}}
-
-" Abbreviations {{{
-cnoreabbrev <expr> hc (getcmdtype() is# ':' && getcmdline() is# 'hc') ? 'helpclose' : 'hc'
+command! Tig terminal ++curwin tig --all
 " }}}
 
 " Autocommands {{{
@@ -297,13 +223,13 @@ function s:on_filetype_help() abort
   if &modifiable
   else
     setlocal signcolumn=no
-    nnoremap <buffer> C <Cmd>exe 'help' expand('<cword>') . '@en'<CR>
-    nnoremap <buffer> J <Cmd>exe 'help' expand('<cword>') . '@ja'<CR>
+    nnoremap <buffer><silent> C @_:help <C-r><C-w>@en<CR>
+    nnoremap <buffer><silent> J @_:help <C-r><C-w>@ja<CR>
   endif
 endfunction
 
 function s:on_filetype_qf() abort
-  exe 'resize' min([line('$') + 2, 10])
+  execute 'resize' min([line('$') + 2, 10])
   setlocal cursorline
   setlocal signcolumn=no
   setlocal statusline=%!statusline#local('qf')
@@ -327,6 +253,11 @@ function s:on_filetype_vim() abort
     \ if <CR>
     \endif
     \<Up><End>
+  inoreabbrev <buffer> try💥
+   \ try<CR>
+   \catch<CR>
+   \endtry
+   \<Up><C-o>O<C-g>u
 endfunction
 
 augroup my-restore-curpos
@@ -336,7 +267,7 @@ augroup END
 
 function s:restore_curpos() abort
   if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~# 'commit'
-    exe 'normal! g`"'
+    execute 'normal! g`"'
   endif
 endfunction
 
@@ -360,7 +291,7 @@ endif "}}}
 
 if s:has('ctrlp.vim') "{{{
   let g:ctrlp_line_prefix  = '▸ '
-  let g:ctrlp_reuse_window = '\v.*'
+  let g:ctrlp_reuse_window = '.*'
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
   let g:ctrlp_by_filename     = 1
   let g:ctrlp_follow_symlinks = 1
@@ -380,23 +311,17 @@ if s:has('ctrlp.vim') "{{{
     let g:ctrlp_match_window = printf('order:ttb,min:%d,max:%d', half, half)
   endfunction
 
-  nnoremap <Space> <Nop>
-  nmap     <Space>p <Plug>(ctrlp)
-  nnoremap <Space>u <Cmd>CtrlPMRUFiles<CR>
+  let g:ctrlp_cmd = 'CtrlPMRUFiles'
+  let g:ctrlp_map = '<Space>'
+  nnoremap g<Space> <Cmd>CtrlP<CR>
 endif "}}}
 
 if s:has('gina.vim') "{{{
-  nnoremap , <Nop>
-  nnoremap ,. <Cmd>Gina cd<CR>
-  nnoremap ,b <Cmd>Gina branch -av<CR>
-  nnoremap ,c <Cmd>Gina compare<CR>
-  nnoremap ,d <Cmd>Gina diff<CR>
-  nnoremap ,l <Cmd>Gina log --graph --all<CR>
-  nnoremap ,s <Cmd>Gina status<CR>
-  command! Amend  Gina commit --amend
-  command! Blame  Gina blame
-  command! Commit Gina commit
-  command! -nargs=* Stash Gina stash <args>
+  nnoremap <Bslash>b <Cmd>Gina branch -av<CR>
+  nnoremap <Bslash>c <Cmd>Gina compare<CR>
+  nnoremap <Bslash>d <Cmd>Gina diff<CR>
+  nnoremap <Bslash>l <Cmd>Gina log --graph --all<CR>
+  nnoremap <Bslash>s <Cmd>Gina status<CR>
 
   call gina#custom#mapping#map(
    \ 'status', 'i',
@@ -446,22 +371,6 @@ if s:has('junkfile.vim') "{{{
   let g:junkfile#directory = isdirectory(expand('~/Dropbox'))
     \ ? expand('~/Dropbox/junkfile')
     \ : expand('~/junkfile')
-
-  command! -nargs=? JunkGrep call <SID>junkgrep(<q-args>)
-  function s:junkgrep(pattern)
-    let pattern = empty(a:pattern) ? input('[junkfile] pattern: ') : a:pattern
-    if empty(pattern)
-      redraw
-      echo '[junkfile] canceld'
-      return
-    endif
-    try
-      exe printf('vimgrep %s %s/**/*', pattern, g:junkfile#directory)
-    catch
-      redraw
-      echomsg '[junkfile]' v:exception
-    endtry
-  endfunction
 endif "}}}
 
 if s:has('memolist.vim') "{{{
@@ -470,21 +379,12 @@ if s:has('memolist.vim') "{{{
     \ : expand('~/memolist')
   let g:memolist_memo_suffix = 'md'
   let g:memolist_template_dir_path = expand('~/.vim/template/memolist')
-  nnoremap -m <Cmd>MemoList<CR>
 endif "}}}
 
 if s:has('open-browser.vim') "{{{
   let g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
-endif "}}}
-
-if s:has('tlr.vim') "{{{
-  let g:tlr_resize_steps = 8
-  nmap <C-Down>  <Plug>(tlr-down)
-  nmap <C-Up>    <Plug>(tlr-up)
-  nmap <C-Left>  <Plug>(tlr-left)
-  nmap <C-Right> <Plug>(tlr-right)
 endif "}}}
 
 if s:has('vim-asterisk') "{{{
@@ -508,12 +408,12 @@ endif "}}}
 if s:has('vim-gitgutter') "{{{
   let g:gitgutter_sign_priority = 10
   let g:gitgutter_map_keys = 0
-  nnoremap <Space>h <Nop>
-  xnoremap <Space>h <Nop>
-  nmap <Space>hp <Plug>(GitGutterPreviewHunk)
-  nmap <Space>hs <Plug>(GitGutterStageHunk)
-  xmap <Space>hs <Plug>(GitGutterStageHunk)
-  nmap <Space>hu <Plug>(GitGutterUndoHunk)
+  nnoremap H <Nop>
+  xnoremap H <Nop>
+  nmap Hp <Plug>(GitGutterPreviewHunk)
+  nmap Hs <Plug>(GitGutterStageHunk)
+  xmap Hs <Plug>(GitGutterStageHunk)
+  nmap Hu <Plug>(GitGutterUndoHunk)
   nmap [c <Plug>(GitGutterPrevHunk)
   nmap ]c <Plug>(GitGutterNextHunk)
 endif "}}}
@@ -531,8 +431,9 @@ if s:has('vim-lsp') "{{{
   let g:lsp_diagnostics_signs_hint    = {'text': 'H'}
 
   function s:on_lsp_buffer_enabled() abort
-    nmap <buffer> gd <Plug>(lsp-definition)
-    nmap <buffer> gr <Plug>(lsp-references)
+    nnoremap <buffer> L <Nop>
+    nmap <buffer> Ld <Plug>(lsp-definition)
+    nmap <buffer> Lr <Plug>(lsp-references)
   endfunction
 
   function s:on_lsp_float_opened() abort
@@ -547,7 +448,7 @@ if s:has('vim-lsp') "{{{
       \ borderhighlight: ['LspPreviewPopupBorder'],
       \ borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
       \ scrollbar: 0,
-      \ filter: printf('%slsp_float_filter', s:SID),
+      \ filter: s:SID . 'lsp_float_filter',
       \ })
   endfunction
 
@@ -602,8 +503,8 @@ if s:has('vim-swap') "{{{
     \ "\<C-r>": ['redo'],
     \ 'p': ['swap_prev'],
     \ 'n': ['swap_next'],
-    \ 'b': ['move_prev'],
-    \ 'f': ['move_next'],
+    \ "\<C-p>": ['move_prev'],
+    \ "\<C-n>": ['move_next'],
     \ 's': ['sort'],
     \ 'S': ['SORT'],
     \ 'g': ['group'],

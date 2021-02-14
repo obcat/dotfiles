@@ -19,35 +19,36 @@ let s:maxwidth = 16
 
 function s:label_active(tabnr) abort
   let bufnr = s:currentbufnr(a:tabnr)
-  let l = ''
-  let l .= '%#TabLineSel#'
-  let l .= '%' . a:tabnr . 'T'
-  let l .= s:padding_0
-  let l .= s:bufname(bufnr) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()
-  let l .= '%#TabLineSelMod#'
-  let l .= s:padding_{getbufvar(bufnr, '&modified')}
-  return l
+  " NOTE: "+= ... join" is faster than ".= ..."
+  let l = []
+  let l += ['%#TabLineSel#']
+  let l += ['%' . a:tabnr . 'T']
+  let l += [s:padding_0]
+  let l += [s:bufname(bufnr) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()]
+  let l += ['%#TabLineSelMod#']
+  let l += [s:padding_{getbufvar(bufnr, '&modified')}]
+  return join(l, '')
 endfunction
 
 function s:label_inactive(tabnr) abort
-  let l = ''
-  let l .= '%#TabLine#'
-  let l .= '%' . a:tabnr . 'T'
-  let l .= s:padding_0
-  let l .= s:bufname(s:currentbufnr(a:tabnr)) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()
-  let l .= s:padding_0
-  return l
+  let l = []
+  let l += ['%#TabLine#']
+  let l += ['%' . a:tabnr . 'T']
+  let l += [s:padding_0]
+  let l += [s:bufname(s:currentbufnr(a:tabnr)) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()]
+  let l += [s:padding_0]
+  return join(l, '')
 endfunction
 
 function s:fill() abort
-  let f = ''
-  let f .= '%#TabLineFill#'
-  let f .= '%T'
-  let f .= '%='
-  let f .= ' '
-  let f .= s:gitinfo() ->s:escape()
-  let f .= ' '
-  return f
+  let f = []
+  let f += ['%#TabLineFill#']
+  let f += ['%T']
+  let f += ['%=']
+  let f += [' ']
+  let f += [s:gitinfo() ->s:escape()]
+  let f += [' ']
+  return join(f, '')
 endfunction
 
 function s:currentbufnr(tabnr) abort
@@ -67,9 +68,9 @@ function s:bufname(bufnr) abort
   let buftype = getbufvar(a:bufnr, '&buftype')
   if index(['nofile', 'acwrite', 'terminal'], buftype) >= 0
     return '[Scratch]'
-  elseif buftype is# 'prompt'
+  elseif buftype is 'prompt'
     return '[Prompt]'
-  elseif buftype is# 'popup'
+  elseif buftype is 'popup'
     return '[Popup]'
   endif
   return '[No Name]'

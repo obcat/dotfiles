@@ -1,5 +1,5 @@
-let s:padding   = "\<Space>"
-let s:separator = "\<Space>"
+let s:padding   = ' '
+let s:separator = ' '
 
 function statusline#global() abort
   return s:{s:activity()}()
@@ -10,16 +10,17 @@ function statusline#local(filetype) abort
 endfunction
 
 function s:active() abort
-  let s = ''
-  let s .= s:padding
-  let s .= '%f'
-  let s .= s:separator
-  let s .= '%h%r%w'
-  let s .= '%='
-  let s .= s:separator
-  let s .= '%P'
-  let s .= s:padding
-  return s
+  " NOTE: "+= ... join" is faster than ".= ..."
+  let s = []
+  let s += [s:padding]
+  let s += ['%f']
+  let s += [s:separator]
+  let s += ['%h%r%w']
+  let s += ['%=']
+  let s += [s:separator]
+  let s += ['%P']
+  let s += [s:padding]
+  return join(s, '')
 endfunction
 
 function s:inactive() abort
@@ -27,16 +28,16 @@ function s:inactive() abort
 endfunction
 
 function s:qf_active() abort
-  let s = ''
-  let s .= s:padding
-  let s .= '%q'
-  let s .= s:separator
-  let s .= '%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}'
-  let s .= '%='
-  let s .= s:separator
-  let s .= '%P'
-  let s .= s:padding
-  return s
+  let s = []
+  let s += [s:padding]
+  let s += ['%q']
+  let s += [s:separator]
+  let s += ['%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}']
+  let s += ['%=']
+  let s += [s:separator]
+  let s += ['%P']
+  let s += [s:padding]
+  return join(s, '')
 endfunction
 
 function s:qf_inactive() abort
@@ -44,14 +45,14 @@ function s:qf_inactive() abort
 endfunction
 
 function s:voyager_active() abort
-  let s = ''
-  let s .= s:padding
-  let s .= '%{fnamemodify(@%, '':p'')}'
-  let s .= '%='
-  let s .= s:separator
-  let s .= '%P'
-  let s .= s:padding
-  return s
+  let s = []
+  let s += [s:padding]
+  let s += ['%{fnamemodify(@%, '':p'')}']
+  let s += ['%=']
+  let s += [s:separator]
+  let s += ['%P']
+  let s += [s:padding]
+  return join(s, '')
 endfunction
 
 function s:voyager_inactive() abort
