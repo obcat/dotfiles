@@ -63,17 +63,17 @@ function s:bufname(bufnr) abort
   endif
   let wininfo = getwininfo(bufinfo.windows[0])[0]
   if wininfo.quickfix
-    return wininfo.loclist ? '[Location List]' : '[Quickfix List]'
+    return gettext(wininfo.loclist ? '[Location List]' : '[Quickfix List]')
   endif
   let buftype = getbufvar(a:bufnr, '&buftype')
   if index(['nofile', 'acwrite', 'terminal'], buftype) >= 0
-    return '[Scratch]'
+    return gettext('[Scratch]')
   elseif buftype is 'prompt'
-    return '[Prompt]'
+    return gettext('[Prompt]')
   elseif buftype is 'popup'
-    return '[Popup]'
+    return gettext('[Popup]')
   endif
-  return '[No Name]'
+  return gettext('[No Name]')
 endfunction
 
 function s:gitinfo() abort

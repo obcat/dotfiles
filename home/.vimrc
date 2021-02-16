@@ -166,6 +166,7 @@ set updatetime=100
 
 " Key mappings {{{
 " Normal
+nnoremap - <Cmd>edit %:h<CR>
 nnoremap g: g;
 nnoremap <C-u> <Cmd>call <SID>smooth_scroll(1)<CR>
 nnoremap <C-d> <Cmd>call <SID>smooth_scroll(0)<CR>
@@ -174,7 +175,7 @@ nnoremap <C-h> <Cmd>set hlsearch!<CR>
 nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
 nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
 
-" Thank you aonemd
+" Thank you aonemd.
 function s:smooth_scroll(up)
   let key = a:up ? "\<C-y>" : "\<C-e>"
   execute 'normal!' key
@@ -196,7 +197,14 @@ else
   cnoremap <C-n> <Cmd>call feedkeys("<Bslash><lt>Down>", 'nt')<CR>
 endif
 cnoremap <C-p> <Up>
-cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : '<C-o>'
+cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : <SID>oya_directory()
+
+" "oya (親)" means "parent" in Japanese.
+function s:oya_directory() abort
+  let dir = expand('%:p:h')
+  let trimmed = trim(dir, '/', 2)
+  return empty(trimmed) ? dir : (trimmed . '/')
+endfunction
 " }}}
 
 " User-defined commands {{{
@@ -290,12 +298,12 @@ if s:has('capture.vim') "{{{
 endif "}}}
 
 if s:has('ctrlp.vim') "{{{
-  let g:ctrlp_line_prefix  = '▸ '
-  let g:ctrlp_reuse_window = '.*'
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
   let g:ctrlp_by_filename     = 1
   let g:ctrlp_follow_symlinks = 1
   let g:ctrlp_show_hidden     = 1
+  let g:ctrlp_line_prefix  = '▸ '
+  let g:ctrlp_reuse_window = '.*'
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
   if s:has('ctrlp_matchfuzzy.vim')
     let g:ctrlp_match_func = {'match': 'ctrlp_matchfuzzy#matcher'}
@@ -426,9 +434,10 @@ if s:has('vim-lsp') "{{{
   let g:lsp_diagnostics_echo_cursor    = 1
   let g:lsp_document_highlight_enabled = 0
   let g:lsp_signs_priority = 20
-  let g:lsp_diagnostics_signs_error   = {'text': 'E'}
-  let g:lsp_diagnostics_signs_warning = {'text': 'W'}
-  let g:lsp_diagnostics_signs_hint    = {'text': 'H'}
+  let g:lsp_diagnostics_signs_error       = {'text': 'E'}
+  let g:lsp_diagnostics_signs_warning     = {'text': 'W'}
+  let g:lsp_diagnostics_signs_information = {'text': 'I'}
+  let g:lsp_diagnostics_signs_hint        = {'text': 'H'}
 
   function s:on_lsp_buffer_enabled() abort
     nnoremap <buffer> L <Nop>
@@ -483,8 +492,8 @@ if s:has('vim-swap') "{{{
   xnoremap s <Nop>
   nmap sp <Plug>(swap-prev)
   nmap sn <Plug>(swap-next)
-  nmap gs <Plug>(swap-interactive)
-  xmap gs <Plug>(swap-interactive)
+  nmap <C-\>s <Plug>(swap-interactive)
+  xmap <C-\>s <Plug>(swap-interactive)
   omap i, <Plug>(swap-textobject-i)
   xmap i, <Plug>(swap-textobject-i)
   omap a, <Plug>(swap-textobject-a)
