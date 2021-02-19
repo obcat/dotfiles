@@ -557,17 +557,8 @@ endif "}}}
 " Color scheme {{{
 augroup my-colorscheme
   autocmd!
-  autocmd ColorScheme * call s:on_colorscheme(expand('<amatch>'), &background)
+  autocmd ColorScheme iceberg,slate source ~/.vim/colorscheme/<amatch>.vim
 augroup END
-
-function s:on_colorscheme(colorscheme, background) abort
-  let dir  = expand('~/.vim/highlight')
-  let file = printf('%s/%s/%s.vim', dir, a:colorscheme, a:background)
-  if !filereadable(file)
-    let file = dir . '/others.vim'
-  endif
-  source `=file`
-endfunction
 
 if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
   set termguicolors
