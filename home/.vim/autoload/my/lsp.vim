@@ -18,11 +18,11 @@ function my#lsp#on_lsp_float_opened() abort
     \ borderhighlight: ['LspPreviewPopupBorder'],
     \ borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
     \ scrollbar: 0,
-    \ filter: s:SID . 'lsp_float_filter',
+    \ filter: s:SID . 'float_filter',
     \ })
 endfunction
 
-function s:lsp_float_filter(winid, key) abort
+function s:float_filter(winid, key) abort
   if a:key is "\<BS>"
     call popup_close(a:winid)
     return 1

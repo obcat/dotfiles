@@ -9,7 +9,7 @@ scriptencoding utf-8
 " }}}
 
 " Plugins {{{
-if !empty(glob('~/.vim/autoload/plug.vim'))
+if filereadable(expand('~/.vim/autoload/plug.vim'))
   call plug#begin('~/.vim/plugins')
   Plug 'airblade/vim-gitgutter'          " Git diff on the sign column
   Plug 'cocopon/iceberg.vim'             " Color scheme
@@ -66,7 +66,7 @@ packadd! matchit
 filetype plugin on
 
 function s:has(plug) abort
-  let dir = printf('g:plugs[''%s''][''dir'']', a:plug)
+  let dir = printf("g:plugs['%s']['dir']", a:plug)
   return exists(dir) ? isdirectory(eval(dir)) : 0
 endfunction
 " }}}
@@ -93,10 +93,8 @@ set wildmenu
 syntax enable
 
 " Backup
-let &directory = expand('~/.vim/data/swap')
-if !isdirectory(&directory)
-  call mkdir(&directory, 'p')
-endif
+set directory=~/.vim/data/swap
+call mkdir(&directory, 'p')
 set history=1000
 
 " Completion
@@ -211,7 +209,7 @@ augroup END
 augroup my-restore-curpos
   autocmd!
   autocmd BufReadPost *
-    \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~# 'commit'
+    \ if 1 <= line("'\"") && line("'\"") <= line('$') && &filetype !~# 'commit'
     \|  execute 'normal! g`"'
     \|endif
 augroup END
@@ -265,7 +263,7 @@ if s:has('gina.vim') "{{{
 
   call gina#custom#mapping#map(
    \ 'status', 'i',
-   \ '<Plug>(gina-index-toggle)',
+   \ '<Plug>(gina-index-stage)',
    \ {'nowait': 1}
    \ )
   call gina#custom#mapping#map(

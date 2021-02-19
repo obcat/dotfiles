@@ -66,7 +66,7 @@ function s:bufname(bufnr) abort
     return gettext(wininfo.loclist ? '[Location List]' : '[Quickfix List]')
   endif
   let buftype = getbufvar(a:bufnr, '&buftype')
-  if index(['nofile', 'acwrite', 'terminal'], buftype) >= 0
+  if buftype is 'nofile' || buftype is 'acwrite' || buftype is 'terminal'
     return gettext('[Scratch]')
   elseif buftype is 'prompt'
     return gettext('[Prompt]')
