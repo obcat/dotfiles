@@ -8,10 +8,6 @@ set encoding=utf-8
 scriptencoding utf-8
 " }}}
 
-" Constants {{{
-let s:SID = expand('<SID>')
-" }}}
-
 " Plugins {{{
 if !empty(glob('~/.vim/autoload/plug.vim'))
   call plug#begin('~/.vim/plugins')
@@ -97,7 +93,7 @@ set wildmenu
 syntax enable
 
 " Backup
-let &directory = expand('~/.vim/swap')
+let &directory = expand('~/.vim/data/swap')
 if !isdirectory(&directory)
   call mkdir(&directory, 'p')
 endif
@@ -169,8 +165,8 @@ set updatetime=100
 " Normal
 nnoremap - <Cmd>edit %:h<CR>
 nnoremap g: g;
-nnoremap <C-u> <Cmd>call <SID>smooth_scroll(1)<CR>
-nnoremap <C-d> <Cmd>call <SID>smooth_scroll(0)<CR>
+nnoremap <C-u> <Cmd>call my#smoothscroll#up()<CR>
+nnoremap <C-d> <Cmd>call my#smoothscroll#down()<CR>
 nnoremap Y y$
 nnoremap <C-_>h     <Cmd>set hlsearch!<CR>
 nnoremap <C-_><C-h> <Cmd>set hlsearch!<CR>
@@ -178,18 +174,6 @@ nnoremap <C-_>w     <Cmd>setlocal wrap!<CR>
 nnoremap <C-_><C-w> <Cmd>setlocal wrap!<CR>
 nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
 nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
-
-" Thank you aonemd.
-function s:smooth_scroll(up)
-  let key = a:up ? "\<C-y>" : "\<C-e>"
-  execute 'normal!' key
-  redraw
-  for i in range(1, winheight(0), 4)
-    sleep 7m
-    execute 'normal!' key
-    redraw
-  endfor
-endfunction
 
 " Insert
 inoremap <C-u> <C-g>u<C-u>
@@ -201,14 +185,7 @@ else
   cnoremap <C-n> <Cmd>call feedkeys("<Bslash><lt>Down>", 'nt')<CR>
 endif
 cnoremap <C-p> <Up>
-cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : <SID>oya_directory()
-
-" "oya (親)" means "parent" in Japanese🧑
-function s:oya_directory() abort
-  let dir = expand('%:p:h')
-  let trimmed = trim(dir, '/', 2)
-  return empty(trimmed) ? dir : (trimmed . '/')
-endfunction
+cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : my#util#get_parent_directory()
 " }}}
 
 " User-defined commands {{{
@@ -228,70 +205,16 @@ augroup my-filetype
   autocmd FileType diff      setlocal nofoldenable
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType terminal  setlocal nonumber signcolumn=no
-  autocmd FileType help,qf,vim call s:on_filetype_{expand('<amatch>')}()
+  autocmd FileType help,qf,vim source ~/.vim/filetype/<amatch>.vim
 augroup END
-
-function s:on_filetype_help() abort
-  if &modifiable
-  else
-    setlocal signcolumn=no
-    nnoremap <buffer><silent> C @_:help <C-r><C-w>@en<CR>
-    nnoremap <buffer><silent> J @_:help <C-r><C-w>@ja<CR>
-  endif
-endfunction
-
-function s:on_filetype_qf() abort
-  execute 'resize' min([line('$') + 2, 10])
-  setlocal cursorline
-  setlocal signcolumn=no
-  setlocal statusline=%!my#statusline#local('qf')
-endfunction
-
-function s:on_filetype_vim() abort
-  setlocal foldmethod=marker
-  " Experimental
-  inoremap <buffer> <C-]> 💥<C-]>
-  inoreabbrev <buffer> aug💥
-   \ augroup <CR>
-    \autocmd!<CR>
-    \autocmd <CR>
-    \augroup END
-    \<Up><Up><Up><End>
-  inoreabbrev <buffer> fu💥
-   \ function  abort<CR>
-    \endfunction
-    \<Up><End><S-Left><Left>
-  inoreabbrev <buffer> for💥
-   \ for <CR>
-    \endfor
-    \<Up><End>
-  inoreabbrev <buffer> if💥
-   \ if <CR>
-    \endif
-    \<Up><End>
-  inoreabbrev <buffer> try💥
-  \ try<CR>
-   \catch<CR>
-   \endtry
-   \<Up><C-o>O<C-g>u
-  inoreabbrev <buffer> scr💥
-   \ function s:main() abort<CR>
-    \endfunction<CR>
-    \<CR>
-    \call s:main()
-    \<Up><Up><C-o>O<C-g>u
-endfunction
 
 augroup my-restore-curpos
   autocmd!
-  autocmd BufReadPost * call s:restore_curpos()
+  autocmd BufReadPost *
+    \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~# 'commit'
+    \|  execute 'normal! g`"'
+    \|endif
 augroup END
-
-function s:restore_curpos() abort
-  if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~# 'commit'
-    execute 'normal! g`"'
-  endif
-endfunction
 
 augroup my-vimresized
   autocmd!
@@ -325,13 +248,8 @@ if s:has('ctrlp.vim') "{{{
 
   augroup my-ctrlp
     autocmd!
-    autocmd VimEnter,VimResized * call s:ctrlp_set_options()
+    autocmd VimEnter,VimResized * call my#ctrlp#set_options()
   augroup END
-
-  function s:ctrlp_set_options() abort
-    let half = &lines / 2
-    let g:ctrlp_match_window = printf('order:ttb,min:%d,max:%d', half, half)
-  endfunction
 
   let g:ctrlp_cmd = 'CtrlPMRUFiles'
   let g:ctrlp_map = '<Space>'
@@ -357,7 +275,7 @@ if s:has('gina.vim') "{{{
    \ )
   call gina#custom#mapping#nmap(
     \ 'log', 'rr',
-    \ printf('<Cmd>call %sgina_rebase_interactive()<CR>', s:SID),
+    \ '<Cmd>call my#gina#rebase_interactive()<CR>',
     \ {'noremap': 1},
     \)
   call gina#custom#action#shorten(
@@ -372,16 +290,6 @@ if s:has('gina.vim') "{{{
    \ 'status',
    \ '-s|--short'
    \)
-
-  function s:gina_rebase_interactive() abort
-    let register = getreg(v:register)
-    call gina#action#call('yank:rev')
-    let revision = getreg(v:register)
-    call setreg(v:register, register)
-    if revision =~ '^\x\{7}$'
-      call term_start(printf('git rebase --interactive %s', revision))
-    endif
-  endfunction
 
   augroup my-gina
     autocmd!
@@ -453,40 +361,10 @@ if s:has('vim-lsp') "{{{
   let g:lsp_diagnostics_signs_information = {'text': 'I'}
   let g:lsp_diagnostics_signs_hint        = {'text': 'H'}
 
-  function s:on_lsp_buffer_enabled() abort
-    nnoremap <buffer> L <Nop>
-    nmap <buffer> Ld <Plug>(lsp-definition)
-    nmap <buffer> Lr <Plug>(lsp-references)
-  endfunction
-
-  function s:on_lsp_float_opened() abort
-    let winid = lsp#ui#vim#output#getpreviewwinid()
-    let lines = getbufline(winbufnr(winid), 1, '$')
-    let maxwidth = max(map(lines, 'strwidth(v:val)'))
-    call popup_setoptions(winid, #{
-      \ maxheight: &lines / 3,
-      \ minwidth: maxwidth,
-      \ highlight: 'LspPreviewPopup',
-      \ padding: [0, 1, 0, 1],
-      \ borderhighlight: ['LspPreviewPopupBorder'],
-      \ borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
-      \ scrollbar: 0,
-      \ filter: s:SID . 'lsp_float_filter',
-      \ })
-  endfunction
-
-  function s:lsp_float_filter(winid, key) abort
-    if a:key is "\<BS>"
-      call popup_close(a:winid)
-      return 1
-    endif
-    return 0
-  endfunction
-
   augroup my-lsp
     autocmd!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-    autocmd User lsp_float_opened   call s:on_lsp_float_opened()
+    autocmd User lsp_buffer_enabled call my#lsp#on_lsp_buffer_enabled()
+    autocmd User lsp_float_opened   call my#lsp#on_lsp_float_opened()
   augroup END
 endif "}}}
 
@@ -560,7 +438,7 @@ augroup my-colorscheme
   autocmd ColorScheme iceberg,slate source ~/.vim/colorscheme/<amatch>.vim
 augroup END
 
-if $COLORTERM is# 'truecolor' || $COLORTERM is# '24bit'
+if $COLORTERM is 'truecolor' || $COLORTERM is '24bit'
   set termguicolors
 endif
 
