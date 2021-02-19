@@ -1,4 +1,4 @@
-function tabline#global() abort
+function my#tabline#global() abort
   return s:labels() . s:fill()
 endfunction
 

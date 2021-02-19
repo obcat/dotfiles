@@ -1,11 +1,11 @@
 let s:padding   = ' '
 let s:separator = ' '
 
-function statusline#global() abort
+function my#statusline#global() abort
   return s:{s:activity()}()
 endfunction
 
-function statusline#local(filetype) abort
+function my#statusline#local(filetype) abort
   return s:{a:filetype}_{s:activity()}()
 endfunction
 
