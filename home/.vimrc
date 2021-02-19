@@ -172,7 +172,10 @@ nnoremap g: g;
 nnoremap <C-u> <Cmd>call <SID>smooth_scroll(1)<CR>
 nnoremap <C-d> <Cmd>call <SID>smooth_scroll(0)<CR>
 nnoremap Y y$
-nnoremap <C-h> <Cmd>set hlsearch!<CR>
+nnoremap <C-_>h     <Cmd>set hlsearch!<CR>
+nnoremap <C-_><C-h> <Cmd>set hlsearch!<CR>
+nnoremap <C-_>w     <Cmd>setlocal wrap!<CR>
+nnoremap <C-_><C-w> <Cmd>setlocal wrap!<CR>
 nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
 nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
 
@@ -200,7 +203,7 @@ endif
 cnoremap <C-p> <Up>
 cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : <SID>oya_directory()
 
-" "oya (親)" means "parent" in Japanese.
+" "oya (親)" means "parent" in Japanese🧑
 function s:oya_directory() abort
   let dir = expand('%:p:h')
   let trimmed = trim(dir, '/', 2)
@@ -225,7 +228,7 @@ augroup my-filetype
   autocmd FileType diff      setlocal nofoldenable
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType terminal  setlocal nonumber signcolumn=no
-  autocmd FileType help,qf,vim call <SID>on_filetype_{&filetype}()
+  autocmd FileType help,qf,vim call s:on_filetype_{expand('<amatch>')}()
 augroup END
 
 function s:on_filetype_help() abort
@@ -281,7 +284,7 @@ endfunction
 
 augroup my-restore-curpos
   autocmd!
-  autocmd BufReadPost * call <SID>restore_curpos()
+  autocmd BufReadPost * call s:restore_curpos()
 augroup END
 
 function s:restore_curpos() abort
@@ -407,8 +410,8 @@ if s:has('open-browser.vim') "{{{
 endif "}}}
 
 if s:has('vim-asterisk') "{{{
-  nmap *  <Plug>(asterisk-z*)
-  xmap *  <Plug>(asterisk-z*)
+  nmap * <Plug>(asterisk-z*)
+  xmap * <Plug>(asterisk-z*)
   nmap g* <Plug>(asterisk-gz*)
   xmap g* <Plug>(asterisk-gz*)
 endif "}}}
@@ -544,10 +547,6 @@ endif "}}}
 
 if s:has('voyager.vim') "{{{
   let g:voyager_keepalt = 1
-  let g:loaded_netrw             = 1
-  let g:loaded_netrwFileHandlers = 1
-  let g:loaded_netrwPlugin       = 1
-  let g:loaded_netrwSettings     = 1
   augroup my-voyager
     autocmd!
     autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!statusline#local('voyager')
