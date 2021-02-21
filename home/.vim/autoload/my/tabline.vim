@@ -1,71 +1,69 @@
-function my#tabline#global() abort
-  return s:labels() . s:fill()
-endfunction
+vim9script
 
-function s:labels() abort
-  let labels = map(range(1, tabpagenr('$')), 's:label(v:val)')
-  return join(labels, '')
-endfunction
+def my#tabline#get(): string
+  return Labels() .. Fill()
+enddef
 
-function s:label(tabnr) abort
-  let activity = a:tabnr == tabpagenr() ? 'active' : 'inactive'
-  return s:label_{activity}(a:tabnr)
-endfunction
+def Labels(): string
+  return range(1, tabpagenr('$'))->mapnew('Label(v:val)')->join('')
+enddef
 
-let s:padding_0 = '   '
-let s:padding_1 = ' @ '
-let s:minwidth = 16
-let s:maxwidth = 16
+def Label(tabnr: number): string
+  return tabnr == tabpagenr()
+    ? LabelActive(tabnr)
+    : LabelInactive(tabnr)
+enddef
 
-function s:label_active(tabnr) abort
-  let bufnr = s:currentbufnr(a:tabnr)
-  " NOTE: "+= ... join" is faster than ".= ..."
-  let l = []
-  let l += ['%#TabLineSel#']
-  let l += ['%' . a:tabnr . 'T']
-  let l += [s:padding_0]
-  let l += [s:bufname(bufnr) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()]
-  let l += ['%#TabLineSelMod#']
-  let l += [s:padding_{getbufvar(bufnr, '&modified')}]
-  return join(l, '')
-endfunction
+const padding0 = '   '
+const padding1 = ' @ '
+const minwidth = 16
+const maxwidth = 16
 
-function s:label_inactive(tabnr) abort
-  let l = []
-  let l += ['%#TabLine#']
-  let l += ['%' . a:tabnr . 'T']
-  let l += [s:padding_0]
-  let l += [s:bufname(s:currentbufnr(a:tabnr)) ->s:center(s:minwidth) ->s:truncate(s:maxwidth) ->s:escape()]
-  let l += [s:padding_0]
-  return join(l, '')
-endfunction
+def LabelActive(tabnr: number): string
+  const bufnr = Currentbufnr(tabnr)
+  return ''
+    .. '%#TabLineSel#'
+    .. '%' .. tabnr .. 'T'
+    .. padding0
+    .. Bufname(bufnr)->Center(minwidth)->Truncate(maxwidth)->Escape()
+    .. '%#TabLineSelMod#'
+    .. (getbufvar(bufnr, '&modified') ? padding1 : padding0)
+enddef
 
-function s:fill() abort
-  let f = []
-  let f += ['%#TabLineFill#']
-  let f += ['%T']
-  let f += ['%=']
-  let f += [' ']
-  let f += [s:gitinfo() ->s:escape()]
-  let f += [' ']
-  return join(f, '')
-endfunction
+def LabelInactive(tabnr: number): string
+  return ''
+    .. '%#TabLine#'
+    .. '%' .. tabnr .. 'T'
+    .. padding0
+    .. Bufname(Currentbufnr(tabnr))->Center(minwidth)->Truncate(maxwidth)->Escape()
+    .. padding0
+enddef
 
-function s:currentbufnr(tabnr) abort
-  return tabpagebuflist(a:tabnr)[tabpagewinnr(a:tabnr) - 1]
-endfunction
+def Fill(): string
+  return ''
+    .. '%#TabLineFill#'
+    .. '%T'
+    .. '%='
+    .. ' '
+    .. Gitinfo()->Escape()
+    .. ' '
+enddef
 
-function s:bufname(bufnr) abort
-  let bufinfo = getbufinfo(a:bufnr)[0]
+def Currentbufnr(tabnr: number): number
+  return tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
+enddef
+
+def Bufname(bufnr: number): string
+  const bufinfo = getbufinfo(bufnr)[0]
   if !empty(bufinfo.name)
-    let trimmed = trim(bufinfo.name, '/', 2)
+    const trimmed = trim(bufinfo.name, '/', 2)
     return empty(trimmed) ? bufinfo.name : fnamemodify(trimmed, ':t')
   endif
-  let wininfo = getwininfo(bufinfo.windows[0])[0]
+  const wininfo = getwininfo(bufinfo.windows[0])[0]
   if wininfo.quickfix
     return gettext(wininfo.loclist ? '[Location List]' : '[Quickfix List]')
   endif
-  let buftype = getbufvar(a:bufnr, '&buftype')
+  const buftype = getbufvar(bufnr, '&buftype')
   if buftype is 'nofile' || buftype is 'acwrite' || buftype is 'terminal'
     return gettext('[Scratch]')
   elseif buftype is 'prompt'
@@ -74,44 +72,45 @@ function s:bufname(bufnr) abort
     return gettext('[Popup]')
   endif
   return gettext('[No Name]')
-endfunction
+enddef
 
-function s:gitinfo() abort
-  let info = [
-    \ 'gina#component#repo#preset()',
-    \ 'gina#component#status#preset()',
-    \ 'gina#component#traffic#preset()',
-    \]
-  call map(info, 'trim(s:safe(v:val))')
-  call filter(info, '!empty(v:val)')
-  return join(info, ' ')
-endfunction
+def Gitinfo(): string
+  return [
+    'gina#component#repo#preset()',
+    'gina#component#status#preset()',
+    'gina#component#traffic#preset()',
+    ]
+    ->map('trim(Safe(v:val))')
+    ->filter('!empty(v:val)')
+    ->join()
+enddef
 
-function s:safe(expr) abort
+def Safe(expr: string): string
+  var result = 'error'
   try
-    return eval(a:expr)
+    result = eval(expr)
   catch
-    return 'error'
   endtry
-endfunction
+  return result
+enddef
 
-function s:center(string, minwidth)
-  let strwidth = strwidth(a:string)
-  if a:minwidth <= strwidth
-    return a:string
+def Center(string: string, minwidth: number): string
+  const strwidth = strwidth(string)
+  if minwidth <= strwidth
+    return string
   endif
-  let left  = (a:minwidth - strwidth) / 2
-  let right = a:minwidth - (left + strwidth)
-  return repeat(' ', left) . a:string . repeat(' ', right)
-endfunction
+  const left = (minwidth - strwidth) / 2
+  const right = minwidth - (left + strwidth)
+  return repeat(' ', left) .. string .. repeat(' ', right)
+enddef
 
-function s:truncate(string, maxwidth, symbol = '>')
-  if strwidth(a:string) <= a:maxwidth
-    return a:string
+def Truncate(string: string, maxwidth: number, symbol = '>'): string
+  if strwidth(string) <= maxwidth
+    return string
   endif
-  return printf('%.*S%s', a:maxwidth - strwidth(a:symbol), a:string, a:symbol)
-endfunction
+  return printf('%.*S%s', maxwidth - strwidth(symbol), string, symbol)
+enddef
 
-function s:escape(string) abort
-  return substitute(a:string, '%', '%%', 'g')
-endfunction
+def Escape(string: string): string
+  return substitute(string, '%', '%%', 'g')
+enddef

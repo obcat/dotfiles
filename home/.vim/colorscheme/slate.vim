@@ -1,6 +1,8 @@
+vim9script
+
 if &background is 'light'
 else
-  " Override
+  # Override
   hi CursorLineNr cterm=bold
   hi PreProc guifg=Salmon guibg=NONE
   hi! link SignColumn    LineNr
@@ -10,7 +12,7 @@ else
   hi! link netrwLink     netrwPlain
   hi! link netrwTreeBar  netrwPlain
 
-  " New
+  # New
   hi! link HighlightedyankRegion Visual
   hi! link User1 StatusLine
   hi! link User2 StatusLine

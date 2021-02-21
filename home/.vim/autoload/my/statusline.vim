@@ -1,64 +1,58 @@
-let s:padding   = ' '
-let s:separator = ' '
+vim9script
 
-function my#statusline#global() abort
-  return s:{s:activity()}()
-endfunction
+def my#statusline#get(context: string): string
+  return printf('%s%s()', context, Activity())->eval()
+enddef
 
-function my#statusline#local(filetype) abort
-  return s:{a:filetype}_{s:activity()}()
-endfunction
+const padding   = ' '
+const separator = ' '
 
-function s:active() abort
-  " NOTE: "+= ... join" is faster than ".= ..."
-  let s = []
-  let s += [s:padding]
-  let s += ['%f']
-  let s += [s:separator]
-  let s += ['%h%r%w']
-  let s += ['%=']
-  let s += [s:separator]
-  let s += ['%P']
-  let s += [s:padding]
-  return join(s, '')
-endfunction
+def GlobalActive(): string
+  return ''
+    .. padding
+    .. '%f'
+    .. separator
+    .. '%h%r%w'
+    .. '%='
+    .. separator
+    .. '%P'
+    .. padding
+enddef
 
-function s:inactive() abort
-  return s:active()
-endfunction
+def GlobalInactive(): string
+  return GlobalActive()
+enddef
 
-function s:qf_active() abort
-  let s = []
-  let s += [s:padding]
-  let s += ['%q']
-  let s += [s:separator]
-  let s += ['%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}']
-  let s += ['%=']
-  let s += [s:separator]
-  let s += ['%P']
-  let s += [s:padding]
-  return join(s, '')
-endfunction
+def QfActive(): string
+  return ''
+    .. padding
+    .. '%q'
+    .. separator
+    .. '%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}'
+    .. '%='
+    .. separator
+    .. '%P'
+    .. padding
+enddef
 
-function s:qf_inactive() abort
-  return s:qf_active()
-endfunction
+def QfInactive(): string
+  return QfActive()
+enddef
 
-function s:voyager_active() abort
-  let s = []
-  let s += [s:padding]
-  let s += ['%{fnamemodify(@%, '':p'')}']
-  let s += ['%=']
-  let s += [s:separator]
-  let s += ['%P']
-  let s += [s:padding]
-  return join(s, '')
-endfunction
+def VoyagerActive(): string
+  return ''
+    .. padding
+    .. '%{fnamemodify(@%, '':p'')}'
+    .. '%='
+    .. separator
+    .. '%P'
+    .. padding
+enddef
 
-function s:voyager_inactive() abort
-  return s:voyager_active()
-endfunction
+def VoyagerInactive(): string
+  return VoyagerActive()
+enddef
 
-function s:activity() abort
-  return g:statusline_winid == win_getid() ? 'active' : 'inactive'
-endfunction
+def Activity(): string
+  return <number>g:statusline_winid == win_getid() ? 'Active' : 'Inactive'
+enddef

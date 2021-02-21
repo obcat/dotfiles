@@ -1,14 +1,16 @@
-function my#smoothscroll#up()
-  call s:smoothscroll(1)
-endfunction
+vim9script
 
-function my#smoothscroll#down() abort
-  call s:smoothscroll(0)
-endfunction
+def my#smoothscroll#up()
+  SmoothScroll(true)
+enddef
 
-" Thank you aonemd.
-function s:smoothscroll(up) abort
-  let key = a:up ? "\<C-y>" : "\<C-e>"
+def my#smoothscroll#down()
+  SmoothScroll(false)
+enddef
+
+# Thank you aonemd.
+def SmoothScroll(up: bool)
+  const key = up ? "\<C-y>" : "\<C-e>"
   execute 'normal!' key
   redraw
   for i in range(1, winheight(0), 4)
@@ -16,4 +18,4 @@ function s:smoothscroll(up) abort
     execute 'normal!' key
     redraw
   endfor
-endfunction
+enddef

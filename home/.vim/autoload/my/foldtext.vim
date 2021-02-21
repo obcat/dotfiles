@@ -1,4 +1,6 @@
-function my#foldtext#global() abort
-  let tabstop = repeat(' ', &tabstop)
+vim9script
+
+def my#foldtext#get(): string
+  const tabstop = repeat(' ', &tabstop)
   return substitute(getline(v:foldstart), '\t', tabstop, 'g')
-endfunction
+enddef

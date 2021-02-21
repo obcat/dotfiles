@@ -1,5 +1,7 @@
-function my#util#get_parent_directory() abort
-  let dir = expand('%:p:h')
-  let trimmed = trim(dir, '/', 2)
-  return empty(trimmed) ? dir : (trimmed . '/')
-endfunction
+vim9script
+
+def my#util#get_parent_directory(): string
+  const dir = expand('%:p:h')
+  const trimmed = trim(dir, '/', 2)
+  return empty(trimmed) ? dir : (trimmed .. '/')
+enddef

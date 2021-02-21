@@ -1,3 +1,5 @@
+vim9script
+
 if &modifiable
 else
   setlocal signcolumn=no

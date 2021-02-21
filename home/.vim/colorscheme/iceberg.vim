@@ -1,6 +1,8 @@
+vim9script
+
 if &background is 'light'
 else
-  " Override
+  # Override
   hi CursorLineNr cterm=bold
   hi ModeMsg      cterm=bold
   hi MoreMsg      cterm=bold
@@ -21,7 +23,7 @@ else
   hi! link netrwLink      netrwPlain
   hi! link netrwTreeBar   netrwPlain
 
-  " New
+  # New
   hi AnsiColor0      ctermfg=0   guifg=#161821
   hi AnsiColor1      ctermfg=1   guifg=#e27878
   hi AnsiColor2      ctermfg=2   guifg=#b4be82

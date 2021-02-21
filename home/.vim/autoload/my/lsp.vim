@@ -1,31 +1,31 @@
-let s:SID = expand('<SID>')
+vim9script
 
-function my#lsp#on_lsp_buffer_enabled() abort
+def my#lsp#on_lsp_buffer_enabled()
   nnoremap <buffer> L <Nop>
   nmap <buffer> Ld <Plug>(lsp-definition)
   nmap <buffer> Lr <Plug>(lsp-references)
-endfunction
+enddef
 
-function my#lsp#on_lsp_float_opened() abort
-  let winid = lsp#ui#vim#output#getpreviewwinid()
-  let lines = getbufline(winbufnr(winid), 1, '$')
-  let maxwidth = max(map(lines, 'strwidth(v:val)'))
-  call popup_setoptions(winid, #{
-    \ maxheight: &lines / 3,
-    \ minwidth: maxwidth,
-    \ highlight: 'LspPreviewPopup',
-    \ padding: [0, 1, 0, 1],
-    \ borderhighlight: ['LspPreviewPopupBorder'],
-    \ borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
-    \ scrollbar: 0,
-    \ filter: s:SID . 'float_filter',
-    \ })
-endfunction
+def my#lsp#on_lsp_float_opened()
+  const winid = lsp#ui#vim#output#getpreviewwinid()
+  const lines = getbufline(winbufnr(winid), 1, '$')
+  const maxwidth = lines->mapnew('strwidth(v:val)')->max()
+  popup_setoptions(winid, {
+    maxheight: &lines / 3,
+    minwidth: maxwidth,
+    highlight: 'LspPreviewPopup',
+    padding: [0, 1, 0, 1],
+    borderhighlight: ['LspPreviewPopupBorder'],
+    borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
+    scrollbar: 0,
+    filter: FloatFilter
+    })
+enddef
 
-function s:float_filter(winid, key) abort
-  if a:key is "\<BS>"
-    call popup_close(a:winid)
-    return 1
+def FloatFilter(winid: number, key: string): bool
+  if key is "\<BS>"
+    call popup_close(winid)
+    return true
   endif
-  return 0
-endfunction
+  return false
+enddef

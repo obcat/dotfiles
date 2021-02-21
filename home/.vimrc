@@ -76,7 +76,7 @@ endfunction
 set background=dark
 set cmdheight=2
 set display=lastline
-set foldtext=my#foldtext#global()
+set foldtext=my#foldtext#get()
 set laststatus=2
 set list
 set listchars=tab:▸\ ,eol:¬
@@ -85,8 +85,8 @@ set number
 set shortmess& shortmess+=a
 set showtabline=2
 set signcolumn=yes
-set statusline=%!my#statusline#global()
-set tabline=%!my#tabline#global()
+set statusline=%!my#statusline#get('Global')
+set tabline=%!my#tabline#get()
 set title
 set titlestring=%{fnamemodify(getcwd(),\ ':t')}
 set wildmenu
@@ -425,7 +425,7 @@ if s:has('voyager.vim') "{{{
   let g:voyager_keepalt = 1
   augroup my-voyager
     autocmd!
-    autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!my#statusline#local('voyager')
+    autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!my#statusline#get('Voyager')
   augroup END
 endif "}}}
 " }}}
