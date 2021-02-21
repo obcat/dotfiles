@@ -19,7 +19,7 @@ def my#lsp#on_lsp_float_opened()
     borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
     scrollbar: 0,
     filter: FloatFilter
-    })
+  })
 enddef
 
 def FloatFilter(winid: number, key: string): bool

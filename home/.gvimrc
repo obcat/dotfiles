@@ -1,3 +1,5 @@
+vim9script
+
 set guioptions&
   \ guioptions-=e
   \ guioptions-=m
