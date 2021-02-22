@@ -4,12 +4,11 @@ vim9script
 # | |/ / /  ' \/ __/ __/
 # |___/_/_/_/_/_/  \__/
 
-# Presettings {{{
+# Presettings {{{1
 set encoding=utf-8
 scriptencoding utf-8
-# }}}
 
-# Plugins {{{
+# Plugins {{{1
 if filereadable(expand('~/.vim/autoload/plug.vim'))
   plug#begin('~/.vim/plugins')
   Plug 'airblade/vim-gitgutter'          # Git diff on the sign column
@@ -70,9 +69,8 @@ def Has(plug: string): bool
   const dir = printf('g:plugs[''%s''][''dir'']', plug)
   return exists(dir) ? isdirectory(eval(dir)) : false
 enddef
-# }}}
 
-# Options {{{
+# Options {{{1
 # Appearance
 set background=dark
 set cmdheight=2
@@ -158,9 +156,8 @@ set report=0
 set timeoutlen=5000
 set ttimeoutlen=50
 set updatetime=100
-# }}}
 
-# Key mappings {{{
+# Key mappings {{{1
 # Normal
 nnoremap - <Cmd>edit %:h<CR>
 nnoremap g: g;
@@ -185,13 +182,11 @@ else
 endif
 cnoremap <C-p> <Up>
 cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : my#util#get_parent_directory()
-# }}}
 
-# User-defined commands {{{
+# User-defined commands {{{1
 command! Tig terminal ++curwin tig --all
-# }}}
 
-# Autocommands {{{
+# Autocommands {{{1
 augroup my-terminalopen
   autocmd!
   autocmd TerminalOpen * setbufvar(expand('<abuf>')->str2nr(), '&filetype', 'terminal')
@@ -219,21 +214,20 @@ augroup my-vimresized
   autocmd!
   autocmd VimResized * wincmd =
 augroup END
-# }}}
 
-# Plugin settings {{{
-if Has('caw.vim') # {{{
+# Plugin settings {{{1
+if Has('caw.vim') # {{{2
   g:caw_no_default_keymappings = 1
   g:caw_operator_keymappings   = 1
   nmap g/ <Plug>(caw:hatpos:toggle:operator)
   xmap g/ <Plug>(caw:hatpos:toggle)
-endif # }}}
+endif
 
-if Has('capture.vim') # {{{
+if Has('capture.vim') # {{{2
   g:capture_open_command = 'botright new'
-endif # }}}
+endif
 
-if Has('ctrlp.vim') # {{{
+if Has('ctrlp.vim') # {{{2
   g:ctrlp_by_filename     = 1
   g:ctrlp_follow_symlinks = 1
   g:ctrlp_show_hidden     = 1
@@ -253,9 +247,9 @@ if Has('ctrlp.vim') # {{{
   g:ctrlp_cmd = 'CtrlPMRUFiles'
   g:ctrlp_map = '<Space>'
   nnoremap g<Space> <Cmd>CtrlP<CR>
-endif # }}}
+endif
 
-if Has('gina.vim') # {{{
+if Has('gina.vim') # {{{2
   nnoremap <Bslash>b <Cmd>Gina branch -av<CR>
   nnoremap <Bslash>c <Cmd>Gina compare<CR>
   nnoremap <Bslash>d <Cmd>Gina diff<CR>
@@ -294,47 +288,47 @@ if Has('gina.vim') # {{{
     autocmd!
     autocmd FileType gina-log setlocal number signcolumn=no cursorline
   augroup END
-endif # }}}
+endif
 
-if Has('junkfile.vim') # {{{
+if Has('junkfile.vim') # {{{2
   g:junkfile#directory = isdirectory(expand('~/Dropbox'))
     ? expand('~/Dropbox/junkfile')
     : expand('~/junkfile')
-endif # }}}
+endif
 
-if Has('memolist.vim') # {{{
+if Has('memolist.vim') # {{{2
   g:memolist_path = isdirectory(expand('~/Dropbox'))
     ? expand('~/Dropbox/memolist')
     : expand('~/memolist')
   g:memolist_memo_suffix = 'md'
   g:memolist_template_dir_path = expand('~/.vim/template/memolist')
-endif # }}}
+endif
 
-if Has('open-browser.vim') # {{{
+if Has('open-browser.vim') # {{{2
   g:netrw_nogx = 1
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
-endif # }}}
+endif
 
-if Has('vim-asterisk') # {{{
+if Has('vim-asterisk') # {{{2
   nmap * <Plug>(asterisk-z*)
   xmap * <Plug>(asterisk-z*)
   nmap g* <Plug>(asterisk-gz*)
   xmap g* <Plug>(asterisk-gz*)
-endif # }}}
+endif
 
-if Has('vim-better-whitespace') # {{{
+if Has('vim-better-whitespace') # {{{2
   g:strip_whitespace_on_save = 1
   g:better_whitespace_ctermcolor = 'NONE'
   g:better_whitespace_guicolor   = 'NONE'
-endif # }}}
+endif
 
-if Has('vim-easy-align') # {{{
+if Has('vim-easy-align') # {{{2
   nmap g= <Plug>(EasyAlign)
   xmap g= <Plug>(EasyAlign)
-endif # }}}
+endif
 
-if Has('vim-gitgutter') # {{{
+if Has('vim-gitgutter') # {{{2
   g:gitgutter_sign_priority = 10
   g:gitgutter_map_keys = 0
   nnoremap H <Nop>
@@ -345,13 +339,13 @@ if Has('vim-gitgutter') # {{{
   nmap Hu <Plug>(GitGutterUndoHunk)
   nmap [c <Plug>(GitGutterPrevHunk)
   nmap ]c <Plug>(GitGutterNextHunk)
-endif # }}}
+endif
 
-if Has('vim-highlightedyank') # {{{
+if Has('vim-highlightedyank') # {{{2
   g:highlightedyank_highlight_duration = 500
-endif # }}}
+endif
 
-if Has('vim-lsp') # {{{
+if Has('vim-lsp') # {{{2
   g:lsp_diagnostics_echo_cursor    = 1
   g:lsp_document_highlight_enabled = 0
   g:lsp_signs_priority = 20
@@ -365,19 +359,19 @@ if Has('vim-lsp') # {{{
     autocmd User lsp_buffer_enabled my#lsp#on_lsp_buffer_enabled()
     autocmd User lsp_float_opened my#lsp#on_lsp_float_opened()
   augroup END
-endif # }}}
+endif
 
-if Has('vim-operator-replace') # {{{
+if Has('vim-operator-replace') # {{{2
   nmap _ <Plug>(operator-replace)
   xmap _ <Plug>(operator-replace)
-endif # }}}
+endif
 
-if Has('vim-sandwich') # {{{
+if Has('vim-sandwich') # {{{2
   nnoremap s <Nop>
   xnoremap s <Nop>
-endif # }}}
+endif
 
-if Has('vim-swap') # {{{
+if Has('vim-swap') # {{{2
   g:swap_no_default_key_mappings = 1
   nnoremap s <Nop>
   xnoremap s <Nop>
@@ -412,26 +406,25 @@ if Has('vim-swap') # {{{
     r: ['reverse'],
     "\<Esc>": ['Esc'],
   }
-endif # }}}
+endif
 
-if Has('vim-textobj-comment') # {{{
+if Has('vim-textobj-comment') # {{{2
   g:textobj_comment_no_default_key_mappings = 1
   omap i/ <Plug>(textobj-comment-a)
   xmap i/ <Plug>(textobj-comment-a)
   omap a/ <Plug>(textobj-comment-big-a)
   xmap a/ <Plug>(textobj-comment-big-a)
-endif # }}}
+endif
 
-if Has('voyager.vim') # {{{
+if Has('voyager.vim') # {{{2
   g:voyager_keepalt = 1
   augroup my-voyager
     autocmd!
     autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!my#statusline#get('Voyager')
   augroup END
-endif # }}}
-# }}}
+endif
 
-# Color scheme {{{
+# Color scheme {{{1
 augroup my-colorscheme
   autocmd!
   autocmd ColorScheme iceberg,slate source ~/.vim/colorscheme/<amatch>.vim
@@ -446,10 +439,8 @@ if Has('iceberg.vim')
 else
   colorscheme slate
 endif
-# }}}
 
-# Local settings {{{
+# Local settings {{{1
 if filereadable(expand('~/.vimrc_local'))
   source ~/.vimrc_local
 endif
-# }}}
