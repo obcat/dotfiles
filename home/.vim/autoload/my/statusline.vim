@@ -4,19 +4,19 @@ def my#statusline#get(context: string): string
   return printf('%s%s()', context, Activity())->eval()
 enddef
 
-const padding   = ' '
-const separator = ' '
+const PADDING   = ' '
+const SEPARATOR = ' '
 
 def GlobalActive(): string
   return ''
-    .. padding
+    .. PADDING
     .. '%f'
-    .. separator
+    .. SEPARATOR
     .. '%h%r%w'
     .. '%='
-    .. separator
+    .. SEPARATOR
     .. '%P'
-    .. padding
+    .. PADDING
 enddef
 
 def GlobalInactive(): string
@@ -25,14 +25,14 @@ enddef
 
 def QfActive(): string
   return ''
-    .. padding
+    .. PADDING
     .. '%q'
-    .. separator
+    .. SEPARATOR
     .. '%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}'
     .. '%='
-    .. separator
+    .. SEPARATOR
     .. '%P'
-    .. padding
+    .. PADDING
 enddef
 
 def QfInactive(): string
@@ -41,12 +41,12 @@ enddef
 
 def VoyagerActive(): string
   return ''
-    .. padding
+    .. PADDING
     .. '%{fnamemodify(@%, '':p'')}'
     .. '%='
-    .. separator
+    .. SEPARATOR
     .. '%P'
-    .. padding
+    .. PADDING
 enddef
 
 def VoyagerInactive(): string

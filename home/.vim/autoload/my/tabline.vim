@@ -14,29 +14,29 @@ def Label(tabnr: number): string
     : LabelInactive(tabnr)
 enddef
 
-const padding0 = '   '
-const padding1 = ' @ '
-const minwidth = 16
-const maxwidth = 16
+const PADDING0 = '   '
+const PADDING1 = ' @ '
+const MINWIDTH = 16
+const MAXWIDTH = 16
 
 def LabelActive(tabnr: number): string
   const bufnr = Currentbufnr(tabnr)
   return ''
     .. '%#TabLineSel#'
     .. '%' .. tabnr .. 'T'
-    .. padding0
-    .. Bufname(bufnr)->Center(minwidth)->Truncate(maxwidth)->Escape()
+    .. PADDING0
+    .. Bufname(bufnr)->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
     .. '%#TabLineSelMod#'
-    .. (getbufvar(bufnr, '&modified') ? padding1 : padding0)
+    .. (getbufvar(bufnr, '&modified') ? PADDING1 : PADDING0)
 enddef
 
 def LabelInactive(tabnr: number): string
   return ''
     .. '%#TabLine#'
     .. '%' .. tabnr .. 'T'
-    .. padding0
-    .. Bufname(Currentbufnr(tabnr))->Center(minwidth)->Truncate(maxwidth)->Escape()
-    .. padding0
+    .. PADDING0
+    .. Bufname(Currentbufnr(tabnr))->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
+    .. PADDING0
 enddef
 
 def Fill(): string
