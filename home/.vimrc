@@ -205,9 +205,9 @@ augroup END
 augroup my-restore-curpos
   autocmd!
   autocmd BufReadPost *
-    \  if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
-    \|   execute 'normal! g`"'
-    \| endif
+    \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
+    |   execute 'normal! g`"'
+    | endif
 augroup END
 
 augroup my-vimresized
