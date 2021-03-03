@@ -229,6 +229,13 @@ if Has('caw.vim') # {{{2
   g:caw_operator_keymappings   = 1
   nmap g/ <Plug>(caw:hatpos:toggle:operator)
   xmap g/ <Plug>(caw:hatpos:toggle)
+  augroup my-caw
+    autocmd!
+    autocmd FileType vim
+      \ if getline(1) =~ '^vim9script'
+      |   b:caw_oneline_comment = '#'
+      | endif
+  augroup END
 endif
 
 if Has('capture.vim') # {{{2
