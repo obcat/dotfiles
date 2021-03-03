@@ -1,7 +1,7 @@
 vim9script
 
 def my#statusline#get(context: string): string
-  return printf('%s%s()', context, Activity())->eval()
+  return call(context .. Activity(), [])
 enddef
 
 const PADDING   = ' '
@@ -28,7 +28,7 @@ def QfActive(): string
     .. PADDING
     .. '%q'
     .. SEPARATOR
-    .. '%{printf(''"%s"'', get(w:, ''quickfix_title'', ''''))}'
+    .. '"%{get(w:, ''quickfix_title'', '''')}"'
     .. '%='
     .. SEPARATOR
     .. '%P'
@@ -43,6 +43,8 @@ def VoyagerActive(): string
   return ''
     .. PADDING
     .. '%{fnamemodify(@%, '':p'')}'
+    .. SEPARATOR
+    .. '%r%w'
     .. '%='
     .. SEPARATOR
     .. '%P'

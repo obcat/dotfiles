@@ -9,7 +9,7 @@ enddef
 def my#lsp#on_lsp_float_opened()
   const winid = lsp#ui#vim#output#getpreviewwinid()
   const lines = getbufline(winbufnr(winid), 1, '$')
-  const maxwidth = lines->mapnew('strwidth(v:val)')->max()
+  const maxwidth = lines->mapnew((_, v) => strwidth(v))->max()
   popup_setoptions(winid, {
     maxheight: &lines / 3,
     minwidth: maxwidth,

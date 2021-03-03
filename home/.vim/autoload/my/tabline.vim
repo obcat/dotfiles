@@ -5,7 +5,7 @@ def my#tabline#get(): string
 enddef
 
 def Labels(): string
-  return range(1, tabpagenr('$'))->mapnew('Label(v:val)')->join('')
+  return range(1, tabpagenr('$'))->mapnew((_, v) => Label(v))->join('')
 enddef
 
 def Label(tabnr: number): string
@@ -76,19 +76,19 @@ enddef
 
 def Gitinfo(): string
   return [
-    'gina#component#repo#preset()',
-    'gina#component#status#preset()',
-    'gina#component#traffic#preset()',
+    ['gina#component#repo#preset',    []],
+    ['gina#component#status#preset',  []],
+    ['gina#component#traffic#preset', []],
     ]
-    ->map('trim(Safe(v:val))')
-    ->filter('!empty(v:val)')
+    ->mapnew((_, v) => call(SafeCall, v)->trim())
+    ->filter((_, v) => v != '')
     ->join()
 enddef
 
-def Safe(expr: string): string
+def SafeCall(func: any, arglist: list<any>): string
   var result = 'error'
   try
-    result = eval(expr)
+    result = call(func, arglist)
   catch
   endtry
   return result
