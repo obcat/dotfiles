@@ -205,6 +205,11 @@ augroup my-filetype
   autocmd FileType help,qf,vim source ~/.vim/filetype/<amatch>.vim
 augroup END
 
+augroup my-cmdwin
+  autocmd!
+  autocmd CmdwinEnter * setlocal nonumber signcolumn=no
+augroup END
+
 augroup my-restore-curpos
   autocmd!
   autocmd BufReadPost *
