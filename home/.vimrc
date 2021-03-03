@@ -158,6 +158,9 @@ set ttimeoutlen=50
 set updatetime=100
 
 # Key mappings {{{1
+g:mapleader = "\<Ignore>"
+g:maplocalleader = "\<Ignore>"
+
 # Normal
 nnoremap - <Cmd>edit %:h<CR>
 nnoremap g: g;
