@@ -178,12 +178,8 @@ nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
 inoremap <C-u> <C-g>u<C-u>
 
 # Command line
-if has('patch-8.2.2221')
-  cnoremap <C-n> <Down>
-else
-  cnoremap <C-n> <Cmd>call feedkeys("<Bslash><lt>Down>", 'nt')<CR>
-endif
 cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : my#util#get_parent_directory()
 
 # User-defined commands {{{1

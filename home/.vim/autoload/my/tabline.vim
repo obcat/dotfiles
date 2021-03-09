@@ -55,34 +55,32 @@ enddef
 
 def Bufname(bufnr: number): string
   const bufinfo = getbufinfo(bufnr)[0]
-  if !empty(bufinfo.name)
+  if bufinfo.name != ''
     const trimmed = trim(bufinfo.name, '/', 2)
-    return empty(trimmed) ? bufinfo.name : fnamemodify(trimmed, ':t')
+    return trimmed == '' ? bufinfo.name : fnamemodify(trimmed, ':t')
   endif
   const wininfo = getwininfo(bufinfo.windows[0])[0]
   if wininfo.quickfix
     return gettext(wininfo.loclist ? '[Location List]' : '[Quickfix List]')
   endif
   const buftype = getbufvar(bufnr, '&buftype')
-  if buftype is 'nofile' || buftype is 'acwrite' || buftype is 'terminal'
-    return gettext('[Scratch]')
-  elseif buftype is 'prompt'
-    return gettext('[Prompt]')
-  elseif buftype is 'popup'
-    return gettext('[Popup]')
-  endif
-  return gettext('[No Name]')
+  return {
+    nofile:   '[Scratch]',
+    acwrite:  '[Scratch]',
+    terminal: '[Scratch]',
+    prompt:   '[Prompt]',
+    popup:    '[Popup]',
+  }->get(buftype, '[No Name]')->gettext()
 enddef
 
 def Gitinfo(): string
   return [
-    ['gina#component#repo#preset',    []],
-    ['gina#component#status#preset',  []],
-    ['gina#component#traffic#preset', []],
+      ['gina#component#repo#preset',    []],
+      ['gina#component#status#preset',  []],
+      ['gina#component#traffic#preset', []],
     ]
     ->mapnew((_, v) => call(SafeCall, v)->trim())
-    ->filter((_, v) => v != '')
-    ->join()
+    ->filter((_, v) => v != '')->join()
 enddef
 
 def SafeCall(func: any, arglist: list<any>): string

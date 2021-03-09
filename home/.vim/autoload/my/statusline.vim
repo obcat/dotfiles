@@ -1,7 +1,8 @@
 vim9script
 
 def my#statusline#get(context: string): string
-  return call(context .. Activity(), [])
+  const activity = g:statusline_winid == win_getid() ? 'Active' : 'Inactive'
+  return call(context .. activity, [])
 enddef
 
 const PADDING   = ' '
@@ -53,8 +54,4 @@ enddef
 
 def VoyagerInactive(): string
   return VoyagerActive()
-enddef
-
-def Activity(): string
-  return <number>g:statusline_winid == win_getid() ? 'Active' : 'Inactive'
 enddef
