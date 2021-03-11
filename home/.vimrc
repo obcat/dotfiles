@@ -245,16 +245,12 @@ if Has('ctrlp.vim') # {{{2
   g:ctrlp_show_hidden     = 1
   g:ctrlp_line_prefix  = '▸ '
   g:ctrlp_reuse_window = '.*'
+  g:ctrlp_match_window = 'order:ttb,min:7,max:7'
   g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
   if Has('ctrlp_matchfuzzy.vim')
     g:ctrlp_match_func = {match: 'ctrlp_matchfuzzy#matcher'}
   endif
-
-  augroup my-ctrlp
-    autocmd!
-    autocmd VimEnter,VimResized * my#ctrlp#set_options()
-  augroup END
 
   g:ctrlp_cmd = 'CtrlPMRUFiles'
   g:ctrlp_map = '<Space>'
