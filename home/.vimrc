@@ -197,6 +197,7 @@ augroup my-filetype
   autocmd FileType *commit*  setlocal nofoldenable spell
   autocmd FileType diff      setlocal nofoldenable
   autocmd FileType gitconfig setlocal noexpandtab
+  autocmd FileType go        setlocal noexpandtab
   autocmd FileType terminal  setlocal nonumber signcolumn=no
   autocmd FileType help,qf,vim source ~/.vim/filetype/<amatch>.vim
 augroup END

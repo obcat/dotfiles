@@ -37,3 +37,5 @@ export LS_COLORS='di=34':      # directory
        LS_COLORS+='ow=01;33':  # directory writable to others, without sticky bit
 
 export PAGER=less
+
+path=(${HOME}/go/bin(N-/) ${path})
