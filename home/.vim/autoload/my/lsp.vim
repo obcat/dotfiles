@@ -4,6 +4,14 @@ def my#lsp#on_lsp_buffer_enabled()
   nnoremap <buffer> L <Nop>
   nmap <buffer> Ld <Plug>(lsp-definition)
   nmap <buffer> Lr <Plug>(lsp-references)
+
+  if &filetype is 'go'
+    augroup my-lsp-go
+      autocmd!
+      autocmd BufWritePre <buffer> silent LspDocumentFormatSync
+      autocmd BufWritePre <buffer> silent LspCodeActionSync source.organizeImports
+    augroup END
+  endif
 enddef
 
 def my#lsp#on_lsp_float_opened()
