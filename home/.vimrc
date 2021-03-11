@@ -237,6 +237,10 @@ endif
 
 if Has('capture.vim') # {{{2
   g:capture_open_command = 'botright new'
+  augroup my-capture
+    autocmd!
+    autocmd FileType capture setlocal nolist nonumber signcolumn=no
+  augroup END
 endif
 
 if Has('ctrlp.vim') # {{{2
