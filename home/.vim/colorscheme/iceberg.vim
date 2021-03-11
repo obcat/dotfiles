@@ -45,6 +45,7 @@ else
   hi LspHintText           ctermfg=150 ctermbg=235 guifg=#b4be82 guibg=#1e2132
   hi LspPreviewPopupBorder ctermfg=239 ctermbg=240 guifg=#414a70 guibg=#161821
   hi LspWarningText        ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
+  hi LspCodeActionText     ctermfg=252 ctermbg=235 guifg=#c6c8d1 guibg=#1e2132
   hi User1                 ctermfg=0   ctermbg=236 guifg=#161821 guibg=#272c42
   hi User2                 ctermfg=1   ctermbg=236 guifg=#e27878 guibg=#272c42
   hi User3                 ctermfg=2   ctermbg=236 guifg=#b4be82 guibg=#272c42

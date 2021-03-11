@@ -358,13 +358,15 @@ if Has('vim-highlightedyank') # {{{2
 endif
 
 if Has('vim-lsp') # {{{2
-  g:lsp_diagnostics_echo_cursor    = 1
-  g:lsp_document_highlight_enabled = 0
+  g:lsp_diagnostics_echo_cursor            = 1
+  g:lsp_document_code_action_signs_enabled = 0
+  g:lsp_document_highlight_enabled         = 0
   g:lsp_signs_priority = 20
-  g:lsp_diagnostics_signs_error       = {text: 'E'}
-  g:lsp_diagnostics_signs_warning     = {text: 'W'}
-  g:lsp_diagnostics_signs_information = {text: 'I'}
-  g:lsp_diagnostics_signs_hint        = {text: 'H'}
+  g:lsp_diagnostics_signs_error         = {text: 'E'}
+  g:lsp_diagnostics_signs_warning       = {text: 'W'}
+  g:lsp_diagnostics_signs_information   = {text: 'I'}
+  g:lsp_diagnostics_signs_hint          = {text: 'H'}
+  g:lsp_document_code_action_signs_hint = {text: 'A'}
 
   augroup my-lsp
     autocmd!
