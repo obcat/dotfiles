@@ -23,8 +23,17 @@ def my#lsp#on_lsp_float_opened()
 enddef
 
 def FloatFilter(winid: number, key: string): bool
-  if key is "\<BS>"
-    call popup_close(winid)
+  const table = {
+    "\<BS>":  () => popup_close(winid),
+    "\<C-e>": () => win_execute(winid, "normal! \<C-e>"),
+    "\<C-y>": () => win_execute(winid, "normal! \<C-y>"),
+    "\<C-d>": () => win_execute(winid, "normal! \<C-d>"),
+    "\<C-u>": () => win_execute(winid, "normal! \<C-u>"),
+    "\<C-f>": () => win_execute(winid, "normal! \<C-f>"),
+    "\<C-b>": () => win_execute(winid, "normal! \<C-b>"),
+  }
+  if has_key(table, key)
+    table[key]()
     return true
   endif
   return false
