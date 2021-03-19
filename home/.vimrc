@@ -384,6 +384,14 @@ endif
 
 if Has('vim-ref') # {{{2
   g:ref_man_cmd = 'man -P cat'
+  command! -nargs=* Man Ref man <args>
+  augroup my-vim-ref
+    autocmd!
+    autocmd FileType ref setlocal nolist signcolumn=no
+  augroup END
+  if Has('vim-ref-godoc')
+    command! -nargs=* GoDoc Ref godoc <args>
+  endif
 endif
 
 if Has('vim-sandwich') # {{{2
