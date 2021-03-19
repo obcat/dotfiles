@@ -42,6 +42,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'shougo/junkfile.vim'             # Create temporary file
   Plug 'thinca/vim-prettyprint'          # Prettyprint Vim variable for debug
   Plug 'thinca/vim-qfreplace'            # Perform the replacement in quickfix
+  Plug 'thinca/vim-ref'                  # Integrated reference viewer
   Plug 'thinca/vim-themis'               # Testing framework for Vim script
   Plug 'tpope/vim-repeat'                # Repeat some plugin commands by dot
   Plug 'tweekmonster/helpful.vim'        # Get version of Vim that has specific feature
@@ -378,6 +379,10 @@ endif
 if Has('vim-operator-replace') # {{{2
   nmap _ <Plug>(operator-replace)
   xmap _ <Plug>(operator-replace)
+endif
+
+if Has('vim-ref') # {{{2
+  g:ref_man_cmd = 'man -P cat'
 endif
 
 if Has('vim-sandwich') # {{{2
