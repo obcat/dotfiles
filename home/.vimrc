@@ -125,7 +125,7 @@ set linebreak
 set shiftwidth=0
 set softtabstop=-1
 set tabstop=2
-g:vim_indent_cont = 2
+g:vim_indent_cont = 0
 
 # Language
 set helplang=ja
