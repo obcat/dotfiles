@@ -4,6 +4,7 @@ def my#lsp#on_lsp_buffer_enabled()
   nnoremap <buffer> L <Nop>
   nmap <buffer> Ld <Plug>(lsp-definition)
   nmap <buffer> Lr <Plug>(lsp-references)
+  nmap <buffer> Lh <Plug>(lsp-hover)
 
   if &filetype is 'go'
     augroup my-lsp-go
