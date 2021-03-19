@@ -35,6 +35,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'mattn/ctrlp-matchfuzzy'          # Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          # Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
+  Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/voyager.vim'               # Minimal file explorer
   Plug 'prabirshrestha/vim-lsp'          # Language Server Protocol
   Plug 'previm/previm'                   # Realtime markdown preview
