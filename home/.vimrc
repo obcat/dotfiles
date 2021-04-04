@@ -115,7 +115,7 @@ set backspace=indent,eol,start
 set nrformats&
   \ nrformats-=octal
   \ nrformats+=unsigned
-set virtualedit=block,onemore
+set virtualedit=block
 
 # Indent
 filetype indent on
