@@ -18,6 +18,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'glidenote/memolist.vim'          # Create and manage memo
   Plug 'glts/vim-textobj-comment'        # Textobjects for comments
   Plug 'haya14busa/vim-asterisk'         # Provides improved * motion
+  Plug 'itchyny/dictionary.vim'          # An interface for Dictionary.app
   Plug 'junegunn/vim-easy-align'         # Alignment plugin
   Plug 'junegunn/vim-plug'               # Plugin manager
   Plug 'kana/vim-operator-replace'       # Operator to replace text
