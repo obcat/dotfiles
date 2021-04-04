@@ -50,6 +50,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'tyru/caw.vim'                    # Comment out
   Plug 'tyru/open-browser-github.vim'    # Opens GitHub URL of current file
   Plug 'tyru/open-browser.vim'           # Open URL with browser
+  Plug 'vim-jp/autofmt'                  # Text formatting plugin
   Plug 'vim-jp/syntax-vim-ex'            # Excellent Vim's syntax highlighting
   Plug 'vim-jp/vimdoc-ja'                # Japanese help
   plug#end()
@@ -122,6 +123,7 @@ set breakindent
 set expandtab
 set linebreak
 set shiftwidth=0
+set smartindent
 set softtabstop=-1
 set tabstop=2
 g:vim_indent_cont = 0
@@ -149,6 +151,7 @@ set splitright
 set belloff=error
 set clipboard=unnamed
 set diffopt& diffopt+=vertical
+set formatoptions+=mB
 set hidden
 set lazyredraw
 set mouse=a
@@ -222,6 +225,11 @@ augroup my-vimresized
 augroup END
 
 # Plugin settings {{{1
+if Has('autofmt') # {{{2
+  g:autofmt_allow_over_tw = 1
+  set formatexpr=autofmt#japanese#formatexpr()
+endif
+
 if Has('caw.vim') # {{{2
   g:caw_no_default_keymappings = 1
   g:caw_operator_keymappings   = 1
