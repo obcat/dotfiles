@@ -172,10 +172,8 @@ nnoremap g: g;
 nnoremap <C-u> <Cmd>call my#smoothscroll#up()<CR>
 nnoremap <C-d> <Cmd>call my#smoothscroll#down()<CR>
 nnoremap Y y$
-nnoremap <C-_>h     <Cmd>set hlsearch!<CR>
-nnoremap <C-_><C-h> <Cmd>set hlsearch!<CR>
-nnoremap <C-_>w     <Cmd>setlocal wrap!<CR>
-nnoremap <C-_><C-w> <Cmd>setlocal wrap!<CR>
+nnoremap <C-_>h <Cmd>set hlsearch!<CR>
+nnoremap <C-_>w <Cmd>setlocal wrap!<CR>
 nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
 nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
 
