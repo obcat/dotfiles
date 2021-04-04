@@ -90,7 +90,7 @@ set signcolumn=yes
 set statusline=%!my#statusline#get('Global')
 set tabline=%!my#tabline#get()
 set title
-set titlestring=%{fnamemodify(getcwd(),\ ':t')}
+set titlestring=%{fnamemodify(getcwd(),\ ':p')}
 set wildmenu
 syntax enable
 
