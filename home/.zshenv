@@ -38,4 +38,6 @@ export LS_COLORS='di=34':      # directory
 
 export PAGER=less
 
+# Go
+export GOPRIVATE=github.com/obcat
 path=(${HOME}/go/bin(N-/) ${path})
