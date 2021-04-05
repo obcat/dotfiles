@@ -3,36 +3,43 @@ vim9script
 setlocal foldmethod=marker
 
 inoremap <buffer> <C-]> 💥<C-]>
+
 inoreabbrev <buffer> aug💥
- \ augroup <CR>
-  \autocmd!<CR>
-  \autocmd <CR>
-  \augroup END
-  \<Up><Up><Up><End>
+\ augroup <CR>
+ \autocmd!<CR>
+ \autocmd <CR>
+ \augroup END
+ \<Up><Up><Up><End>
+
 inoreabbrev <buffer> def💥
- \ def <CR>
-  \enddef
-  \<Up><End>
+\ def <CR>
+ \enddef
+ \<Up><End>
+
 inoreabbrev <buffer> fu💥
- \ function  abort<CR>
-  \endfunction
-  \<Up><End><S-Left><Left>
+\ function  abort<CR>
+ \endfunction
+ \<Up><End><S-Left><Left>
+
 inoreabbrev <buffer> for💥
- \ for <CR>
-  \endfor
-  \<Up><End>
+\ for <CR>
+ \endfor
+ \<Up><End>
+
 inoreabbrev <buffer> if💥
- \ if <CR>
-  \endif
-  \<Up><End>
+\ if <CR>
+ \endif
+ \<Up><End>
+
 inoreabbrev <buffer> try💥
- \ try<CR>
-  \catch<CR>
-  \endtry
-  \<Up><C-o>O<C-g>u
+\ try<CR>
+ \catch<CR>
+ \endtry
+ \<Up><C-o>O<C-g>u
+
 inoreabbrev <buffer> scr💥
- \ function s:main() abort<CR>
-  \endfunction<CR>
-  \<CR>
-  \call s:main()
-  \<Up><Up><C-o>O<C-g>u
+\ function s:main() abort<CR>
+ \endfunction<CR>
+ \<CR>
+ \call s:main()
+ \<Up><Up><C-o>O<C-g>u

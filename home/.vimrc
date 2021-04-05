@@ -61,7 +61,7 @@ else
     autocmd VimEnter * echomsg 'Plugins are not installed yet. See README.md.'
   augroup END
   command! PluginManagerInstall !curl -fLo ~/.vim/autoload/plug.vim
-    \ --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  \ --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 packadd! cfilter
@@ -113,8 +113,8 @@ endif
 # Editing
 set backspace=indent,eol,start
 set nrformats&
-  \ nrformats-=octal
-  \ nrformats+=unsigned
+\   nrformats-=octal
+\   nrformats+=unsigned
 set virtualedit=block
 
 # Indent
@@ -212,9 +212,9 @@ augroup END
 augroup my-restore-curpos
   autocmd!
   autocmd BufReadPost *
-    \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
-    |   execute 'normal! g`"'
-    | endif
+  \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
+  |   execute 'normal! g`"'
+  | endif
 augroup END
 
 augroup my-vimresized
@@ -236,9 +236,9 @@ if Has('caw.vim') # {{{2
   augroup my-caw
     autocmd!
     autocmd FileType vim
-      \ if getline(1) =~ '^vim9script'
-      |   b:caw_oneline_comment = '#'
-      | endif
+    \ if getline(1) =~ '^vim9script'
+    |   b:caw_oneline_comment = '#'
+    | endif
   augroup END
 endif
 
