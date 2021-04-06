@@ -43,6 +43,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'shougo/junkfile.vim'             # Create temporary file
   Plug 'thinca/vim-prettyprint'          # Prettyprint Vim variable for debug
   Plug 'thinca/vim-qfreplace'            # Perform the replacement in quickfix
+  Plug 'thinca/vim-quickrun'             # Run a command quickly
   Plug 'thinca/vim-ref'                  # Integrated reference viewer
   Plug 'thinca/vim-themis'               # Testing framework for Vim script
   Plug 'tpope/vim-repeat'                # Repeat some plugin commands by dot
