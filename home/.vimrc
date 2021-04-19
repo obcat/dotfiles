@@ -388,6 +388,27 @@ if Has('vim-operator-replace') # {{{2
   xmap _ <Plug>(operator-replace)
 endif
 
+if Has('vim-quickrun') # {{{2
+  g:quickrun_config = {}
+  g:quickrun_config['_'] = {
+    runner: 'job',
+    'outputter/buffer/split': 'botright 12',
+  }
+  g:quickrun_config['go/test'] = {
+    command: 'go',
+    exec: '%c test .',
+    'hook/cd/directory': '%S:p:h',
+    'hook/output_encode/encoding': 'utf-8',
+    tempfile: '%{tempname()}.go'
+  }
+  nmap Q <Plug>(quickrun)
+  augroup my-quickrun
+    autocmd!
+    autocmd FileType quickrun setlocal nonumber signcolumn=no
+    autocmd BufReadPost,BufNewFile *_test.go b:quickrun_config = {type: 'go/test'}
+  augroup END
+endif
+
 if Has('vim-ref') # {{{2
   g:ref_man_cmd = 'man -P cat'
   augroup my-vim-ref
