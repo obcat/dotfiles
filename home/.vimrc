@@ -50,7 +50,6 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'tweekmonster/helpful.vim'        # Get version of Vim that has specific feature
   Plug 'tyru/capture.vim'                # Show Ex command output in a buffer
   Plug 'tyru/caw.vim'                    # Comment out
-  Plug 'tyru/open-browser-github.vim'    # Opens GitHub URL of current file
   Plug 'tyru/open-browser.vim'           # Open URL with browser
   Plug 'vim-jp/autofmt'                  # Text formatting plugin
   Plug 'vim-jp/syntax-vim-ex'            # Excellent Vim's syntax highlighting
