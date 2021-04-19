@@ -55,3 +55,34 @@ export PAGER=less
 # Go
 export GOPRIVATE=github.com/obcat
 path=(${HOME}/go/bin(N-/) ${path})
+
+# FZF
+if (( ${+commands[fd]} )); then
+  export FZF_DEFAULT_COMMAND='fd --type f'
+fi
+
+export FZF_DEFAULT_OPTS='--height=60%'
+       FZF_DEFAULT_OPTS+=' --layout=reverse'
+       FZF_DEFAULT_OPTS+=' --border=sharp'
+       FZF_DEFAULT_OPTS+=' --prompt='\''>>> '\'''
+       FZF_DEFAULT_OPTS+=' --color='
+       FZF_DEFAULT_OPTS+='fg:-1:regular'
+       FZF_DEFAULT_OPTS+=',bg:-1'
+       FZF_DEFAULT_OPTS+=',preview-fg:-1:regular'
+       FZF_DEFAULT_OPTS+=',preview-bg:-1'
+       FZF_DEFAULT_OPTS+=',hl:3:regular'
+       FZF_DEFAULT_OPTS+=',fg+:-1:regular'
+       FZF_DEFAULT_OPTS+=',bg+:-1'
+       FZF_DEFAULT_OPTS+=',gutter:-1'
+       FZF_DEFAULT_OPTS+=',hl+:3:regular'
+       FZF_DEFAULT_OPTS+=',query:-1:regular'
+       FZF_DEFAULT_OPTS+=',disabled:8:regular'
+       FZF_DEFAULT_OPTS+=',info:4:regular'
+       FZF_DEFAULT_OPTS+=',border:-1:regular'
+       FZF_DEFAULT_OPTS+=',prompt:8:regular'
+       FZF_DEFAULT_OPTS+=',pointer:-1:regular'
+       FZF_DEFAULT_OPTS+=',marker:3:regular'
+       FZF_DEFAULT_OPTS+=',spinner:-1:regular'
+       FZF_DEFAULT_OPTS+=',header:4:regular'
+       FZF_DEFAULT_OPTS+=' --no-bold'
+       FZF_DEFAULT_OPTS+=' --preview-window=border-sharp'
