@@ -1,3 +1,12 @@
+path=(
+  /usr/local/bin(N-/)
+  /usr/bin(N-/)
+  /bin(N-/)
+  /usr/sbin(N-/)
+  /sbin(N-/)
+  ${path}
+)
+
 export EDITOR=vim
 
 export GREP_COLOR=33          # matching text
