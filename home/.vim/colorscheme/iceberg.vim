@@ -8,7 +8,6 @@ else
   hi MoreMsg      cterm=bold
   hi NonText      cterm=bold
   hi Question     cterm=bold
-  hi Search guifg=NONE  guibg=#45493e
   hi Directory    ctermfg=110 guifg=#84a0c6
   hi EndOfBuffer  ctermfg=239 guifg=#444b71
   hi netrwExe     ctermfg=234 guifg=#e27878
@@ -18,6 +17,7 @@ else
   hi StatusLine   cterm=NONE ctermfg=250 ctermbg=236 gui=NONE guifg=#aab1d4 guibg=#272c42
   hi StatusLineNC cterm=NONE ctermfg=238 ctermbg=233 gui=NONE guifg=#3e445e guibg=#0f1117
   hi! link IncSearch      Cursor
+  hi! link Search         PmenuSel
   hi! link StatusLineTerm StatusLine
   hi! link netrwClassify  netrwPlain
   hi! link netrwLink      netrwPlain
