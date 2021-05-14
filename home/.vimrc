@@ -169,8 +169,6 @@ g:maplocalleader = "\<S-F2>"
 # Normal
 nnoremap - <Cmd>edit %:h<CR>
 nnoremap g: g;
-nnoremap <C-u> <Cmd>call my#smoothscroll#up()<CR>
-nnoremap <C-d> <Cmd>call my#smoothscroll#down()<CR>
 nnoremap Y y$
 nnoremap <C-_>h <Cmd>set hlsearch!<CR>
 nnoremap <C-_>w <Cmd>setlocal wrap!<CR>
