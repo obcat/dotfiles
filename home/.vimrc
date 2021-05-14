@@ -61,7 +61,7 @@ else
     autocmd VimEnter * echomsg 'Plugins are not installed yet. See README.md.'
   augroup END
   command! PluginManagerInstall !curl -fLo ~/.vim/autoload/plug.vim
-  \ --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        \ --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 endif
 
 packadd! cfilter
@@ -69,7 +69,7 @@ packadd! matchit
 filetype plugin on
 
 def Has(plug: string): bool
-  const dir = printf('g:plugs[''%s''][''dir'']', plug)
+  const dir = printf('g:plugs[%s][''dir'']', string(plug))
   return exists(dir) ? isdirectory(eval(dir)) : false
 enddef
 
@@ -84,7 +84,8 @@ set list
 set listchars=tab:▸\ ,eol:¬
 set nowrap
 set number
-set shortmess& shortmess+=a
+set shortmess&
+      \ shortmess+=a
 set showtabline=2
 set signcolumn=yes
 set statusline=%!my#statusline#get('Global')
@@ -113,8 +114,8 @@ endif
 # Editing
 set backspace=indent,eol,start
 set nrformats&
-\   nrformats-=octal
-\   nrformats+=unsigned
+      \ nrformats-=octal
+      \ nrformats+=unsigned
 set virtualedit=block
 
 # Indent
@@ -151,7 +152,8 @@ set splitright
 # Misc
 set belloff=error
 set clipboard=unnamed
-set diffopt& diffopt+=vertical
+set diffopt&
+      \ diffopt+=vertical
 set formatoptions+=mB
 set hidden
 set lazyredraw
@@ -191,7 +193,7 @@ command! Tig terminal ++curwin tig --all
 # Autocommands {{{1
 augroup my-terminalopen
   autocmd!
-  autocmd TerminalOpen * setbufvar(expand('<abuf>')->str2nr(), '&filetype', 'terminal')
+  autocmd TerminalOpen * setbufvar(str2nr(expand('<abuf>')), '&filetype', 'terminal')
 augroup END
 
 augroup my-filetype
@@ -212,10 +214,9 @@ augroup END
 
 augroup my-restore-curpos
   autocmd!
-  autocmd BufReadPost *
-  \ if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
-  |   execute 'normal! g`"'
-  | endif
+  autocmd BufReadPost * if 1 <= line('''"') && line('''"') <= line('$') && &filetype !~ 'commit'
+  autocmd BufReadPost *   normal! g`"
+  autocmd BufReadPost * endif
 augroup END
 
 augroup my-vimresized
@@ -233,16 +234,15 @@ if Has('caw.vim') # {{{2
   g:caw_no_default_keymappings = true
   g:caw_operator_keymappings   = true
   # vvvv     v
-  # comment *a*ut operator
+  # comment *a*ut operator (thanks @monaqa!)
   nmap , <Plug>(caw:hatpos:toggle:operator)
   omap , <Plug>(caw:hatpos:toggle:operator)
   xmap , <Plug>(caw:hatpos:toggle)
   augroup my-caw
     autocmd!
-    autocmd FileType vim
-    \ if getline(1) =~ '^vim9script'
-    |   b:caw_oneline_comment = '#'
-    | endif
+    autocmd FileType vim if getline(1) =~ '^vim9script'
+    autocmd FileType vim   b:caw_oneline_comment = '#'
+    autocmd FileType vim endif
   augroup END
 endif
 
@@ -319,14 +319,14 @@ endif
 
 if Has('junkfile.vim') # {{{2
   g:junkfile#directory = isdirectory(expand('~/Dropbox'))
-    ? expand('~/Dropbox/junkfile')
-    : expand('~/junkfile')
+                        ? expand('~/Dropbox/junkfile')
+                        : expand('~/junkfile')
 endif
 
 if Has('memolist.vim') # {{{2
   g:memolist_path = isdirectory(expand('~/Dropbox'))
-    ? expand('~/Dropbox/memolist')
-    : expand('~/memolist')
+                   ? expand('~/Dropbox/memolist')
+                   : expand('~/memolist')
   g:memolist_memo_suffix = 'md'
   g:memolist_template_dir_path = expand('~/.vim/template/memolist')
 endif
@@ -399,15 +399,15 @@ endif
 if Has('vim-quickrun') # {{{2
   g:quickrun_config = {}
   g:quickrun_config['_'] = {
-    runner: 'job',
+    'runner': 'job',
     'outputter/buffer/split': 'botright 12',
   }
   g:quickrun_config['go/test'] = {
-    command: 'go',
-    exec: '%c test .',
+    'command': 'go',
+    'exec': '%c test .',
     'hook/cd/directory': '%S:p:h',
     'hook/output_encode/encoding': 'utf-8',
-    tempfile: '%{tempname()}.go'
+    'tempfile': '%{tempname()}.go',
   }
   nmap Q <Plug>(quickrun)
   augroup my-quickrun
@@ -443,26 +443,26 @@ if Has('vim-swap') # {{{2
   omap a, <Plug>(swap-textobject-a)
   xmap a, <Plug>(swap-textobject-a)
   g:swap#keymappings = {
-    1: ['1', 'fix_nr'],
-    2: ['2', 'fix_nr'],
-    3: ['3', 'fix_nr'],
-    4: ['4', 'fix_nr'],
-    5: ['5', 'fix_nr'],
-    6: ['6', 'fix_nr'],
-    7: ['7', 'fix_nr'],
-    8: ['8', 'fix_nr'],
-    9: ['9', 'fix_nr'],
-    u: ['undo'],
+    "1": ['1', 'fix_nr'],
+    "2": ['2', 'fix_nr'],
+    "3": ['3', 'fix_nr'],
+    "4": ['4', 'fix_nr'],
+    "5": ['5', 'fix_nr'],
+    "6": ['6', 'fix_nr'],
+    "7": ['7', 'fix_nr'],
+    "8": ['8', 'fix_nr'],
+    "9": ['9', 'fix_nr'],
+    "u": ['undo'],
     "\<C-r>": ['redo'],
-    p: ['swap_prev'],
-    n: ['swap_next'],
+    "p": ['swap_prev'],
+    "n": ['swap_next'],
     "\<C-p>": ['move_prev'],
     "\<C-n>": ['move_next'],
-    s: ['sort'],
-    S: ['SORT'],
-    g: ['group'],
-    G: ['ungroup'],
-    r: ['reverse'],
+    "s": ['sort'],
+    "S": ['SORT'],
+    "g": ['group'],
+    "G": ['ungroup'],
+    "r": ['reverse'],
     "\<Esc>": ['Esc'],
   }
 endif
@@ -489,7 +489,7 @@ augroup my-colorscheme
   autocmd ColorScheme iceberg,slate source ~/.vim/colorscheme/<amatch>.vim
 augroup END
 
-if $COLORTERM is 'truecolor' || $COLORTERM is '24bit'
+if $COLORTERM == 'truecolor' || $COLORTERM == '24bit'
   set termguicolors
 endif
 

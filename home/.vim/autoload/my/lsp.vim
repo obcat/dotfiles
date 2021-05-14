@@ -18,26 +18,26 @@ enddef
 
 def my#lsp#on_lsp_float_opened()
   const winid = lsp#ui#vim#output#getpreviewwinid()
-  # NOTE: The getpreviewwinid() function may return false:O
+  # NOTE: getpreviewwinid() may return false
   if type(winid) != v:t_number
     return
   endif
   const lines = getbufline(winbufnr(winid), 1, '$')
   const maxwidth = lines->mapnew((_, v) => strwidth(v))->max()
   popup_setoptions(winid, {
-    maxheight: &lines / 3,
-    minwidth: maxwidth,
-    highlight: 'LspPreviewPopup',
-    padding: [0, 1, 0, 1],
+    maxheight:       &lines / 3,
+    minwidth:        maxwidth,
+    highlight:       'LspPreviewPopup',
+    padding:         [0, 1, 0, 1],
     borderhighlight: ['LspPreviewPopupBorder'],
-    borderchars: ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
-    scrollbar: 0,
-    filter: FloatFilter
+    borderchars:     ['─', '│', '─', '│', '┌', '┐', '┘', '└'],
+    scrollbar:       0,
+    filter:          FloatFilter
   })
 enddef
 
 def FloatFilter(winid: number, key: string): bool
-  const table = {
+  const key2func = {
     "\<BS>":  () => popup_close(winid),
     "\<C-e>": () => win_execute(winid, "normal! \<C-e>"),
     "\<C-y>": () => win_execute(winid, "normal! \<C-y>"),
@@ -46,8 +46,8 @@ def FloatFilter(winid: number, key: string): bool
     "\<C-f>": () => win_execute(winid, "normal! \<C-f>"),
     "\<C-b>": () => win_execute(winid, "normal! \<C-b>"),
   }
-  if has_key(table, key)
-    table[key]()
+  if has_key(key2func, key)
+    key2func[key]()
     return true
   endif
   return false

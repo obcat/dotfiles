@@ -5,13 +5,15 @@ def my#tabline#get(): string
 enddef
 
 def Labels(): string
-  return range(1, tabpagenr('$'))->mapnew((_, v) => Label(v))->join('')
+  return range(1, tabpagenr('$'))
+        ->mapnew((_, v) => Label(v))
+        ->join('')
 enddef
 
 def Label(tabnr: number): string
   return tabnr == tabpagenr()
-    ? LabelActive(tabnr)
-    : LabelInactive(tabnr)
+        ? LabelActive(tabnr)
+        : LabelInactive(tabnr)
 enddef
 
 const PADDING0 = '   '
@@ -20,36 +22,34 @@ const MINWIDTH = 16
 const MAXWIDTH = 16
 
 def LabelActive(tabnr: number): string
-  const bufnr = Currentbufnr(tabnr)
-  return ''
-    .. '%#TabLineSel#'
-    .. '%' .. tabnr .. 'T'
-    .. PADDING0
-    .. Bufname(bufnr)->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
-    .. '%#TabLineSelMod#'
-    .. (getbufvar(bufnr, '&modified') ? PADDING1 : PADDING0)
+  const bufnr = CurrentBufnr(tabnr)
+  return '%#TabLineSel#'
+      .. '%' .. tabnr .. 'T'
+      .. PADDING0
+      .. Bufname(bufnr)->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
+      .. '%#TabLineSelMod#'
+      .. (getbufvar(bufnr, '&modified') ? PADDING1 : PADDING0)
 enddef
 
 def LabelInactive(tabnr: number): string
-  return ''
-    .. '%#TabLine#'
-    .. '%' .. tabnr .. 'T'
-    .. PADDING0
-    .. Bufname(Currentbufnr(tabnr))->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
-    .. PADDING0
+  const bufnr = CurrentBufnr(tabnr)
+  return '%#TabLine#'
+      .. '%' .. tabnr .. 'T'
+      .. PADDING0
+      .. Bufname(bufnr)->Center(MINWIDTH)->Truncate(MAXWIDTH)->Escape()
+      .. PADDING0
 enddef
 
 def Fill(): string
-  return ''
-    .. '%#TabLineFill#'
-    .. '%T'
-    .. '%='
-    .. ' '
-    .. Gitinfo()->Escape()
-    .. ' '
+  return '%#TabLineFill#'
+      .. '%T'
+      .. '%='
+      .. ' '
+      .. Gitinfo()->Escape()
+      .. ' '
 enddef
 
-def Currentbufnr(tabnr: number): number
+def CurrentBufnr(tabnr: number): number
   return tabpagebuflist(tabnr)[tabpagewinnr(tabnr) - 1]
 enddef
 
@@ -75,12 +75,12 @@ enddef
 
 def Gitinfo(): string
   return [
-      ['gina#component#repo#preset',    []],
-      ['gina#component#status#preset',  []],
-      ['gina#component#traffic#preset', []],
-    ]
-    ->mapnew((_, v) => call(SafeCall, v)->trim())
-    ->filter((_, v) => v != '')->join()
+    ['gina#component#repo#preset',    []],
+    ['gina#component#status#preset',  []],
+    ['gina#component#traffic#preset', []],
+  ] ->mapnew((_, v) => trim(call(SafeCall, v)))
+    ->filter((_, v) => v != '')
+    ->join()
 enddef
 
 def SafeCall(func: any, arglist: list<any>): string
@@ -91,6 +91,7 @@ def SafeCall(func: any, arglist: list<any>): string
   endtry
   return result
 enddef
+
 
 def Center(string: string, minwidth: number): string
   const strwidth = strwidth(string)

@@ -9,15 +9,14 @@ const PADDING   = ' '
 const SEPARATOR = ' '
 
 def GlobalActive(): string
-  return ''
-    .. PADDING
-    .. '%f'
-    .. SEPARATOR
-    .. '%h%r%w'
-    .. '%='
-    .. SEPARATOR
-    .. '%P'
-    .. PADDING
+  return PADDING
+      .. '%f'
+      .. SEPARATOR
+      .. '%h%r%w'
+      .. '%='
+      .. SEPARATOR
+      .. '%P'
+      .. PADDING
 enddef
 
 def GlobalInactive(): string
@@ -25,15 +24,14 @@ def GlobalInactive(): string
 enddef
 
 def QfActive(): string
-  return ''
-    .. PADDING
-    .. '%q'
-    .. SEPARATOR
-    .. '"%{get(w:, ''quickfix_title'', '''')}"'
-    .. '%='
-    .. SEPARATOR
-    .. '%P'
-    .. PADDING
+  return PADDING
+      .. '%q'
+      .. SEPARATOR
+      .. '"%{get(w:, ''quickfix_title'', '''')}"'
+      .. '%='
+      .. SEPARATOR
+      .. '%P'
+      .. PADDING
 enddef
 
 def QfInactive(): string
@@ -41,15 +39,14 @@ def QfInactive(): string
 enddef
 
 def VoyagerActive(): string
-  return ''
-    .. PADDING
-    .. '%{fnamemodify(@%, '':p'')}'
-    .. SEPARATOR
-    .. '%r%w'
-    .. '%='
-    .. SEPARATOR
-    .. '%P'
-    .. PADDING
+  return PADDING
+      .. '%{fnamemodify(@%, '':p'')}'
+      .. SEPARATOR
+      .. '%r%w'
+      .. '%='
+      .. SEPARATOR
+      .. '%P'
+      .. PADDING
 enddef
 
 def VoyagerInactive(): string
