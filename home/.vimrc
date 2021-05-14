@@ -364,8 +364,8 @@ if Has('vim-gitgutter') # {{{2
   nmap Hs <Plug>(GitGutterStageHunk)
   xmap Hs <Plug>(GitGutterStageHunk)
   nmap Hu <Plug>(GitGutterUndoHunk)
-  nmap [c <Plug>(GitGutterPrevHunk)
-  nmap ]c <Plug>(GitGutterNextHunk)
+  nmap [h <Plug>(GitGutterPrevHunk)
+  nmap ]h <Plug>(GitGutterNextHunk)
 endif
 
 if Has('vim-highlightedyank') # {{{2
