@@ -18,6 +18,10 @@ enddef
 
 def my#lsp#on_lsp_float_opened()
   const winid = lsp#ui#vim#output#getpreviewwinid()
+  # NOTE: The getpreviewwinid() function may return false:O
+  if type(winid) != v:t_number
+    return
+  endif
   const lines = getbufline(winbufnr(winid), 1, '$')
   const maxwidth = lines->mapnew((_, v) => strwidth(v))->max()
   popup_setoptions(winid, {
