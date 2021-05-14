@@ -225,13 +225,13 @@ augroup END
 
 # Plugin settings {{{1
 if Has('autofmt') # {{{2
-  g:autofmt_allow_over_tw = 1
+  g:autofmt_allow_over_tw = true
   set formatexpr=autofmt#japanese#formatexpr()
 endif
 
 if Has('caw.vim') # {{{2
-  g:caw_no_default_keymappings = 1
-  g:caw_operator_keymappings   = 1
+  g:caw_no_default_keymappings = true
+  g:caw_operator_keymappings   = true
   nmap g/ <Plug>(caw:hatpos:toggle:operator)
   xmap g/ <Plug>(caw:hatpos:toggle)
   augroup my-caw
@@ -252,9 +252,9 @@ if Has('capture.vim') # {{{2
 endif
 
 if Has('ctrlp.vim') # {{{2
-  g:ctrlp_by_filename     = 1
-  g:ctrlp_follow_symlinks = 1
-  g:ctrlp_show_hidden     = 1
+  g:ctrlp_by_filename     = true
+  g:ctrlp_follow_symlinks = true
+  g:ctrlp_show_hidden     = true
   g:ctrlp_line_prefix  = '▸ '
   g:ctrlp_reuse_window = '.*'
   g:ctrlp_match_window = 'order:ttb,min:7,max:7'
@@ -325,7 +325,7 @@ if Has('memolist.vim') # {{{2
 endif
 
 if Has('open-browser.vim') # {{{2
-  g:netrw_nogx = 1
+  g:netrw_nogx = true
   nmap gx <Plug>(openbrowser-smart-search)
   xmap gx <Plug>(openbrowser-smart-search)
 endif
@@ -338,7 +338,7 @@ if Has('vim-asterisk') # {{{2
 endif
 
 if Has('vim-better-whitespace') # {{{2
-  g:strip_whitespace_on_save = 1
+  g:strip_whitespace_on_save = true
   g:better_whitespace_ctermcolor = 'NONE'
   g:better_whitespace_guicolor   = 'NONE'
 endif
@@ -350,7 +350,7 @@ endif
 
 if Has('vim-gitgutter') # {{{2
   g:gitgutter_sign_priority = 10
-  g:gitgutter_map_keys = 0
+  g:gitgutter_map_keys = false
   nnoremap H <Nop>
   xnoremap H <Nop>
   nmap Hp <Plug>(GitGutterPreviewHunk)
@@ -366,9 +366,10 @@ if Has('vim-highlightedyank') # {{{2
 endif
 
 if Has('vim-lsp') # {{{2
-  g:lsp_diagnostics_echo_cursor            = 1
-  g:lsp_document_code_action_signs_enabled = 0
-  g:lsp_document_highlight_enabled         = 0
+  g:lsp_diagnostics_echo_cursor            = true
+  g:lsp_document_code_action_signs_enabled = false
+  g:lsp_document_highlight_enabled         = false
+  g:lsp_completion_documentation_enabled   = false
   g:lsp_signs_priority = 20
   g:lsp_diagnostics_signs_error         = {text: 'E'}
   g:lsp_diagnostics_signs_warning       = {text: 'W'}
@@ -423,7 +424,7 @@ if Has('vim-sandwich') # {{{2
 endif
 
 if Has('vim-swap') # {{{2
-  g:swap_no_default_key_mappings = 1
+  g:swap_no_default_key_mappings = true
   nnoremap s <Nop>
   xnoremap s <Nop>
   nmap sp <Plug>(swap-prev)
@@ -460,7 +461,7 @@ if Has('vim-swap') # {{{2
 endif
 
 if Has('vim-textobj-comment') # {{{2
-  g:textobj_comment_no_default_key_mappings = 1
+  g:textobj_comment_no_default_key_mappings = true
   omap i/ <Plug>(textobj-comment-a)
   xmap i/ <Plug>(textobj-comment-a)
   omap a/ <Plug>(textobj-comment-big-a)
@@ -468,7 +469,7 @@ if Has('vim-textobj-comment') # {{{2
 endif
 
 if Has('voyager.vim') # {{{2
-  g:voyager_keepalt = 1
+  g:voyager_keepalt = true
   augroup my-voyager
     autocmd!
     autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!my#statusline#get('Voyager')
