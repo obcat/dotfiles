@@ -1,6 +1,7 @@
 vim9script
 
 def my#lsp#on_lsp_buffer_enabled()
+  setlocal omnifunc=lsp#complete
   nnoremap <buffer> L <Nop>
   nmap <buffer> Ld <Plug>(lsp-definition)
   nmap <buffer> Lr <Plug>(lsp-references)
