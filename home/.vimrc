@@ -172,8 +172,10 @@ nnoremap g: g;
 nnoremap Y y$
 nnoremap <C-_>h <Cmd>set hlsearch!<CR>
 nnoremap <C-_>w <Cmd>setlocal wrap!<CR>
-nnoremap <expr> [q printf('<Cmd>%d cprevious<CR>', v:count1)
-nnoremap <expr> ]q printf('<Cmd>%d cnext<CR>',     v:count1)
+nnoremap <expr> [c &diff ? '[c' : printf('<Cmd>%d cprevious<CR>', v:count1)
+nnoremap <expr> ]c &diff ? ']c' : printf('<Cmd>%d cnext<CR>',     v:count1)
+nnoremap <expr> [l printf('<Cmd>%d lprevious<CR>', v:count1)
+nnoremap <expr> ]l printf('<Cmd>%d lnext<CR>',     v:count1)
 
 # Insert
 inoremap <C-u> <C-g>u<C-u>
