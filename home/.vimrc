@@ -272,6 +272,10 @@ if Has('ctrlp.vim') # {{{2
   nnoremap g<Space> <Cmd>CtrlP<CR>
 endif
 
+if Has('dictionary.vim') # {{{2
+  nnoremap <F1> <Cmd>Dictionary -cursor-word<CR>
+endif
+
 if Has('gina.vim') # {{{2
   nnoremap <Bslash>b <Cmd>Gina branch -av<CR>
   nnoremap <Bslash>c <Cmd>Gina compare<CR>
