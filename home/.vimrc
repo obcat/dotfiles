@@ -232,8 +232,11 @@ endif
 if Has('caw.vim') # {{{2
   g:caw_no_default_keymappings = true
   g:caw_operator_keymappings   = true
-  nmap g/ <Plug>(caw:hatpos:toggle:operator)
-  xmap g/ <Plug>(caw:hatpos:toggle)
+  # vvvv     v
+  # comment *a*ut operator
+  nmap , <Plug>(caw:hatpos:toggle:operator)
+  omap , <Plug>(caw:hatpos:toggle:operator)
+  xmap , <Plug>(caw:hatpos:toggle)
   augroup my-caw
     autocmd!
     autocmd FileType vim
