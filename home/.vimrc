@@ -35,6 +35,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'mattn/ctrlp-matchfuzzy'          # Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          # Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
+  Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/voyager.vim'               # Minimal file explorer
   Plug 'prabirshrestha/vim-lsp'          # Language Server Protocol
@@ -370,6 +371,15 @@ endif
 
 if Has('vim-highlightedyank') # {{{2
   g:highlightedyank_highlight_duration = 500
+endif
+
+if Has('vim-histcase') # {{{2
+  cmap <Up>     <Plug>(histcase-Up)
+  cmap <Down>   <Plug>(histcase-Down)
+  cmap <S-Up>   <Plug>(histcase-S-Up)
+  cmap <S-Down> <Plug>(histcase-S-Down)
+  cmap <C-p>    <Plug>(histcase-C-p)
+  cmap <C-n>    <Plug>(histcase-C-n)
 endif
 
 if Has('vim-lsp') # {{{2
