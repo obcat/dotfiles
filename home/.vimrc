@@ -189,6 +189,7 @@ cnoremap <C-x> <C-r>=matchstr(expand('%:p'), '.*/\+\ze.\{-}$')<CR>
 
 # User-defined commands {{{1
 command! Tig terminal ++curwin tig --all
+command! DiffOrig my#difforig()
 
 # Autocommands {{{1
 augroup my-terminalopen

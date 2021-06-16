@@ -1,5 +1,22 @@
 vim9script
 
+
+def my#difforig()
+  if !&modified
+    echo 'No change since last save'
+    return
+  endif
+
+  vertical new
+  setlocal buftype=nofile
+  read ++edit %%
+  :0 delete _
+  diffthis
+  wincmd p
+  diffthis
+enddef
+
+
 def my#auto_mkdir(dir: string)
   if isdirectory(dir)
     return
