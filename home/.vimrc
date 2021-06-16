@@ -36,6 +36,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'mattn/vim-lsp-settings'          # Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
   Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
+  Plug 'obcat/vim-ipos'                  # Missing companions to '^ and gi
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/voyager.vim'               # Minimal file explorer
   Plug 'prabirshrestha/vim-lsp'          # Language Server Protocol
@@ -381,6 +382,13 @@ if Has('vim-histcase') # {{{2
   cmap <C-p>    <Plug>(histcase-C-p)
   cmap <C-n>    <Plug>(histcase-C-n)
 endif
+
+if Has('vim-ipos') # {{{2
+  g:ipos#mark = 'i'
+  nnoremap t <Nop>
+  # ti <-> gi
+  nmap ti <Plug>(ipos-startinsert)
+endif 
 
 if Has('vim-lsp') # {{{2
   g:lsp_diagnostics_echo_cursor            = true
