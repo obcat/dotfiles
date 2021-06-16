@@ -10,6 +10,7 @@
 	verbose = true
 [diff]
 	colorMoved = default
+	algorithm = histogram
 [init]
 	defaultBranch = main
 [log]

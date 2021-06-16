@@ -153,6 +153,8 @@ set splitright
 set clipboard=unnamed
 set diffopt&
       \ diffopt+=vertical
+      \ diffopt+=indent-heuristic
+      \ diffopt+=algorithm:histogram
 set formatoptions+=mB
 set lazyredraw
 set mouse=a
