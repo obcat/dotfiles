@@ -14,7 +14,6 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'airblade/vim-gitgutter'          # Git diff on the sign column
   Plug 'cocopon/iceberg.vim'             # Color scheme
   Plug 'cocopon/inspecthi.vim'           # Show link structure of highlight groups
-  Plug 'ctrlpvim/ctrlp.vim'              # Fuzzy finder
   Plug 'glidenote/memolist.vim'          # Create and manage memo
   Plug 'glts/vim-textobj-comment'        # Textobjects for comments
   Plug 'haya14busa/vim-asterisk'         # Provides improved * motion
@@ -26,13 +25,13 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'kana/vim-textobj-indent'         # Textobjects for indented block
   Plug 'kana/vim-textobj-line'           # Textobjects for a portion of current line
   Plug 'kana/vim-textobj-user'           # Make it easy to define textobjects
+  Plug 'lacygoill/vim-fuzzy'             # Fuzzy finder
   Plug 'lambdalisue/gina.vim'            # Git on Vim
   Plug 'machakann/vim-highlightedyank'   # Highlight the yanked text
   Plug 'machakann/vim-sandwich'          # Handle the sandwiched text easily
   Plug 'machakann/vim-swap'              # Reorder delimited items
   Plug 'machakann/vim-textobj-delimited' # Textobjects for delimited parts of string
   Plug 'machakann/vim-textobj-functioncall' # Textobjects for function-call regions
-  Plug 'mattn/ctrlp-matchfuzzy'          # Fast CtrlP matcher
   Plug 'mattn/vim-lsp-settings'          # Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
   Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
@@ -130,7 +129,6 @@ set shiftwidth=0
 set smartindent
 set softtabstop=-1
 set tabstop=2
-g:vim_indent_cont = 0
 
 # Language
 set helplang=ja
@@ -152,12 +150,10 @@ set splitbelow
 set splitright
 
 # Misc
-set belloff=error
 set clipboard=unnamed
 set diffopt&
       \ diffopt+=vertical
 set formatoptions+=mB
-set hidden
 set lazyredraw
 set mouse=a
 set path=.,,
@@ -167,13 +163,15 @@ set ttimeoutlen=50
 set updatetime=100
 
 # Key mappings {{{1
-g:mapleader = "\<S-F1>"
-g:maplocalleader = "\<S-F2>"
+g:mapleader = "\<Plug>(Leader)"
+g:maplocalleader = "\<Plug>(LocalLeader)"
 
 # Normal
 nnoremap - <Cmd>edit %:h<CR>
-nnoremap g: g;
 nnoremap Y y$
+nnoremap g: g;
+nnoremap ZQ <Nop>
+nnoremap ZZ <Nop>
 nnoremap <C-_>h <Cmd>set hlsearch!<CR>
 nnoremap <C-_>w <Cmd>setlocal wrap!<CR>
 nnoremap <expr> [c &diff ? '[c' : printf('<Cmd>%d cprevious<CR>', v:count1)
@@ -185,9 +183,7 @@ nnoremap <expr> ]l printf('<Cmd>%d lnext<CR>',     v:count1)
 inoremap <C-u> <C-g>u<C-u>
 
 # Command line
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <expr> <C-o> wildmenumode() ? '<Left>' : my#util#get_parent_directory()
+cnoremap <C-x> <C-r>=matchstr(expand('%:p'), '.*/\+\ze.\{-}$')<CR>
 
 # User-defined commands {{{1
 command! Tig terminal ++curwin tig --all
@@ -226,6 +222,11 @@ augroup my-vimresized
   autocmd VimResized * wincmd =
 augroup END
 
+augroup my-auto-mkdir
+  autocmd!
+  autocmd BufWritePre * my#util#auto_mkdir(expand('<afile>:p:h'))
+augroup END
+
 # Plugin settings {{{1
 if Has('autofmt') # {{{2
   g:autofmt_allow_over_tw = true
@@ -254,24 +255,6 @@ if Has('capture.vim') # {{{2
     autocmd!
     autocmd FileType capture setlocal nolist nonumber signcolumn=no
   augroup END
-endif
-
-if Has('ctrlp.vim') # {{{2
-  g:ctrlp_by_filename     = true
-  g:ctrlp_follow_symlinks = true
-  g:ctrlp_show_hidden     = true
-  g:ctrlp_line_prefix  = '▸ '
-  g:ctrlp_reuse_window = '.*'
-  g:ctrlp_match_window = 'order:ttb,min:7,max:7'
-  g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-
-  if Has('ctrlp_matchfuzzy.vim')
-    g:ctrlp_match_func = {match: 'ctrlp_matchfuzzy#matcher'}
-  endif
-
-  g:ctrlp_cmd = 'CtrlPMRUFiles'
-  g:ctrlp_map = '<Space>'
-  nnoremap g<Space> <Cmd>CtrlP<CR>
 endif
 
 if Has('dictionary.vim') # {{{2
@@ -353,8 +336,13 @@ if Has('vim-better-whitespace') # {{{2
 endif
 
 if Has('vim-easy-align') # {{{2
-  nmap g= <Plug>(EasyAlign)
-  xmap g= <Plug>(EasyAlign)
+  nmap <Bar> <Plug>(EasyAlign)
+  xmap <Bar> <Plug>(EasyAlign)
+endif
+
+if Has('vim-fuzzy') # {{{2
+  nmap <Space>  <Plug>(fuzzy-recent-files)
+  nmap g<Space> <Plug>(fuzzy-files)
 endif
 
 if Has('vim-gitgutter') # {{{2
@@ -375,12 +363,16 @@ if Has('vim-highlightedyank') # {{{2
 endif
 
 if Has('vim-histcase') # {{{2
-  cmap <Up>     <Plug>(histcase-Up)
-  cmap <Down>   <Plug>(histcase-Down)
+  cmap <expr> <Up>   wildmenumode() ? '<Up>'   : '<Plug>(histcase-Up)'
+  cmap <expr> <Down> wildmenumode() ? '<Down>' : '<Plug>(histcase-Down)'
   cmap <S-Up>   <Plug>(histcase-S-Up)
   cmap <S-Down> <Plug>(histcase-S-Down)
-  cmap <C-p>    <Plug>(histcase-C-p)
-  cmap <C-n>    <Plug>(histcase-C-n)
+  cmap <expr> <C-p> wildmenumode() ? '<SID>(cnoremap-C-p)' : '<Plug>(histcase-C-p)'
+  cmap <expr> <C-n> wildmenumode() ? '<SID>(cnoremap-C-n)' : '<Plug>(histcase-C-n)'
+  cnoremap <SID>(cnoremap-Up)   <Up>
+  cnoremap <SID>(cnoremap-Down) <Down>
+  cnoremap <SID>(cnoremap-C-p)  <C-p>
+  cnoremap <SID>(cnoremap-C-n)  <C-n>
 endif
 
 if Has('vim-ipos') # {{{2
@@ -388,7 +380,7 @@ if Has('vim-ipos') # {{{2
   nnoremap t <Nop>
   # ti <-> gi
   nmap ti <Plug>(ipos-startinsert)
-endif 
+endif
 
 if Has('vim-lsp') # {{{2
   g:lsp_diagnostics_echo_cursor            = true
@@ -411,6 +403,7 @@ endif
 
 if Has('vim-operator-replace') # {{{2
   nmap _ <Plug>(operator-replace)
+  omap _ <Plug>(operator-replace)
   xmap _ <Plug>(operator-replace)
 endif
 
