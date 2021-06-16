@@ -226,7 +226,7 @@ augroup END
 
 augroup my-auto-mkdir
   autocmd!
-  autocmd BufWritePre * my#util#auto_mkdir(expand('<afile>:p:h'))
+  autocmd BufWritePre * my#auto_mkdir(expand('<afile>:p:h'))
 augroup END
 
 # Plugin settings {{{1

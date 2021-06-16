@@ -1,6 +1,6 @@
 vim9script
 
-def my#util#auto_mkdir(dir: string)
+def my#auto_mkdir(dir: string)
   if isdirectory(dir)
     return
   endif
