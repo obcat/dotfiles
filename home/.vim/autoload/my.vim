@@ -3,7 +3,7 @@ vim9script
 
 def my#difforig()
   if !&modified
-    echo 'No change since last save'
+    echomsg 'No change since last save'
     return
   endif
 
@@ -30,6 +30,6 @@ def my#auto_mkdir(dir: string)
   endtry
   redraw # avoid hit-enter prompt
   if choice == 1 # Yes
-    call mkdir(dir, 'p')
+    mkdir(dir, 'p')
   endif
 enddef
