@@ -8,6 +8,7 @@ vim9script
 set encoding=utf-8
 scriptencoding utf-8
 
+
 # Plugins {{{1
 if filereadable(expand('~/.vim/autoload/plug.vim'))
   plug#begin('~/.vim/plugins')
@@ -73,6 +74,7 @@ def Has(plug: string): bool
   const dir = printf('g:plugs[%s][''dir'']', string(plug))
   return exists(dir) ? isdirectory(eval(dir)) : false
 enddef
+
 
 # Options {{{1
 # Appearance
@@ -164,6 +166,7 @@ set timeoutlen=5000
 set ttimeoutlen=50
 set updatetime=100
 
+
 # Key mappings {{{1
 g:mapleader = "\<Plug>(Leader)"
 g:maplocalleader = "\<Plug>(LocalLeader)"
@@ -187,9 +190,11 @@ inoremap <C-u> <C-g>u<C-u>
 # Command line
 cnoremap <C-x> <C-r>=matchstr(expand('%:p'), '.*/\+\ze.\{-}$')<CR>
 
+
 # User-defined commands {{{1
 command! Tig terminal ++curwin tig --all
 command! DiffOrig my#difforig()
+
 
 # Autocommands {{{1
 augroup my-terminalopen
@@ -229,6 +234,7 @@ augroup my-auto-mkdir
   autocmd!
   autocmd BufWritePre * my#auto_mkdir(expand('<afile>:p:h'))
 augroup END
+
 
 # Plugin settings {{{1
 if Has('autofmt') # {{{2
@@ -497,6 +503,7 @@ if Has('voyager.vim') # {{{2
   augroup END
 endif
 
+
 # Color scheme {{{1
 augroup my-colorscheme
   autocmd!
@@ -512,6 +519,7 @@ if Has('iceberg.vim')
 else
   colorscheme slate
 endif
+
 
 # Local settings {{{1
 if filereadable(expand('~/.vimrc_local'))
