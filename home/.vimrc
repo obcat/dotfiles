@@ -71,7 +71,7 @@ filetype plugin on
 
 def Has(plug: string): bool
   const dir = printf('g:plugs[%s][''dir'']', string(plug))
-  return exists(dir) ? isdirectory(eval(dir)) : false
+  return exists(dir) && isdirectory(eval(dir))
 enddef
 
 
