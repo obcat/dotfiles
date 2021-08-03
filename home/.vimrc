@@ -33,13 +33,11 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-swap'              # Reorder delimited items
   Plug 'machakann/vim-textobj-delimited' # Textobjects for delimited parts of string
   Plug 'machakann/vim-textobj-functioncall' # Textobjects for function-call regions
-  Plug 'mattn/vim-lsp-settings'          # Auto configurations for vim-lsp
   Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
   Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
   Plug 'obcat/vim-ipos'                  # Missing companions to '^ and gi
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/voyager.vim'               # Minimal file explorer
-  Plug 'prabirshrestha/vim-lsp'          # Language Server Protocol
   Plug 'previm/previm'                   # Realtime markdown preview
   Plug 'rbtnn/vim-vimscript_lasterror'   # Jump to Vim script's last error
   Plug 'shougo/junkfile.vim'             # Create temporary file
@@ -390,25 +388,6 @@ if Has('vim-ipos') # {{{2
   nnoremap t <Nop>
   # ti <-> gi
   nmap ti <Plug>(ipos-startinsert)
-endif
-
-if Has('vim-lsp') # {{{2
-  g:lsp_diagnostics_echo_cursor            = true
-  g:lsp_document_code_action_signs_enabled = false
-  g:lsp_document_highlight_enabled         = false
-  g:lsp_completion_documentation_enabled   = false
-  g:lsp_signs_priority = 20
-  g:lsp_diagnostics_signs_error         = {text: 'E'}
-  g:lsp_diagnostics_signs_warning       = {text: 'W'}
-  g:lsp_diagnostics_signs_information   = {text: 'I'}
-  g:lsp_diagnostics_signs_hint          = {text: 'H'}
-  g:lsp_document_code_action_signs_hint = {text: 'A'}
-
-  augroup my-lsp
-    autocmd!
-    autocmd User lsp_buffer_enabled my#lsp#on_lsp_buffer_enabled()
-    autocmd User lsp_float_opened my#lsp#on_lsp_float_opened()
-  augroup END
 endif
 
 if Has('vim-operator-replace') # {{{2
