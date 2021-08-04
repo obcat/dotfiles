@@ -428,6 +428,7 @@ endif
 if Has('vim-sandwich') # {{{2
   nnoremap s <Nop>
   xnoremap s <Nop>
+  g:textobj_sandwich_no_default_key_mappings = true
 endif
 
 if Has('vim-swap') # {{{2
