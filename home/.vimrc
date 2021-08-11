@@ -33,10 +33,10 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-swap'              # Reorder delimited items
   Plug 'machakann/vim-textobj-delimited' # Textobjects for delimited parts of string
   Plug 'machakann/vim-textobj-functioncall' # Textobjects for function-call regions
-  Plug 'ntpeters/vim-better-whitespace'  # Highlight the trailing white spaces
   Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
   Plug 'obcat/vim-ipos'                  # Missing companions to '^ and gi
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
+  Plug 'obcat/vim-strip'                 # Strip trailing whitespace on write
   Plug 'obcat/voyager.vim'               # Minimal file explorer
   Plug 'previm/previm'                   # Realtime markdown preview
   Plug 'rbtnn/vim-vimscript_lasterror'   # Jump to Vim script's last error
