@@ -251,7 +251,7 @@ if Has('caw.vim') # {{{2
   xmap , <Plug>(caw:hatpos:toggle)
   augroup my-caw
     autocmd!
-    autocmd FileType vim if getline(1) =~ '^vim9script'
+    autocmd FileType vim if get(b:, 'is_vim9script', false)
     autocmd FileType vim   b:caw_oneline_comment = '#'
     autocmd FileType vim endif
   augroup END

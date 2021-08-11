@@ -2,6 +2,15 @@ vim9script
 
 setlocal foldmethod=marker
 
+{
+  for line in getline(1, 10)
+    if line =~ '^\s*vim9s\%[cript]\>'
+      b:is_vim9script = true
+      break
+    endif
+  endfor
+}
+
 inoremap <buffer> <C-]> 💥<C-]>
 
 inoreabbrev <buffer> aug💥
