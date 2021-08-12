@@ -65,6 +65,7 @@ inoreabbrev <buffer> scr💥
 # Teardown {{{
 b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
    .. '| unlet! b:did_my_vim_ftplugin
+      \| unlet! b:is_vim9script
       \| setlocal foldmethod<
       \| silent! iunmap <buffer> <C-]>
       \| silent! iunabbrev <buffer> aug💥
