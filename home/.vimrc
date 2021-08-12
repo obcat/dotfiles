@@ -99,7 +99,7 @@ set wildmenu
 syntax enable
 
 # Backup
-set directory=~/.vim/data/swap
+set directory=~/.vim/data/swap//
 mkdir(&directory, 'p')
 set history=1000
 
