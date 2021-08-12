@@ -11,7 +11,7 @@ scriptencoding utf-8
 
 # Plugins {{{1
 if filereadable(expand('~/.vim/autoload/plug.vim'))
-  plug#begin('~/.vim/plugins')
+  plug#begin('~/.vim/plugs')
   Plug 'airblade/vim-gitgutter'          # Git diff on the sign column
   Plug 'cocopon/iceberg.vim'             # Color scheme
   Plug 'cocopon/inspecthi.vim'           # Show link structure of highlight groups
