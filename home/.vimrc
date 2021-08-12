@@ -488,7 +488,7 @@ endif
 # Color scheme {{{1
 augroup my-colorscheme
   autocmd!
-  autocmd ColorScheme iceberg,slate source ~/.vim/colorscheme/<amatch>.vim
+  autocmd ColorScheme iceberg,slate source ~/.vim/powders/<amatch>.vim
 augroup END
 
 if $COLORTERM == 'truecolor' || $COLORTERM == '24bit'
