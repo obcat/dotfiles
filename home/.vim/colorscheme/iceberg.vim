@@ -24,7 +24,6 @@ else
   hi! link netrwTreeBar   netrwPlain
 
   # New
-  hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
   hi! link GitGutterAddIntraLine    DiffAdd
   hi! link GitGutterDeleteIntraLine DiffDelete
   hi! link HighlightedyankRegion    Visual
