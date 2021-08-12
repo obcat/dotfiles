@@ -1,17 +1,25 @@
 vim9script
 
+# Guard {{{
+if exists('b:did_my_vim_ftplugin') || get(g:, 'my_no_ftplugin', false)
+  finish
+endif
+b:did_my_vim_ftplugin = true  # }}}
+
+
+for line in getline(1, 10)
+  if line =~ '^\s*vim9s\%[cript]\>'
+    b:is_vim9script = true
+    break
+  endif
+endfor
+
+
 setlocal foldmethod=marker
 
-{
-  for line in getline(1, 10)
-    if line =~ '^\s*vim9s\%[cript]\>'
-      b:is_vim9script = true
-      break
-    endif
-  endfor
-}
 
 inoremap <buffer> <C-]> 💥<C-]>
+
 
 inoreabbrev <buffer> aug💥
 \ augroup <CR>
@@ -52,3 +60,18 @@ inoreabbrev <buffer> scr💥
  \<CR>
  \call s:main()
  \<Up><Up><C-o>O<C-g>u
+
+
+# Teardown {{{
+b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
+   .. '| unlet! b:did_my_vim_ftplugin
+      \| setlocal foldmethod<
+      \| silent! iunmap <buffer> <C-]>
+      \| silent! iunabbrev <buffer> aug💥
+      \| silent! iunabbrev <buffer> def💥
+      \| silent! iunabbrev <buffer> fu💥
+      \| silent! iunabbrev <buffer> for💥
+      \| silent! iunabbrev <buffer> if💥
+      \| silent! iunabbrev <buffer> try💥
+      \| silent! iunabbrev <buffer> scr💥
+      \'  # }}}
