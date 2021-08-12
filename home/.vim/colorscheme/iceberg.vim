@@ -38,7 +38,6 @@ else
   hi! link HighlightedyankRegion    Visual
   hi! link LspPreviewPopup          Normal
   hi! link LspReference             CursorColumn
-  hi! link MatchUpOffScreenPopup    CursorLineNr
   hi! link MatchWord                CursorColumn
   hi! link TabLineSelMod            Statement
 endif
