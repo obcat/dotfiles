@@ -209,7 +209,6 @@ augroup my-filetype
   autocmd FileType gitconfig setlocal noexpandtab
   autocmd FileType terminal  setlocal nonumber signcolumn=no
   autocmd FileType markdown,text setlocal wrap
-  autocmd FileType help,qf,vim,go source ~/.vim/filetype/<amatch>.vim
 augroup END
 
 augroup my-cmdwin
