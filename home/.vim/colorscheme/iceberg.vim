@@ -24,8 +24,6 @@ else
   hi! link netrwTreeBar   netrwPlain
 
   # New
-  hi FernMarkedText term=bold     ctermfg=216 ctermbg=235  guifg=#e2a478 guibg=#1e2132
-  hi FernSpinner    term=standout ctermfg=252 ctermbg=235  guifg=#c6c8d1 guibg=#1e2132
   hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821
   hi! link GitGutterAddIntraLine    DiffAdd
   hi! link GitGutterDeleteIntraLine DiffDelete
