@@ -311,12 +311,6 @@ if Has('vim-asterisk') # {{{2
   xmap g* <Plug>(asterisk-gz*)
 endif
 
-if Has('vim-better-whitespace') # {{{2
-  g:strip_whitespace_on_save = true
-  g:better_whitespace_ctermcolor = 'NONE'
-  g:better_whitespace_guicolor   = 'NONE'
-endif
-
 if Has('vim-easy-align') # {{{2
   nmap <Bar> <Plug>(EasyAlign)
   xmap <Bar> <Plug>(EasyAlign)
