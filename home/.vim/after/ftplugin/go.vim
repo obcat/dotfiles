@@ -7,8 +7,13 @@ endif
 b:did_my_go_ftplugin = true  # }}}
 
 
-setlocal noexpandtab
+if expand('<afile>') =~ '_test\.go'
+  b:quickrun_config = {type: 'go/test'}
+endif
 
+
+setlocal formatoptions-=o formatoptions+=j
+setlocal noexpandtab
 
 inoremap <buffer> <C-]> 💥<C-]>
 
@@ -22,6 +27,8 @@ inoreabbrev <buffer> ife💥
 # Teardown {{{
 b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
    .. '| unlet! b:did_my_go_ftplugin
+      '| unlet! b:quickrun_config
+      \| setlocal formatoptions<
       \| setlocal expandtab<
       \| silent! iunmap <buffer> <C-]>
       \| silent! iunabbrev <buffer> ife💥

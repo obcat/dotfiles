@@ -7,6 +7,7 @@ endif
 b:did_my_vim_ftplugin = true  # }}}
 
 
+b:is_vim9script = false
 for line in getline(1, 10)
   if line =~ '^\s*vim9s\%[cript]\>'
     b:is_vim9script = true
@@ -15,7 +16,13 @@ for line in getline(1, 10)
 endfor
 
 
+if b:is_vim9script
+  b:caw_oneline_comment = '#'
+endif
+
+
 setlocal foldmethod=marker
+setlocal formatoptions-=o formatoptions+=j
 
 
 inoremap <buffer> <C-]> 💥<C-]>
@@ -67,6 +74,7 @@ b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
    .. '| unlet! b:did_my_vim_ftplugin
       \| unlet! b:is_vim9script
       \| setlocal foldmethod<
+      \| setlocal formatoptions<
       \| silent! iunmap <buffer> <C-]>
       \| silent! iunabbrev <buffer> aug💥
       \| silent! iunabbrev <buffer> def💥

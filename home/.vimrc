@@ -201,16 +201,6 @@ augroup my-terminalopen
   autocmd TerminalOpen * setbufvar(str2nr(expand('<abuf>')), '&filetype', 'terminal')
 augroup END
 
-augroup my-filetype
-  autocmd!
-  autocmd FileType *         setlocal formatoptions-=o formatoptions+=j
-  autocmd FileType *commit*  setlocal nofoldenable spell
-  autocmd FileType diff      setlocal nofoldenable
-  autocmd FileType gitconfig setlocal noexpandtab
-  autocmd FileType terminal  setlocal nonumber signcolumn=no
-  autocmd FileType markdown,text setlocal wrap
-augroup END
-
 augroup my-cmdwin
   autocmd!
   autocmd CmdwinEnter * setlocal nonumber signcolumn=no
@@ -248,20 +238,10 @@ if Has('caw.vim') # {{{2
   nmap , <Plug>(caw:hatpos:toggle:operator)
   omap , <Plug>(caw:hatpos:toggle:operator)
   xmap , <Plug>(caw:hatpos:toggle)
-  augroup my-caw
-    autocmd!
-    autocmd FileType vim if get(b:, 'is_vim9script', false)
-    autocmd FileType vim   b:caw_oneline_comment = '#'
-    autocmd FileType vim endif
-  augroup END
 endif
 
 if Has('capture.vim') # {{{2
   g:capture_open_command = 'botright new'
-  augroup my-capture
-    autocmd!
-    autocmd FileType capture setlocal nolist nonumber signcolumn=no
-  augroup END
 endif
 
 if Has('dictionary.vim') # {{{2
@@ -302,11 +282,6 @@ if Has('gina.vim') # {{{2
     'status',
     '-s|--short'
   )
-
-  augroup my-gina
-    autocmd!
-    autocmd FileType gina-log setlocal number signcolumn=no cursorline
-  augroup END
 endif
 
 if Has('junkfile.vim') # {{{2
@@ -409,19 +384,10 @@ if Has('vim-quickrun') # {{{2
     'tempfile': '%{tempname()}.go',
   }
   nmap Q <Plug>(quickrun)
-  augroup my-quickrun
-    autocmd!
-    autocmd FileType quickrun setlocal nonumber signcolumn=no
-    autocmd BufReadPost,BufNewFile *_test.go b:quickrun_config = {type: 'go/test'}
-  augroup END
 endif
 
 if Has('vim-ref') # {{{2
   g:ref_man_cmd = 'man -P cat'
-  augroup my-vim-ref
-    autocmd!
-    autocmd FileType ref setlocal nolist signcolumn=no
-  augroup END
 endif
 
 if Has('vim-sandwich') # {{{2
@@ -477,10 +443,6 @@ endif
 
 if Has('voyager.vim') # {{{2
   g:voyager_keepalt = true
-  augroup my-voyager
-    autocmd!
-    autocmd FileType voyager setlocal cursorline signcolumn=no statusline=%!my#statusline#get('Voyager')
-  augroup END
 endif
 
 
