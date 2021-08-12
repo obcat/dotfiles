@@ -40,6 +40,5 @@ else
   hi! link LspReference             CursorColumn
   hi! link MatchUpOffScreenPopup    CursorLineNr
   hi! link MatchWord                CursorColumn
-  hi! link SclowSBar                PmenuSel
   hi! link TabLineSelMod            Statement
 endif
