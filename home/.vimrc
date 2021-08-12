@@ -100,8 +100,11 @@ syntax enable
 
 # Backup
 set directory=~/.vim/data/swap//
-mkdir(&directory, 'p')
 set history=1000
+set undodir=~/.vim/data/undo//
+set undofile
+mkdir(&directory, 'p')
+mkdir(&undodir, 'p')
 
 # Completion
 set pumheight=8
