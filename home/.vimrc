@@ -13,6 +13,7 @@ scriptencoding utf-8
 if filereadable(expand('~/.vim/autoload/plug.vim'))
   plug#begin('~/.vim/plugs')
   Plug 'airblade/vim-gitgutter'          # Git diff on the sign column
+  Plug 'cocopon/colorswatch.vim'         # Generate a beautiful color swatch
   Plug 'cocopon/iceberg.vim'             # Color scheme
   Plug 'cocopon/inspecthi.vim'           # Show link structure of highlight groups
   Plug 'glidenote/memolist.vim'          # Create and manage memo
