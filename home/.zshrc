@@ -94,15 +94,6 @@ zstyle ':vcs_info:git:*' unstagedstr ${UNSTAGED_STR}
 zstyle ':vcs_info:git:*' stagedstr ${STAGED_STR}
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
-insert_break() {
-  if [[ -z ${INSERT_BREAK_ACTIVATED} ]]; then
-    INSERT_BREAK_ACTIVATED=1
-    return 0
-  fi
-
-  printf '\n'
-}
-
 vcs_info_improved() {
   if [[ ${PWD}/ == */.git/* ]]; then
     vcs_info_msg_0_='[?]'
@@ -112,7 +103,6 @@ vcs_info_improved() {
   vcs_info
 }
 
-add-zsh-hook -Uz precmd insert_break
 add-zsh-hook -Uz precmd vcs_info_improved
 
 if [[ -z ${SSH_CONNECTION} ]]; then
