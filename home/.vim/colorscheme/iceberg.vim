@@ -46,14 +46,6 @@ else
   hi LspPreviewPopupBorder ctermfg=239 ctermbg=240 guifg=#414a70 guibg=#161821
   hi LspWarningText        ctermfg=216 ctermbg=235 guifg=#e2a478 guibg=#1e2132
   hi LspCodeActionText     ctermfg=252 ctermbg=235 guifg=#c6c8d1 guibg=#1e2132
-  hi User1                 ctermfg=0   ctermbg=236 guifg=#161821 guibg=#272c42
-  hi User2                 ctermfg=1   ctermbg=236 guifg=#e27878 guibg=#272c42
-  hi User3                 ctermfg=2   ctermbg=236 guifg=#b4be82 guibg=#272c42
-  hi User4                 ctermfg=3   ctermbg=236 guifg=#e2a478 guibg=#272c42
-  hi User5                 ctermfg=4   ctermbg=236 guifg=#84a0c6 guibg=#272c42
-  hi User6                 ctermfg=5   ctermbg=236 guifg=#a093c7 guibg=#272c42
-  hi User7                 ctermfg=6   ctermbg=236 guifg=#89b8c2 guibg=#272c42
-  hi User8                 ctermfg=7   ctermbg=236 guifg=#c6c8d1 guibg=#272c42
   hi FernMarkedText term=bold     ctermfg=216 ctermbg=235  guifg=#e2a478 guibg=#1e2132
   hi FernSpinner    term=standout ctermfg=252 ctermbg=235  guifg=#c6c8d1 guibg=#1e2132
   hi CleverFDefaultLabel cterm=bold,underline ctermfg=203 ctermbg=234 gui=bold,underline guifg=#e27878 guibg=#161821

@@ -14,12 +14,4 @@ else
 
   # New
   hi! link HighlightedyankRegion Visual
-  hi! link User1 StatusLine
-  hi! link User2 StatusLine
-  hi! link User3 StatusLine
-  hi! link User4 StatusLine
-  hi! link User5 StatusLine
-  hi! link User6 StatusLine
-  hi! link User7 StatusLine
-  hi! link User8 StatusLine
 endif
