@@ -15,6 +15,7 @@ endif
 setlocal formatoptions-=o formatoptions+=j
 setlocal noexpandtab
 
+
 inoremap <buffer> <C-]> 💥<C-]>
 
 

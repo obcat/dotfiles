@@ -6,6 +6,7 @@ if exists('b:did_my_gitcommit_ftplugin') || get(g:, 'my_no_ftplugin', false)
 endif
 b:did_my_gitcommit_ftplugin = true  # }}}
 
+
 setlocal formatoptions-=o formatoptions+=j
 setlocal nofoldenable
 setlocal spell
