@@ -28,7 +28,7 @@ inoreabbrev <buffer> ife💥
 # Teardown {{{
 b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
    .. '| unlet! b:did_my_go_ftplugin
-      '| unlet! b:quickrun_config
+      \| unlet! b:quickrun_config
       \| setlocal formatoptions<
       \| setlocal expandtab<
       \| silent! iunmap <buffer> <C-]>
