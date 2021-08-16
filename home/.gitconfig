@@ -15,6 +15,7 @@
 	verbose = true
 [diff]
 	colorMoved = default
+	colorMovedWS = allow-indentation-change
 	algorithm = histogram
 [color "blame"]
 	highlightRecent = blue
