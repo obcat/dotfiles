@@ -60,8 +60,6 @@
 	current-branch = symbolic-ref --short HEAD
 	graph = log --all --decorate --oneline --graph
 	ignored = ls-files --others --ignored --exclude-standard --directory
-	short = status --short
-	today = graph --since=midnight
 	tracked = ls-files --cached
 	unshallow = fetch --unshallow
 	unstage = restore --staged
