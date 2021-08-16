@@ -4,6 +4,10 @@
 [core]
 	autocrlf = input
 	editor = vim
+[pager]
+	log = (type diff-highlight &>/dev/null && diff-highlight || cat) | less
+	show = (type diff-highlight &>/dev/null && diff-highlight || cat) | less
+	diff = (type diff-highlight &>/dev/null && diff-highlight || cat) | less
 [blame]
 	date = human
 [commit]
