@@ -203,7 +203,8 @@ augroup END
 
 augroup my-cmdwin
   autocmd!
-  autocmd CmdwinEnter * setlocal nonumber signcolumn=no
+  autocmd CmdwinEnter * setlocal signcolumn=no
+  autocmd CmdwinEnter * &l:numberwidth = float2nr(log10(line('$'))) + 3
 augroup END
 
 augroup my-restore-curpos
