@@ -17,6 +17,7 @@
 	colorMoved = default
 	colorMovedWS = allow-indentation-change
 	algorithm = histogram
+	wsErrorHighlight = all
 [color "blame"]
 	highlightRecent = blue
 [init]
