@@ -24,6 +24,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'junegunn/vim-plug'               # Plugin manager
   Plug 'kana/vim-operator-replace'       # Operator to replace text
   Plug 'kana/vim-operator-user'          # Make it easy to define operators
+  Plug 'kana/vim-textobj-entire'         # Textobjects for entire buffer
   Plug 'kana/vim-textobj-indent'         # Textobjects for indented block
   Plug 'kana/vim-textobj-line'           # Textobjects for a portion of current line
   Plug 'kana/vim-textobj-user'           # Make it easy to define textobjects
