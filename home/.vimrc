@@ -34,7 +34,6 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-swap'              # Reorder delimited items
   Plug 'machakann/vim-textobj-delimited' # Textobjects for delimited parts of string
   Plug 'machakann/vim-textobj-functioncall' # Textobjects for function-call regions
-  Plug 'obcat/vim-histcase'              # A missing option for cmdline history search
   Plug 'obcat/vim-ipos'                  # Missing companions to '^ and gi
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/vim-strip'                 # Strip trailing whitespace on write
@@ -340,19 +339,6 @@ endif
 
 if Has('vim-highlightedyank') # {{{2
   g:highlightedyank_highlight_duration = 500
-endif
-
-if Has('vim-histcase') # {{{2
-  cmap <expr> <Up>   wildmenumode() ? '<Up>'   : '<Plug>(histcase-Up)'
-  cmap <expr> <Down> wildmenumode() ? '<Down>' : '<Plug>(histcase-Down)'
-  cmap <S-Up>   <Plug>(histcase-S-Up)
-  cmap <S-Down> <Plug>(histcase-S-Down)
-  cmap <expr> <C-p> wildmenumode() ? '<SID>(cnoremap-C-p)' : '<Plug>(histcase-C-p)'
-  cmap <expr> <C-n> wildmenumode() ? '<SID>(cnoremap-C-n)' : '<Plug>(histcase-C-n)'
-  cnoremap <SID>(cnoremap-Up)   <Up>
-  cnoremap <SID>(cnoremap-Down) <Down>
-  cnoremap <SID>(cnoremap-C-p)  <C-p>
-  cnoremap <SID>(cnoremap-C-n)  <C-n>
 endif
 
 if Has('vim-ipos') # {{{2
