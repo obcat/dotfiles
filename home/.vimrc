@@ -150,10 +150,6 @@ set ignorecase
 set incsearch
 set smartcase
 
-# Window
-set splitbelow
-set splitright
-
 # Misc
 set clipboard=unnamed
 set diffopt&
