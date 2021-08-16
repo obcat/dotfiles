@@ -37,36 +37,6 @@
 	wsErrorHighlight = all
 
 
-[color "blame"]
-	highlightRecent = blue
-
-
-[color "diff"]
-	context = white
-	meta = white ul
-	frag = cyan ul
-	func = white
-	old = red
-	new = green
-	commit = blue
-
-	# diff.wsErrorHighlight
-	whitespace = red red
-
-	# diff.colorMoved
-	oldMoved = "#ad6d6d"
-	newMoved = "#84896b"
-	oldMoveddimmed = "#ad6d6d"
-	newMoveddimmed = "#84896b"
-
-
-[color "diff-highlight"]
-	oldNormal = "#ad6d6d"
-	oldHighlight = red
-	newNormal = "#84896b"
-	newHighlight = green
-
-
 [init]
 	defaultBranch = main
 
@@ -96,6 +66,36 @@
 	unshallow = fetch --unshallow
 	unstage = restore --staged
 	untracked = ls-files --others --exclude-standard --directory
+
+
+[color "blame"]
+	highlightRecent = blue
+
+
+[color "diff"]
+	context = white
+	meta = white ul
+	frag = cyan ul
+	func = white
+	old = red
+	new = green
+	commit = blue
+
+	# diff.wsErrorHighlight
+	whitespace = red red
+
+	# diff.colorMoved
+	oldMoved = "#ad6d6d"
+	newMoved = "#84896b"
+	oldMoveddimmed = "#ad6d6d"
+	newMoveddimmed = "#84896b"
+
+
+[color "diff-highlight"]
+	oldNormal = "#ad6d6d"
+	oldHighlight = red
+	newNormal = "#84896b"
+	newHighlight = green
 
 
 [include]
