@@ -10,11 +10,14 @@
 	diff = (type diff-highlight &>/dev/null && diff-highlight || cat) | less
 [blame]
 	date = human
+	coloring = highlightRecent
 [commit]
 	verbose = true
 [diff]
 	colorMoved = default
 	algorithm = histogram
+[color "blame"]
+	highlightRecent = blue
 [init]
 	defaultBranch = main
 [log]
