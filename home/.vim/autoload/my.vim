@@ -24,12 +24,12 @@ def my#auto_mkdir(dir: string)
   const msg = printf('"%s" does not exist. Create?', strtrans(dir))
   const choices = join(['&Yes', '&No'], "\n")
   var choice: number
-  try #                            ┌ No
+  try  #                           ┌ No
     choice = confirm(msg, choices, 2, 'Question')
-  catch /^Vim:Interrupt$/
+  finally
+    redraw  # avoid hit-enter prompt
   endtry
-  redraw # avoid hit-enter prompt
-  if choice == 1 # Yes
+  if choice == 1  # Yes
     mkdir(dir, 'p')
   endif
 enddef
