@@ -47,6 +47,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'thinca/vim-qfreplace'            # Perform the replacement in quickfix
   Plug 'thinca/vim-quickrun'             # Run a command quickly
   Plug 'thinca/vim-ref'                  # Integrated reference viewer
+  Plug 'thinca/vim-template'             # Simple and flexible template engine
   Plug 'thinca/vim-themis'               # Testing framework for Vim script
   Plug 'tpope/vim-repeat'                # Repeat some plugin commands by dot
   Plug 'tweekmonster/helpful.vim'        # Get version of Vim that has specific feature
@@ -223,6 +224,15 @@ augroup my-auto-mkdir
   autocmd!
   autocmd BufWritePre * my#auto_mkdir(expand('<afile>:p:h'))
 augroup END
+
+
+# Variables {{{1
+g:version = [
+  v:version / 100,         # major
+  v:version % 100,         # minor
+  v:versionlong % 10'000,  # patch
+]
+g:version = join(g:version, '.')
 
 
 # Plugin settings {{{1
@@ -413,6 +423,13 @@ if Has('vim-swap') # {{{2
     "r": ['reverse'],
     "\<Esc>": ['Esc'],
   }
+endif
+
+if Has('vim-template') # {{{ 2
+  augroup my-template
+    autocmd!
+    autocmd User plugin-template-loaded my#template#onloaded()
+  augroup END
 endif
 
 if Has('vim-textobj-comment') # {{{2
