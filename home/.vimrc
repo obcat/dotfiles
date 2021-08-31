@@ -207,6 +207,7 @@ augroup my-cmdwin
   autocmd!
   autocmd CmdwinEnter * setlocal signcolumn=no
   autocmd CmdwinEnter * &l:numberwidth = float2nr(log10(line('$'))) + 3
+  autocmd CmdwinEnter :,> syntax sync minlines=1 maxlines=1
 augroup END
 
 augroup my-restore-curpos
