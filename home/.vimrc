@@ -90,6 +90,7 @@ set nowrap
 set number
 set shortmess&
       \ shortmess+=a
+      \ shortmess-=S
 set showtabline=2
 set signcolumn=yes
 set statusline=%!my#statusline#get('Global')
