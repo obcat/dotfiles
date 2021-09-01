@@ -7,18 +7,9 @@ endif
 b:did_my_vim_ftplugin = true  # }}}
 
 
-b:is_vim9script = false
-for line in getline(1, 10)
-  if line =~ '^\s*vim9s\%[cript]\>'
-    b:is_vim9script = true
-    break
-  endif
-endfor
-
-
-if b:is_vim9script
-  b:caw_oneline_comment = '#'
-endif
+b:caw_oneline_comment = (_) => {
+  return search('\C^\s*vim9s\%[cript]\>', 'bnWz') >= 1 ? '#' : '"'
+}
 
 
 setlocal foldmethod=marker
@@ -72,7 +63,6 @@ inoreabbrev <buffer> scr💥
 # Teardown {{{
 b:undo_ftplugin = get(b:, 'undo_ftplugin', 'execute')
    .. '| unlet! b:did_my_vim_ftplugin
-      \| unlet! b:is_vim9script
       \| setlocal foldmethod<
       \| setlocal formatoptions<
       \| silent! iunmap <buffer> <C-]>
