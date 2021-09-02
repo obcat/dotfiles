@@ -189,7 +189,7 @@ nnoremap <expr> ]l printf('<Cmd>%d lnext<CR>',     v:count1)
 inoremap <C-u> <C-g>u<C-u>
 
 # Command line
-cnoremap <C-x> <C-r>=matchstr(expand('%:p'), '.*/\+\ze.\{-}$')<CR>
+cnoremap <C-x> <C-r>=matchstr(expand('%:p'), '.*/\+')<CR>
 
 
 # User-defined commands {{{1
