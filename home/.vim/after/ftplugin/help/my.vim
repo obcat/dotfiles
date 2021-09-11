@@ -16,8 +16,8 @@ command! -buffer -bar HelpView {
   setlocal nolist
   setlocal nonumber
   setlocal signcolumn=no
-  nnoremap <buffer><silent> C @_:help <C-r><C-w>@en<CR>
-  nnoremap <buffer><silent> J @_:help <C-r><C-w>@ja<CR>
+  nnoremap <buffer><silent> C <lt>Cmd>call my#ftplugin#help#K('en')<lt>CR>
+  nnoremap <buffer><silent> J <lt>Cmd>call my#ftplugin#help#K('ja')<lt>CR>
 }
 
 command! -buffer -bar HelpEdit {
