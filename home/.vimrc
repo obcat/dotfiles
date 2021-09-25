@@ -35,6 +35,7 @@ if filereadable(expand('~/.vim/autoload/plug.vim'))
   Plug 'machakann/vim-swap'              # Reorder delimited items
   Plug 'machakann/vim-textobj-delimited' # Textobjects for delimited parts of string
   Plug 'machakann/vim-textobj-functioncall' # Textobjects for function-call regions
+  Plug 'obcat/vim-highlightedput'        # Highlight the put text.
   Plug 'obcat/vim-ipos'                  # Missing companions to '^ and gi
   Plug 'obcat/vim-ref-godoc'             # A vim-ref source for go doc
   Plug 'obcat/vim-strip'                 # Strip trailing whitespace on write
@@ -345,6 +346,29 @@ if Has('vim-gitgutter') # {{{2
   nmap Hu <Plug>(GitGutterUndoHunk)
   nmap [h <Plug>(GitGutterPrevHunk)
   nmap ]h <Plug>(GitGutterNextHunk)
+endif
+
+if Has('vim-highlightedput') # {{{2
+  nmap p <Plug>(highlightedput-p)
+  xmap p <Plug>(highlightedput-p)
+  nmap P <Plug>(highlightedput-P)
+  xmap P <Plug>(highlightedput-P)
+  nmap gp <Plug>(highlightedput-gp)
+  xmap gp <Plug>(highlightedput-gp)
+  nmap gP <Plug>(highlightedput-gP)
+  xmap gP <Plug>(highlightedput-gP)
+  nmap ]p <Plug>(highlightedput-]p)
+  xmap ]p <Plug>(highlightedput-]p)
+  nmap [P <Plug>(highlightedput-[P)
+  xmap [P <Plug>(highlightedput-[P)
+  nmap ]P <Plug>(highlightedput-]P)
+  xmap ]P <Plug>(highlightedput-]P)
+  nmap [p <Plug>(highlightedput-[p)
+  xmap [p <Plug>(highlightedput-[p)
+  nmap zp <Plug>(highlightedput-zp)
+  xmap zp <Plug>(highlightedput-zp)
+  nmap zP <Plug>(highlightedput-zP)
+  xmap zP <Plug>(highlightedput-zP)
 endif
 
 if Has('vim-highlightedyank') # {{{2
